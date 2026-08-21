@@ -53,7 +53,7 @@ export const landing = {
   },
   why: {
     id: "why",
-    eyebrow: "Why Indus Best",
+    eyebrow: "Why Choose Indus",
     title: "Built for Businesses That Want to Grow",
     body: "Indus Best Mega Food Park delivers the infrastructure, location, and support that food-processing businesses need to start fast and scale with confidence.",
     advantages: [

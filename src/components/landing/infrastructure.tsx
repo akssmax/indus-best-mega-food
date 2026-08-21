@@ -41,36 +41,33 @@ export function Infrastructure() {
       </Reveal>
 
       <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data.zones.map((zone, index) => {
+        {data.zones.map((zone) => {
           const Icon = iconMap[zone.icon] ?? MapIcon
           const imgSrc = zoneImages[zone.icon] ?? "/images/warehouse.jpg"
-          const isFeature = index === 0
           return (
             <MotionItem key={zone.title}>
-              <div
-                className={`group relative overflow-hidden rounded-2xl border border-border/40 bg-card transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 ${
-                  isFeature ? "sm:col-span-2 lg:col-span-1 lg:row-span-2" : ""
-                }`}
-              >
-                <div className={`relative overflow-hidden ${isFeature ? "aspect-[4/3] lg:aspect-auto lg:h-full" : "aspect-[16/10]"}`}>
+              <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+                <div className="relative aspect-[16/10] overflow-hidden">
                   <img
                     src={imgSrc}
                     alt={zone.title}
                     className="size-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
                   <div className="absolute top-3 left-3">
                     <div className="flex size-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm transition-colors duration-300 group-hover:bg-white/30">
                       <Icon className="size-5 text-white" />
                     </div>
                   </div>
                   <div className="absolute inset-0 flex flex-col justify-end p-5">
-                    <h3 className="font-heading text-lg font-semibold text-white">
-                      {zone.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/80 line-clamp-3">
-                      {zone.body}
-                    </p>
+                    <div className="rounded-xl bg-black/40 p-3 backdrop-blur-sm">
+                      <h3 className="font-heading text-lg font-semibold text-white" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}>
+                        {zone.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-white/90 line-clamp-3" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}>
+                        {zone.body}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
