@@ -15,7 +15,7 @@ export const landing = {
     headline: "A Complete Ecosystem for Food Processing & Growth",
     body: "From farm to factory, Indus Best Mega Food Park offers world-class infrastructure, plug-and-play facilities, and a strategic location — everything you need to build, process, and scale your food business.",
     image: {
-      src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2023/07/Warehouse-11.jpg",
+      src: "/images/warehouse.jpg",
       alt: "Warehouse and campus at Indus Best Mega Food Park, Raipur",
     },
     primaryCta: { label: "Explore Opportunities", href: "/#opportunities" },
@@ -46,7 +46,7 @@ export const landing = {
       body: "To remain the first choice of food processors and emerge as a global hub for the food processing industry — delivering services, quality assurance, and high-end technology with global safety norms and environmental stewardship.",
     },
     image: {
-      src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/CPC-Building-03.jpg",
+      src: "/images/cpc-building.jpg",
       alt: "Central Processing Campus at Indus Best Mega Food Park",
     },
     cta: { label: "Know More About Us", href: "/#contact" },
@@ -151,7 +151,7 @@ export const landing = {
         title: "Cold Storage",
         body: "4-chamber facility at −20°C (1,500 MT) and 6-chamber facility at 0–10°C (3,500 MT) for frozen and chilled products.",
         image: {
-          src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2023/07/Warehouse-11.jpg",
+          src: "/images/warehouse.jpg",
           alt: "Cold storage facility",
         },
         spec: "5,000 MT Total Capacity",
@@ -160,7 +160,7 @@ export const landing = {
         title: "IQF & Processing",
         body: "Individual Quick Freeze line with packaging hall at 2 MT/H, plus aseptic and concentrate lines for fruit and vegetable processing.",
         image: {
-          src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/Aseptic-Process-Line.jpg",
+          src: "/images/aseptic-line.jpg",
           alt: "IQF and aseptic processing line",
         },
         spec: "2 MT/H IQF Capacity",
@@ -169,7 +169,7 @@ export const landing = {
         title: "Pack House",
         body: "Automatic sorting, grading, and packaging line for fresh fruits and vegetables at 10 MT/H throughput.",
         image: {
-          src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/CPC-Building-03.jpg",
+          src: "/images/cpc-building.jpg",
           alt: "Pack house facility",
         },
         spec: "10 MT/H Throughput",
@@ -178,7 +178,7 @@ export const landing = {
         title: "Warehousing",
         body: "12,000 MT dry warehouse for ambient bulk storage, plus ripening chambers (8 chambers, 400 MT) and blast freezers (2 chambers, 10 MT).",
         image: {
-          src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2023/07/Warehouse-11.jpg",
+          src: "/images/warehouse.jpg",
           alt: "Dry warehouse facility",
         },
         spec: "12,000 MT Dry Storage",
@@ -187,7 +187,7 @@ export const landing = {
         title: "Testing & Quality Labs",
         body: "Centralised quality assurance labs for microbiological testing, pesticide residue analysis, product development, and SE & QAL compliance.",
         image: {
-          src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2021/01/Admin-and-Lab-Buildings.jpg",
+          src: "/images/admin-lab.jpg",
           alt: "Quality control laboratory",
         },
         spec: "4 Lab Categories",
@@ -196,7 +196,7 @@ export const landing = {
         title: "Utilities",
         body: "2.7 MLD campus-wide water supply, centralised ETP & STP, 100 MT modular weighbridge, and secured campus with bank/ATM and canteen.",
         image: {
-          src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/Entry-and-weigh-bridge.jpg",
+          src: "/images/weigh-bridge.jpg",
           alt: "Entry and weighbridge",
         },
         spec: "2.7 MLD Water Supply",
@@ -205,7 +205,7 @@ export const landing = {
         title: "Common Infrastructure",
         body: "15–21 m internal roads, worker amenities, space for bank/ATM and canteen, fully secured campus with efficient sewage and effluent collection.",
         image: {
-          src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/Admin-Building-Copy.jpg",
+          src: "/images/admin-building.jpg",
           alt: "Admin building and campus",
         },
         spec: "15–21 m Roads",
@@ -307,37 +307,37 @@ export const landing = {
     title: "Experience the Campus",
     items: [
       {
-        src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2023/07/Warehouse-11.jpg",
+        src: "/images/warehouse.jpg",
         alt: "Warehouse and storage facilities",
         caption: "Warehouse Complex",
       },
       {
-        src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2021/01/Admin-and-Lab-Buildings.jpg",
+        src: "/images/admin-lab.jpg",
         alt: "Admin and laboratory buildings",
         caption: "Admin & Lab Buildings",
       },
       {
-        src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/Aseptic-Process-Line.jpg",
+        src: "/images/aseptic-line.jpg",
         alt: "Aseptic process line",
         caption: "Aseptic Processing Line",
       },
       {
-        src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2021/01/evaporator-1.jpg",
+        src: "/images/evaporator.jpg",
         alt: "Evaporator equipment",
         caption: "Evaporator System",
       },
       {
-        src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/CPC-Building-03.jpg",
+        src: "/images/cpc-building.jpg",
         alt: "Central processing campus",
         caption: "Central Processing Campus",
       },
       {
-        src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/Entry-and-weigh-bridge.jpg",
+        src: "/images/weigh-bridge.jpg",
         alt: "Entry gate and weighbridge",
         caption: "Entry & Weighbridge",
       },
       {
-        src: "https://www.indusbestmegafoodpark.com/wp-content/uploads/2020/01/Admin-Building-Copy.jpg",
+        src: "/images/admin-building.jpg",
         alt: "Admin building campus view",
         caption: "Admin Building",
       },
