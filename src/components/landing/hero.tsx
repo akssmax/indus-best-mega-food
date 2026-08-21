@@ -1,10 +1,10 @@
 import { motion, useReducedMotion } from "framer-motion"
-import { Water } from "@paper-design/shaders-react"
 
 import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
 import { Eyebrow } from "@/components/landing/section"
 import { fadeUp, stagger } from "@/components/landing/motion"
+import { WaterBackground } from "@/components/landing/water-background"
 
 export function Hero() {
   const { hero } = landing
@@ -20,23 +20,12 @@ export function Hero() {
         animate={{ scale: 1 }}
         transition={{ duration: 8, ease: [0.22, 1, 0.36, 1] }}
       />
-      <div className="pointer-events-none absolute inset-0 opacity-20">
-        <Water
-          width="100%"
-          height="100%"
-          colorBack="#0f2b1d"
-          colorHighlight="#c8a84e"
-          highlights={0.06}
-          layering={0.3}
-          edges={0.5}
-          waves={0.25}
-          caustic={0.12}
-          size={1.5}
-          speed={0.3}
-          scale={1}
-          fit="cover"
-        />
-      </div>
+      <WaterBackground
+        colorBack="#0f2b1d"
+        colorHighlight="#c8a84e"
+        opacity={0.25}
+        className="pointer-events-auto absolute inset-0"
+      />
       <div className="absolute inset-0 bg-linear-to-r from-forest/95 via-forest/78 to-forest/35" />
       <div className="relative mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-end px-4 pt-28 pb-20 sm:px-6 lg:justify-center lg:px-8 lg:pb-24">
         <motion.div

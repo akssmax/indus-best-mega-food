@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { Water } from "@paper-design/shaders-react"
 import {
   MapPinIcon,
   CurrencyRupeeIcon,
@@ -21,6 +20,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Eyebrow } from "@/components/landing/section"
 import { Reveal, Stagger, MotionItem } from "@/components/landing/motion"
 import { motion, useReducedMotion } from "framer-motion"
+import { WaterBackground } from "@/components/landing/water-background"
 
 export const Route = createFileRoute("/landing-2")({
   component: LandingTwo,
@@ -85,23 +85,12 @@ function HeroSection() {
           animate={{ scale: 1 }}
           transition={{ duration: 10, ease: [0.22, 1, 0.36, 1] }}
         />
-        <div className="pointer-events-none absolute inset-0 opacity-25">
-          <Water
-            width="100%"
-            height="100%"
-            colorBack="#0f2b1d"
-            colorHighlight="#c8a84e"
-            highlights={0.06}
-            layering={0.3}
-            edges={0.5}
-            waves={0.25}
-            caustic={0.12}
-            size={1.5}
-            speed={0.3}
-            scale={1}
-            fit="cover"
-          />
-        </div>
+        <WaterBackground
+          colorBack="#0f2b1d"
+          colorHighlight="#c8a84e"
+          opacity={0.25}
+          className="pointer-events-auto absolute inset-0"
+        />
       </div>
     </section>
   )
@@ -617,23 +606,48 @@ function FinalCtaSection() {
 
   return (
     <section className="relative overflow-hidden bg-forest px-6 py-20 text-forest-foreground sm:px-10 lg:px-16 lg:py-28">
-      <div className="pointer-events-none absolute inset-0 opacity-30">
-        <Water
-          width="100%"
-          height="100%"
-          colorBack="#1a3a2a"
-          colorHighlight="#c8a84e"
-          highlights={0.08}
-          layering={0.4}
-          edges={0.6}
-          waves={0.3}
-          caustic={0.15}
-          size={1.2}
-          speed={0.4}
-          scale={1}
-          fit="cover"
-        />
-      </div>
+      <WaterBackground
+        colorBack="#1a3a2a"
+        colorHighlight="#c8a84e"
+        opacity={0.45}
+        className="pointer-events-auto absolute inset-0"
+      />
+
+      {/* Decorative grid pattern */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, currentColor 1px, transparent 1px),
+            linear-gradient(to bottom, currentColor 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      {/* Decorative diagonal lines */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 40px,
+            currentColor 40px,
+            currentColor 41px
+          )`,
+        }}
+      />
+
+      {/* Decorative dots */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+          backgroundSize: "24px 24px",
+        }}
+      />
+
       <div className="relative z-10 mx-auto max-w-3xl text-center">
         <Reveal>
           <p className="text-xs font-medium tracking-[0.22em] text-cta uppercase">

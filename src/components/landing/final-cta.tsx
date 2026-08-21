@@ -1,32 +1,56 @@
-import { Water } from "@paper-design/shaders-react"
-
 import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
+import { WaterBackground } from "@/components/landing/water-background"
 
 export function FinalCta() {
   const { finalCta: data } = landing
 
   return (
     <Section id="final-cta" className="relative overflow-hidden bg-forest text-forest-foreground">
-      <div className="pointer-events-none absolute inset-0 opacity-30">
-        <Water
-          width="100%"
-          height="100%"
-          colorBack="#1a3a2a"
-          colorHighlight="#c8a84e"
-          highlights={0.08}
-          layering={0.4}
-          edges={0.6}
-          waves={0.3}
-          caustic={0.15}
-          size={1.2}
-          speed={0.4}
-          scale={1}
-          fit="cover"
-        />
-      </div>
+      <WaterBackground
+        colorBack="#1a3a2a"
+        colorHighlight="#c8a84e"
+        opacity={0.45}
+        className="pointer-events-auto absolute inset-0"
+      />
+
+      {/* Decorative grid pattern */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, currentColor 1px, transparent 1px),
+            linear-gradient(to bottom, currentColor 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      {/* Decorative diagonal lines */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 40px,
+            currentColor 40px,
+            currentColor 41px
+          )`,
+        }}
+      />
+
+      {/* Decorative dots */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+          backgroundSize: "24px 24px",
+        }}
+      />
+
       <Reveal className="relative z-10 mx-auto max-w-3xl text-center">
         <Eyebrow className="text-cta">{data.eyebrow}</Eyebrow>
         <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl">
