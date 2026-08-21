@@ -4,7 +4,7 @@ import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
 import { Eyebrow } from "@/components/landing/section"
 import { fadeUp, stagger } from "@/components/landing/motion"
-import { WaterBackground } from "@/components/landing/water-background"
+import { GrainGradientBackground } from "@/components/landing/grain-gradient-background"
 
 export function Hero() {
   const { hero } = landing
@@ -20,10 +20,12 @@ export function Hero() {
         animate={{ scale: 1 }}
         transition={{ duration: 8, ease: [0.22, 1, 0.36, 1] }}
       />
-      <WaterBackground
+      <GrainGradientBackground
+        colors={["#0f2b1d", "#c8a84e", "#1a3a2a"]}
         colorBack="#0f2b1d"
-        colorHighlight="#c8a84e"
-        opacity={0.25}
+        opacity={0.2}
+        shape="wave"
+        speed={0.3}
         className="pointer-events-auto absolute inset-0"
       />
       <div className="absolute inset-0 bg-linear-to-r from-forest/95 via-forest/78 to-forest/35" />

@@ -20,7 +20,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Eyebrow } from "@/components/landing/section"
 import { Reveal, Stagger, MotionItem } from "@/components/landing/motion"
 import { motion, useReducedMotion } from "framer-motion"
-import { WaterBackground } from "@/components/landing/water-background"
+import { GrainGradientBackground } from "@/components/landing/grain-gradient-background"
 
 export const Route = createFileRoute("/landing-2")({
   component: LandingTwo,
@@ -85,10 +85,12 @@ function HeroSection() {
           animate={{ scale: 1 }}
           transition={{ duration: 10, ease: [0.22, 1, 0.36, 1] }}
         />
-        <WaterBackground
+        <GrainGradientBackground
+          colors={["#0f2b1d", "#c8a84e", "#1a3a2a"]}
           colorBack="#0f2b1d"
-          colorHighlight="#c8a84e"
-          opacity={0.25}
+          opacity={0.2}
+          shape="wave"
+          speed={0.3}
           className="pointer-events-auto absolute inset-0"
         />
       </div>
@@ -625,10 +627,12 @@ function FinalCtaSection() {
 
   return (
     <section className="relative overflow-hidden bg-forest px-6 py-20 text-forest-foreground sm:px-10 lg:px-16 lg:py-28">
-      <WaterBackground
-        colorBack="#1a3a2a"
-        colorHighlight="#c8a84e"
-        opacity={0.45}
+      <GrainGradientBackground
+        colors={["#1a3a2a", "#c8a84e", "#2d6a5a", "#0f2b1d", "#4a9a7a"]}
+        colorBack="#0f2b1d"
+        opacity={0.6}
+        shape="wave"
+        speed={0.4}
         className="pointer-events-auto absolute inset-0"
       />
 

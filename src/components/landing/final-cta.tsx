@@ -2,17 +2,19 @@ import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
-import { WaterBackground } from "@/components/landing/water-background"
+import { GrainGradientBackground } from "@/components/landing/grain-gradient-background"
 
 export function FinalCta() {
   const { finalCta: data } = landing
 
   return (
     <Section id="final-cta" className="relative overflow-hidden bg-forest text-forest-foreground">
-      <WaterBackground
-        colorBack="#1a3a2a"
-        colorHighlight="#c8a84e"
-        opacity={0.45}
+      <GrainGradientBackground
+        colors={["#1a3a2a", "#c8a84e", "#2d6a5a", "#0f2b1d", "#4a9a7a"]}
+        colorBack="#0f2b1d"
+        opacity={0.6}
+        shape="wave"
+        speed={0.4}
         className="pointer-events-auto absolute inset-0"
       />
 
