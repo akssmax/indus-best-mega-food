@@ -37,6 +37,13 @@ export function Gallery() {
                   {item.alt}
                 </span>
               </div>
+              <div className="absolute top-3 right-3">
+                <div className="size-8 rounded-full bg-white/20 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-center justify-center">
+                  <svg className="size-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </MotionItem>
         ))}
