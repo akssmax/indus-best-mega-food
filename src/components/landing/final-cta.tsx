@@ -28,7 +28,7 @@ export function FinalCta({
       ) : null}
       <Section
         id="final-cta"
-        className="relative flex min-h-[32rem] items-center overflow-hidden bg-forest py-24 text-forest-foreground sm:min-h-[36rem] lg:min-h-[40rem] lg:py-36"
+        className="relative z-10 flex min-h-[32rem] items-center overflow-hidden bg-forest py-24 text-forest-foreground sm:min-h-[36rem] lg:min-h-[40rem] lg:py-36"
         innerClassName="contents"
       >
         <OceanBackground tone="forest" />
@@ -55,7 +55,7 @@ export function FinalCta({
       {showBottom ? (
         <WaveEdge
           position="bottom"
-          className="relative z-10 -mt-px -mb-px bg-card text-forest"
+          className="relative z-[1] -mt-1 -mb-px bg-card text-forest"
         />
       ) : null}
     </>

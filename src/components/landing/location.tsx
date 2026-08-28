@@ -25,9 +25,9 @@ export function Location() {
   const embedSrc = googleMapsEmbed(data.campusQuery, 14)
 
   return (
-    <>
-      <WaveEdge className="-mb-px text-secondary/25" />
-      <Section id={data.id} className="bg-secondary/25">
+    <div className="bg-secondary/25">
+      <WaveEdge className="relative -mt-px bg-background text-secondary/25" />
+      <Section id={data.id} className="bg-transparent">
         <Reveal className="max-w-2xl">
           <Eyebrow>{data.eyebrow}</Eyebrow>
           <h2 className="mt-3 text-3xl sm:text-4xl">{data.title}</h2>
@@ -118,6 +118,6 @@ export function Location() {
           </Reveal>
         </div>
       </Section>
-    </>
+    </div>
   )
 }

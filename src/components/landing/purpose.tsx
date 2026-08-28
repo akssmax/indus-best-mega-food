@@ -154,7 +154,7 @@ export function Why() {
                 {scheme.body}
               </p>
               <StatusSeal
-                className="mt-auto pt-5"
+                className="mt-auto min-h-0 flex-1 pt-5"
                 kicker="MOFPI"
                 title="2014 · Operational"
               />

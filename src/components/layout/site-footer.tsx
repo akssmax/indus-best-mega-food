@@ -5,6 +5,7 @@ import { ArrowRightIcon } from "lucide-react"
 
 import { site } from "@/content/site"
 import { landing } from "@/content/landing"
+import { Eyebrow } from "@/components/landing/section"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { BrandPattern, DropFlourish, WaveEdge } from "@/components/ui/brand-pattern"
@@ -146,9 +147,7 @@ function LinkColumn({
 }) {
   return (
     <div>
-      <p className="text-xs font-medium tracking-[0.18em] text-cta uppercase">
-        {title}
-      </p>
+      <Eyebrow className="tracking-[0.18em] text-cta">{title}</Eyebrow>
       <ul className="mt-3 space-y-1">
         {items.map((item) => (
           <li key={item.href}>
@@ -273,7 +272,7 @@ function FooterShell({
   return (
     <FooterToneContext.Provider value={tone}>
       <footer
-        className={cn(styles.shell, "relative overflow-hidden")}
+        className={cn(styles.shell, "relative z-0 overflow-hidden")}
         data-footer-variant={variant}
         data-footer-tone={tone}
         aria-label={`${footerVariantMeta[variant].name} footer`}
@@ -315,9 +314,7 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
         />
         <LinkColumn title="Explore" items={site.explore} />
         <div>
-          <p className="text-xs font-medium tracking-[0.18em] text-cta uppercase">
-            Contact
-          </p>
+          <Eyebrow className="tracking-[0.18em] text-cta">Contact</Eyebrow>
           <div className={cn("mt-3 space-y-3", styles.body)}>
             {Object.values(site.addresses).map((address) => (
               <div key={address.label}>
@@ -406,9 +403,7 @@ function SplitFooter({ tone }: { tone: FooterTone }) {
     <FooterShell variant="split" tone={tone}>
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:py-20 xl:px-8">
         <div>
-          <p className="text-xs font-medium tracking-[0.22em] text-cta uppercase">
-            Indus Best Mega Food Park
-          </p>
+          <Eyebrow className="text-cta">{site.name}</Eyebrow>
           <p className="mt-4 max-w-lg font-heading text-4xl leading-[1.1] font-semibold sm:text-5xl">
             A ready campus for food processing.
           </p>

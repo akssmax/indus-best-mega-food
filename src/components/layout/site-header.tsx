@@ -46,7 +46,7 @@ function BrandMark({
       <span
         className={cn(
           "min-w-0 font-heading text-[13px] font-semibold leading-[1.15] transition-colors duration-300 sm:text-sm lg:text-[15px]",
-          tone === "forest" ? "text-forest-foreground" : "text-primary"
+          tone === "forest" ? "text-forest-foreground" : "text-foreground"
         )}
       >
         Indus Best Mega
@@ -68,24 +68,47 @@ function useOverHero() {
   const [overHero, setOverHero] = useState(true)
 
   useEffect(() => {
-    const hero = document.querySelector("[data-hero]")
-    if (!hero) {
-      setOverHero(false)
-      return
+    setOverHero(true)
+
+    let cleanup: (() => void) | undefined
+    let retryId = 0
+    let retryTimeout: ReturnType<typeof setTimeout> | undefined
+
+    const bind = () => {
+      const hero = document.querySelector("[data-hero]")
+      if (!hero) return false
+
+      const update = () => {
+        const header = document.querySelector("header")
+        const inset = header?.getBoundingClientRect().height ?? 64
+        setOverHero(hero.getBoundingClientRect().bottom > inset)
+      }
+
+      update()
+      window.addEventListener("scroll", update, { passive: true })
+      window.addEventListener("resize", update)
+      cleanup = () => {
+        window.removeEventListener("scroll", update)
+        window.removeEventListener("resize", update)
+      }
+      return true
     }
 
-    const update = () => {
-      const header = document.querySelector("header")
-      const inset = header?.getBoundingClientRect().height ?? 64
-      setOverHero(hero.getBoundingClientRect().bottom > inset)
+    const attach = (final = false) => {
+      cleanup?.()
+      cleanup = undefined
+      if (bind()) return
+      if (final) setOverHero(false)
     }
 
-    update()
-    window.addEventListener("scroll", update, { passive: true })
-    window.addEventListener("resize", update)
+    attach()
+    retryId = window.requestAnimationFrame(() => attach())
+    retryTimeout = setTimeout(() => attach(true), 120)
+
     return () => {
-      window.removeEventListener("scroll", update)
-      window.removeEventListener("resize", update)
+      cancelAnimationFrame(retryId)
+      clearTimeout(retryTimeout)
+      cleanup?.()
     }
   }, [pathname])
 
@@ -161,7 +184,6 @@ export function SiteHeader() {
     select: (state) => state.location.pathname,
   })
   const tone: HeaderTone = overHero ? "forest" : "paper"
-  const isHome = pathname === "/"
 
   return (
     <header
@@ -169,9 +191,7 @@ export function SiteHeader() {
       className={cn(
         "sticky top-0 z-40 transition-[background-color,box-shadow,border-color,color] duration-300",
         overHero
-          ? isHome
-            ? "border-b border-transparent bg-transparent text-forest-foreground"
-            : "border-b border-transparent bg-forest text-forest-foreground"
+          ? "border-b border-transparent bg-forest text-forest-foreground"
           : "border-b border-border/70 bg-background/90 text-foreground shadow-[0_8px_24px_rgba(15,43,29,0.06)] backdrop-blur-md"
       )}
     >

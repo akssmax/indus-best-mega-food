@@ -1,10 +1,14 @@
 import type { ReactNode } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 
-const ease = [0.22, 1, 0.36, 1] as const
+export const motionEase = [0.22, 1, 0.36, 1] as const
+
+const ease = motionEase
+
+export type MotionWhen = "view" | "mount"
 
 export const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 24 },
   show: {
     opacity: 1,
     y: 0,
@@ -12,21 +16,27 @@ export const fadeUp = {
   },
 }
 
-export const stagger = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.09, delayChildren: 0.04 },
-  },
+function staggerVariants(delay = 0) {
+  return {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.09, delayChildren: delay + 0.04 },
+    },
+  }
 }
+
+export const stagger = staggerVariants()
 
 export function Reveal({
   children,
   className,
   delay = 0,
+  when = "view",
 }: {
   children: ReactNode
   className?: string
   delay?: number
+  when?: MotionWhen
 }) {
   const reduce = useReducedMotion()
 
@@ -34,13 +44,29 @@ export function Reveal({
     return <div className={className}>{children}</div>
   }
 
+  const transition = { duration: 0.6, delay, ease }
+  const hidden = { opacity: 0, y: 24 }
+
+  if (when === "mount") {
+    return (
+      <motion.div
+        className={className}
+        initial={hidden}
+        animate={{ opacity: 1, y: 0 }}
+        transition={transition}
+      >
+        {children}
+      </motion.div>
+    )
+  }
+
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 28 }}
+      initial={hidden}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.16, margin: "-40px" }}
-      transition={{ duration: 0.6, delay, ease }}
+      transition={transition}
     >
       {children}
     </motion.div>
@@ -50,14 +76,32 @@ export function Reveal({
 export function Stagger({
   children,
   className,
+  delay = 0,
+  when = "view",
 }: {
   children: ReactNode
   className?: string
+  delay?: number
+  when?: MotionWhen
 }) {
   const reduce = useReducedMotion()
+  const variants = staggerVariants(delay)
 
   if (reduce) {
     return <div className={className}>{children}</div>
+  }
+
+  if (when === "mount") {
+    return (
+      <motion.div
+        className={className}
+        initial="hidden"
+        animate="show"
+        variants={variants}
+      >
+        {children}
+      </motion.div>
+    )
   }
 
   return (
@@ -66,7 +110,7 @@ export function Stagger({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.12, margin: "-40px" }}
-      variants={stagger}
+      variants={variants}
     >
       {children}
     </motion.div>

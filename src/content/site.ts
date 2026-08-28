@@ -85,9 +85,9 @@ export const site = {
     investors: {
       eyebrow: "Investor Corner",
       title: "JV and investment on an operating MOFPI campus.",
-      body: "Co-processing, shared capacity, or a campus-level partnership. Allocation is on enquiry — we do not publish a walk-up tariff.",
+      body: "Master plan, state policies, brochure, plot terms, and shared-facility tariffs — plus co-processing and campus-level partnership on enquiry.",
       description:
-        "Joint venture and investment at Indus Best Mega Food Park, an operational MOFPI Mega Food Park near Raipur. Allocation on enquiry.",
+        "Investor Corner for Indus Best Mega Food Park: master plan, Chhattisgarh policies, brochure, plot rates, facility tariffs, and JV on an operational MOFPI campus near Raipur.",
       cta: { label: "Talk to the project team", href: "/contact" },
     },
     contact: {

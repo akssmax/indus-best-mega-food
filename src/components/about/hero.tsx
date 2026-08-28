@@ -11,9 +11,9 @@ export function AboutHero() {
   return (
     <section
       data-hero
-      className="relative overflow-hidden bg-forest text-forest-foreground"
+      className="relative z-10 -mt-14 overflow-hidden bg-forest pt-28 text-forest-foreground sm:-mt-16 sm:pt-[7.5rem] lg:pt-36"
     >
-      <div className="mx-auto grid max-w-6xl items-end gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:py-24 xl:px-8">
+      <div className="mx-auto grid max-w-6xl items-end gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:pb-24 xl:px-8">
         <Reveal>
           <Eyebrow className="text-cta">{hero.eyebrow}</Eyebrow>
           <h1 className="mt-4 text-4xl leading-[1.1] font-semibold sm:text-5xl lg:text-[3.25rem]">

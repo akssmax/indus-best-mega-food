@@ -62,33 +62,6 @@ const rowVariants = {
   },
 }
 
-const iconLoops = {
-  frozen: {
-    rotate: [0, -10, 10, 0],
-    transition: { duration: 5, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  chilled: {
-    y: [0, -2, 0],
-    transition: { duration: 2.8, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  iqf: {
-    scale: [1, 1.08, 1],
-    transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  belt: {
-    rotate: [0, 4, 0, -4, 0],
-    transition: { duration: 4.5, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  processing: {
-    y: [0, -1.5, 0],
-    transition: { duration: 3.2, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  campus: {
-    scale: [1, 1.04, 1],
-    transition: { duration: 3.6, repeat: Infinity, ease: "easeInOut" as const },
-  },
-}
-
 function inferIcon(title: string, icon?: ProcessFlowIcon): ProcessFlowIcon {
   if (icon) return icon
   const t = title.toLowerCase()
@@ -117,38 +90,30 @@ function StepIcon({
   kind,
   tone,
   large,
-  reduced,
 }: {
   kind: ProcessFlowIcon
   tone: keyof typeof tones
   large: boolean
-  reduced: boolean | null
 }) {
   const Icon = icons[kind]
   const palette = tones[tone]
 
-  const content = (
+  return (
     <span
       className={cn(
-        "relative flex shrink-0 items-center justify-center rounded-xl ring-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]",
+        "grid shrink-0 place-items-center rounded-xl ring-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]",
         large ? "size-10" : "size-9",
         palette.well
       )}
     >
-      <Icon className={large ? "size-5" : "size-4"} />
+      <Icon
+        className={cn(
+          "block shrink-0",
+          large ? "size-5" : "size-4"
+        )}
+        aria-hidden
+      />
     </span>
-  )
-
-  if (reduced) return content
-
-  return (
-    <motion.span
-      className="relative flex shrink-0"
-      animate={iconLoops[kind]}
-      style={{ transformOrigin: "center" }}
-    >
-      {content}
-    </motion.span>
   )
 }
 
@@ -202,7 +167,7 @@ export function ProcessFlow({
               onClick={interactive ? () => onSelect?.(index) : undefined}
               aria-current={selected ? "step" : undefined}
               className={cn(
-                "group/step relative flex w-full items-start gap-3 text-left outline-none",
+                "group/step relative flex w-full items-center gap-3 text-left outline-none",
                 large ? "gap-4 rounded-2xl px-3.5 py-3.5" : "rounded-2xl px-3 py-3",
                 "ring-1 ring-foreground/8 shadow-[0_4px_16px_rgba(15,43,29,0.06)] transition-all",
                 palette.wash,
@@ -211,14 +176,9 @@ export function ProcessFlow({
                 selected && palette.selected
               )}
             >
-              <StepIcon
-                kind={kind}
-                tone={tone}
-                large={large}
-                reduced={reduce}
-              />
+              <StepIcon kind={kind} tone={tone} large={large} />
 
-              <span className={cn("min-w-0 flex-1", large ? "pt-1.5" : "pt-1")}>
+              <span className="min-w-0 flex-1">
                 <span
                   className={cn(
                     "block font-semibold text-foreground",
@@ -241,7 +201,7 @@ export function ProcessFlow({
                 <span
                   aria-hidden
                   className={cn(
-                    "mt-2 size-2 shrink-0 rounded-full transition-all",
+                    "size-2 shrink-0 rounded-full transition-all",
                     selected
                       ? "bg-primary shadow-[0_0_0_4px_color-mix(in_oklch,var(--primary)_18%,transparent)]"
                       : "bg-foreground/15 group-hover/step:bg-primary/40"

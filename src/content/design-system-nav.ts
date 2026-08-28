@@ -48,6 +48,7 @@ export const designSystemNav = [
     items: [
       { id: "skins", label: "Landing skins" },
       { id: "headers", label: "Headers" },
+      { id: "heroes", label: "Heroes" },
       { id: "footers", label: "Footers" },
     ],
   },

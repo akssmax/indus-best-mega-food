@@ -48,6 +48,13 @@ import { StatusSeal } from "@/components/ui/status-seal"
 import { UtilityMeters } from "@/components/ui/utility-meters"
 import { LiveIndicator } from "@/components/ui/live-indicator"
 import { LogoStrip } from "@/components/landing/logo-strip"
+import {
+  BandHero,
+  DropHero,
+  FrameHero,
+  heroVariantMeta,
+  heroVariants,
+} from "@/components/landing/heroes"
 import { DropFlourish, PatternBand, WaveEdge } from "@/components/ui/brand-pattern"
 import {
   SiteFooter,
@@ -84,7 +91,7 @@ const colors = [
     name: "Primary",
     token: "--primary",
     className: "bg-primary text-primary-foreground",
-    note: "Forest green from the logo. Brand, links, default buttons.",
+    note: "Brand colour. Harvest keeps the logo green; Canal, Copper, Sage, and Umber each use their own primary.",
   },
   {
     name: "Secondary",
@@ -102,7 +109,7 @@ const colors = [
     name: "Forest",
     token: "--forest",
     className: "bg-forest text-forest-foreground",
-    note: "Deep green for photography overlays, hero, and footer.",
+    note: "Deep band for hero, final CTA, and overlays. Harvest keeps logo green; other palettes shift with the scheme.",
   },
   {
     name: "Aqua",
@@ -145,7 +152,7 @@ const typeRows = [
   { label: "Small", className: "font-sans text-sm text-muted-foreground", sample: "Captions, tables, helper text." },
   {
     label: "Eyebrow",
-    className: "text-xs font-medium tracking-[0.22em] text-primary uppercase",
+    className: "font-heading text-xs font-medium tracking-[0.22em] text-primary uppercase",
     sample: "Mega Food Park",
   },
 ] as const
@@ -168,7 +175,7 @@ const patternDemos = [
   {
     variant: "vein" as const,
     name: "Vein",
-    note: "Drop with a leaf vein. The mark as a quiet damask.",
+    note: "Mirrored veined drops in a damask repeat — leaf structure, not a plain tile.",
     surface: "bg-background text-foreground ring-1 ring-border",
     pattern: "text-primary",
   },
@@ -182,9 +189,23 @@ const patternDemos = [
   {
     variant: "lattice" as const,
     name: "Lattice",
-    note: "Drops interlocking up and down. A field, not a grid of squares.",
+    note: "Hex field with drops at each node. Plot geometry, not a square grid.",
     surface: "bg-cta text-cta-foreground",
     pattern: "text-cta-foreground",
+  },
+  {
+    variant: "ripple" as const,
+    name: "Ripple",
+    note: "Concentric drop outlines. Process water, intake, and flow.",
+    surface: "bg-aqua/15 text-foreground ring-1 ring-aqua/25",
+    pattern: "text-aqua opacity-[0.28]",
+  },
+  {
+    variant: "scatter" as const,
+    name: "Scatter",
+    note: "Drops at different scales and angles. Seed scatter across the belt.",
+    surface: "bg-muted text-foreground ring-1 ring-border",
+    pattern: "text-primary",
   },
   {
     variant: "hatch" as const,
@@ -226,9 +247,8 @@ function DesignSystemPage() {
         <p className="mt-3 max-w-2xl text-muted-foreground">
           Five palettes built on color theory — Harvest (split-complementary
           amber), Canal (analogous teal/sky), Copper (warm split-comp), Sage
-          (monochromatic green), and Umber (earth gold). Base colour and radius
-          sit on top so you can compare cream vs paper without changing the
-          brand colours.
+          (monochromatic green), and Umber (earth gold). Each palette shifts
+          the deep band, brand primary, and conversion colour together.
         </p>
         <ThemeSelector className="mt-8" />
       </Section>
@@ -237,9 +257,9 @@ function DesignSystemPage() {
         <Eyebrow>Colour</Eyebrow>
         <h2 className="mt-3 text-3xl">Tokens</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          CTAs follow the selected palette. Harvest keeps the amber; Canal,
-          Copper, Sage, and Umber each shift the conversion colour using a
-          distinct color-theory scheme.
+          Primary and CTA follow the selected palette. Harvest keeps the logo
+          green and amber; Canal, Copper, Sage, and Umber each shift the brand
+          colour as well as the conversion colour.
         </p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {colors.map((color) => (
@@ -534,7 +554,7 @@ function DesignSystemPage() {
             <CardContent>
               <StatusSeal kicker="MOFPI" title="2014 · Operational" />
               <p className="mt-3 text-sm text-muted-foreground">
-                StatusSeal is a full-width scheme credential strip with shield
+                StatusSeal is a vertical scheme credential card with shield
                 mark and live operational badge.
               </p>
             </CardContent>
@@ -662,6 +682,69 @@ function DesignSystemPage() {
             ]}
           />
         </div>
+      </Section>
+
+      <Section id="heroes">
+        <Eyebrow>Layout</Eyebrow>
+        <h2 className="mt-3 text-3xl">Hero sections</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Three forest-band heroes on the same copy and campus photo.{" "}
+          <strong className="font-medium text-foreground">Drop</strong> is live
+          on the homepage;{" "}
+          <strong className="font-medium text-foreground">Frame</strong> and{" "}
+          <strong className="font-medium text-foreground">Band</strong> swap the
+          visual treatment — rounded frame and wide band instead of the drop
+          mask. Pass{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
+            variant
+          </code>{" "}
+          to{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
+            {"<Hero />"}
+          </code>
+          .
+        </p>
+        <div className="mt-10 space-y-12">
+          {(
+            [
+              { variant: "drop" as const, Component: DropHero },
+              { variant: "frame" as const, Component: FrameHero },
+              { variant: "band" as const, Component: BandHero },
+            ] as const
+          ).map(({ variant, Component }) => {
+            const meta = heroVariantMeta[variant]
+            return (
+              <div key={variant} className="overflow-hidden rounded-xl ring-1 ring-border">
+                <div className="border-b border-border bg-muted/40 px-4 py-4 sm:px-6">
+                  <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+                    {meta.name}
+                    {variant === "drop" ? " · Live" : null}
+                  </p>
+                  <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+                    {meta.note}
+                  </p>
+                  <p className="mt-2 font-mono text-xs text-muted-foreground">
+                    variant=&quot;{variant}&quot;
+                  </p>
+                </div>
+                <div className="max-h-[42rem] overflow-hidden">
+                  <Component markHero={false} />
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <p className="mt-6 text-sm text-muted-foreground">
+          Variants:{" "}
+          {heroVariants.map((variant) => (
+            <code
+              key={variant}
+              className="mr-2 rounded-md bg-muted px-1.5 py-0.5 text-sm"
+            >
+              {variant}
+            </code>
+          ))}
+        </p>
       </Section>
 
       <Section id="footers">

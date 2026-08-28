@@ -1,6 +1,11 @@
+import { motion, useReducedMotion } from "framer-motion"
+
 import { landing } from "@/content/landing"
+import { Reveal } from "@/components/landing/motion"
 import { PatternBand } from "@/components/ui/brand-pattern"
 import { cn } from "@/lib/utils"
+
+const markEase = [0.22, 1, 0.36, 1] as const
 
 function initials(name: string) {
   return name
@@ -13,25 +18,41 @@ function initials(name: string) {
 }
 
 function ClientMark({ name, logo }: { name: string; logo?: string }) {
+  const reduce = useReducedMotion()
+
+  const content = logo ? (
+    <img
+      src={logo}
+      alt={name}
+      className="h-12 w-auto max-w-[13rem] object-contain object-left sm:h-[3.25rem] sm:max-w-[14rem]"
+    />
+  ) : (
+    <>
+      <span className="flex size-10 items-center justify-center rounded-lg bg-primary/12 font-heading text-xs font-semibold tracking-wide text-primary">
+        {initials(name)}
+      </span>
+      <span className="whitespace-nowrap font-heading text-sm font-semibold tracking-tight text-foreground/70">
+        {name}
+      </span>
+    </>
+  )
+
+  if (reduce) {
+    return (
+      <span className="flex h-16 shrink-0 items-center gap-3 px-2">
+        {content}
+      </span>
+    )
+  }
+
   return (
-    <span className="flex h-14 shrink-0 items-center gap-3 px-2">
-      {logo ? (
-        <img
-          src={logo}
-          alt={name}
-          className="h-10 w-auto max-w-[11rem] object-contain object-left"
-        />
-      ) : (
-        <>
-          <span className="flex size-9 items-center justify-center rounded-lg bg-primary/12 font-heading text-xs font-semibold tracking-wide text-primary">
-            {initials(name)}
-          </span>
-          <span className="whitespace-nowrap font-heading text-sm font-semibold tracking-tight text-foreground/70">
-            {name}
-          </span>
-        </>
-      )}
-    </span>
+    <motion.span
+      className="flex h-16 shrink-0 cursor-default items-center gap-3 px-2"
+      whileHover={{ scale: 1.06, y: -3 }}
+      transition={{ duration: 0.28, ease: markEase }}
+    >
+      {content}
+    </motion.span>
   )
 }
 
@@ -53,25 +74,29 @@ export function LogoStrip() {
         patternClassName="opacity-[0.06]"
       />
       <div className="relative z-10 w-full py-5">
-        <p className="mb-4 text-center text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">
-          {clients.label}
-        </p>
-        <div
-          className={cn(
-            "relative w-full overflow-hidden",
-            "[mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]"
-          )}
-        >
-          <div className="flex w-max items-center gap-10 py-1 motion-safe:animate-logo-marquee motion-safe:hover-fine:[animation-play-state:paused] sm:gap-12 lg:gap-16">
-            {loop.map((client, index) => (
-              <ClientMark
-                key={`${client.name}-${index}`}
-                name={client.name}
-                logo={client.logo}
-              />
-            ))}
+        <Reveal when="mount" delay={0.42}>
+          <p className="mb-4 text-center text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">
+            {clients.label}
+          </p>
+        </Reveal>
+        <Reveal when="mount" delay={0.5}>
+          <div
+            className={cn(
+              "relative w-full overflow-hidden",
+              "[mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]"
+            )}
+          >
+            <div className="flex w-max items-center gap-10 py-1 motion-safe:animate-logo-marquee motion-safe:hover-fine:[animation-play-state:paused] sm:gap-12 lg:gap-16">
+              {loop.map((client, index) => (
+                <ClientMark
+                  key={`${client.name}-${index}`}
+                  name={client.name}
+                  logo={client.logo}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

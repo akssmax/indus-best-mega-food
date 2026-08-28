@@ -9,12 +9,32 @@ export const patternVariants = [
   "flow",
   "lattice",
   "hatch",
+  "ripple",
+  "scatter",
 ] as const
 
 export type PatternVariant = (typeof patternVariants)[number]
 
 const DROP =
   "M12 1.6C12 1.6 4.2 12.4 4.2 18.8c0 4.4 3.5 8 7.8 8s7.8-3.6 7.8-8C19.8 12.4 12 1.6 12 1.6Z"
+
+function VeinLines() {
+  return (
+    <g
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeWidth="1"
+      opacity="0.5"
+    >
+      <path d="M12 9.2v14" />
+      <path d="M12 14 8.2 18" />
+      <path d="M12 14 15.8 18" />
+      <path d="M12 18.4 9 22" />
+      <path d="M12 18.4 15 22" />
+    </g>
+  )
+}
 
 function Drop({
   x = 0,
@@ -30,6 +50,41 @@ function Drop({
   return (
     <g transform={`translate(${x} ${y}) scale(${scale}) rotate(${rotate} 12 16)`}>
       <path d={DROP} />
+    </g>
+  )
+}
+
+function RippleSource({
+  x,
+  y,
+  rings,
+  coreScale,
+}: {
+  x: number
+  y: number
+  rings: readonly { scale: number; opacity: number }[]
+  coreScale?: number
+}) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      {rings.map((ring) => (
+        <g
+          key={ring.scale}
+          transform={`translate(-12 -16) scale(${ring.scale})`}
+          fill="none"
+          stroke="currentColor"
+          strokeLinejoin="round"
+          strokeWidth={1.1 / ring.scale}
+          opacity={ring.opacity}
+        >
+          <path d={DROP} />
+        </g>
+      ))}
+      {coreScale ? (
+        <g transform={`translate(-12 -16) scale(${coreScale})`} opacity="0.95">
+          <path d={DROP} />
+        </g>
+      ) : null}
     </g>
   )
 }
@@ -60,22 +115,20 @@ function PatternTile({
       )
     case "vein":
       return (
-        <g transform="translate(18 6) scale(1.12)">
-          <path d={DROP} />
-          <g
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.1"
-            opacity="0.55"
-          >
-            <path d="M12 9.2v14" />
-            <path d="M12 14 8.2 18" />
-            <path d="M12 14 15.8 18" />
-            <path d="M12 18.4 9 22" />
-            <path d="M12 18.4 15 22" />
+        <>
+          <g transform="translate(4 2) scale(0.72)">
+            <path d={DROP} />
+            <VeinLines />
           </g>
-        </g>
+          <g transform="translate(36 2) scale(0.72) scale(-1 1) translate(-24 0)">
+            <path d={DROP} />
+            <VeinLines />
+          </g>
+          <g transform="translate(20 46) scale(0.58) rotate(180 12 16)">
+            <path d={DROP} />
+            <VeinLines />
+          </g>
+        </>
       )
     case "flow":
       return (
@@ -94,8 +147,22 @@ function PatternTile({
     case "lattice":
       return (
         <>
-          <Drop x={6} y={2} scale={0.78} />
-          <Drop x={34} y={40} scale={0.78} rotate={180} />
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.85"
+            strokeLinejoin="round"
+            opacity="0.38"
+          >
+            <path d="M32 4 L52 18 L52 50 L32 64 L12 50 L12 18 Z" />
+            <path d="M32 4 L32 64" />
+            <path d="M12 18 L52 50" />
+            <path d="M52 18 L12 50" />
+          </g>
+          <Drop x={26} y={0} scale={0.48} />
+          <Drop x={6} y={26} scale={0.44} rotate={180} />
+          <Drop x={46} y={26} scale={0.44} rotate={180} />
+          <Drop x={26} y={52} scale={0.48} />
         </>
       )
     case "hatch":
@@ -109,16 +176,42 @@ function PatternTile({
           strokeWidth="1.15"
         />
       )
+    case "ripple":
+      return (
+        <RippleSource
+          x={40}
+          y={46}
+          coreScale={0.48}
+          rings={[
+            { scale: 1.9, opacity: 0.26 },
+            { scale: 1.48, opacity: 0.36 },
+            { scale: 1.06, opacity: 0.48 },
+          ]}
+        />
+      )
+    case "scatter":
+      return (
+        <>
+          <Drop x={2} y={6} scale={0.36} rotate={-18} />
+          <Drop x={26} y={0} scale={0.3} rotate={24} />
+          <Drop x={46} y={14} scale={0.38} rotate={-6} />
+          <Drop x={10} y={38} scale={0.34} rotate={14} />
+          <Drop x={34} y={32} scale={0.32} rotate={-22} />
+          <Drop x={48} y={50} scale={0.36} rotate={8} />
+        </>
+      )
   }
 }
 
 const TILE = {
   rain: { width: 56, height: 72 },
   bloom: { width: 96, height: 96 },
-  vein: { width: 64, height: 80 },
+  vein: { width: 64, height: 88 },
   flow: { width: 80, height: 48 },
-  lattice: { width: 64, height: 80 },
+  lattice: { width: 64, height: 72 },
   hatch: { width: 12, height: 12, patternTransform: "rotate(45)" },
+  ripple: { width: 80, height: 88 },
+  scatter: { width: 56, height: 64 },
 } as const
 
 export function BrandPattern({
@@ -196,14 +289,14 @@ export function WaveEdge({
       viewBox="0 0 1440 72"
       preserveAspectRatio="none"
       className={cn(
-        "pointer-events-none block w-full",
+        "pointer-events-none block w-full overflow-visible",
         position === "bottom" && "rotate-180",
         className
       )}
     >
       <path
         fill="currentColor"
-        d="M0 28C118 8 196 62 318 44c110-16 154-46 286-32 128 14 168 52 302 36 122-14 176-54 318-34 86 12 142 38 216 22V72H0V28Z"
+        d="M0 28C118 8 196 62 318 44c110-16 154-46 286-32 128 14 168 52 302 36 122-14 176-54 318-34 86 12 142 38 216 22V76H0V28Z"
       />
     </svg>
   )
