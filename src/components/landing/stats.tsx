@@ -1,10 +1,10 @@
 import {
   MapPinIcon,
-  CurrencyRupeeIcon,
   BuildingOffice2Icon,
+  MapIcon,
+  CubeIcon,
   ArchiveBoxIcon,
-  UserGroupIcon,
-  CalendarDaysIcon,
+  BuildingLibraryIcon,
 } from "@heroicons/react/24/outline"
 
 import { landing } from "@/content/landing"
@@ -13,18 +13,18 @@ import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 
 const icons = [
   MapPinIcon,
-  CurrencyRupeeIcon,
   BuildingOffice2Icon,
+  MapIcon,
+  CubeIcon,
   ArchiveBoxIcon,
-  UserGroupIcon,
-  CalendarDaysIcon,
+  BuildingLibraryIcon,
 ]
 
 export function Stats() {
   const { numbers } = landing
 
   return (
-    <Section id={numbers.id} className="bg-forest text-white">
+    <Section id={numbers.id} className="bg-forest text-forest-foreground">
       <Reveal className="mx-auto max-w-2xl text-center">
         <Eyebrow className="text-cta">{numbers.eyebrow}</Eyebrow>
         <h2 className="mt-3 text-3xl sm:text-4xl">{numbers.title}</h2>
@@ -42,7 +42,9 @@ export function Stats() {
                 <p className="mt-4 font-heading text-3xl font-bold sm:text-4xl">
                   {stat.value}
                 </p>
-                <p className="mt-1.5 text-sm text-white/70">{stat.label}</p>
+                <p className="mt-1.5 text-sm text-forest-foreground/70">
+                  {stat.label}
+                </p>
               </div>
             </MotionItem>
           )

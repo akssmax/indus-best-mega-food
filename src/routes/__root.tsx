@@ -10,8 +10,11 @@ import {
 import { site } from "@/content/site"
 import { SiteHeader } from "@/components/layout/site-header"
 import { SiteFooter } from "@/components/layout/site-footer"
+import { LandingSwitcher } from "@/components/layout/landing-switcher"
 import { AppError, AppNotFound } from "@/components/layout/app-error"
 import { Toaster } from "@/components/ui/sonner"
+import { isLandingExperiment } from "@/lib/skins"
+import { themeBootScript } from "@/lib/theme"
 import appCss from "../styles.css?url"
 
 export const Route = createRootRoute({
@@ -20,15 +23,15 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       {
         name: "viewport",
-        content: "width=device-width, initial-scale=1",
+        content: "width=device-width, initial-scale=1, viewport-fit=cover",
       },
       {
-        title: `${site.name} | Food processing campus, Raipur`,
+        title: `${site.name} | Set up in Raipur, Chhattisgarh`,
       },
       {
         name: "description",
         content:
-          "Indus Best Mega Food Park in Bemta–Sarora, Raipur: developed plots, MSME plug-and-play sheds, fruit and vegetable lines, IQF, cold chain, and shared utilities for food manufacturers.",
+          "Developed plots, 16 MSME sheds, aseptic and IQF lines, 5,000 MT cold storage and 12,000 MT dry warehouse at Bemta–Sarora, near Raipur.",
       },
     ],
     links: [
@@ -43,16 +46,15 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body className="min-h-svh antialiased">
         <ShellBoundary>
           <div id="top" />
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <PageChrome>{children}</PageChrome>
         </ShellBoundary>
         <Toaster />
         <Scripts />
@@ -68,5 +70,21 @@ function ShellBoundary({ children }: { children: ReactNode }) {
     <CatchBoundary getResetKey={() => pathname} errorComponent={AppError}>
       {children}
     </CatchBoundary>
+  )
+}
+
+function PageChrome({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  })
+  const experiment = isLandingExperiment(pathname)
+
+  return (
+    <>
+      {experiment ? null : <SiteHeader />}
+      {children}
+      {experiment ? null : <SiteFooter tone="light" />}
+      <LandingSwitcher />
+    </>
   )
 }

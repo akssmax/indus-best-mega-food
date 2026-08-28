@@ -77,23 +77,7 @@ export function Infrastructure() {
       </Stagger>
 
       <Reveal className="mt-12">
-        <div className="rounded-2xl border border-border/40 bg-card p-6">
-          <h3 className="font-heading text-xl font-semibold">Connectivity</h3>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {data.connectivity.map((item) => (
-              <div
-                key={item.label}
-                className="group flex items-center justify-between rounded-xl border border-border/40 bg-background/50 px-4 py-3 transition-all duration-300 hover:border-primary/30 hover:bg-primary/5"
-              >
-                <span className="text-sm text-muted-foreground">{item.label}</span>
-                <span className="font-heading text-sm font-semibold text-primary">
-                  {item.value}
-                </span>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-xs text-muted-foreground">{data.mofpi}</p>
-        </div>
+        <p className="max-w-3xl text-sm text-muted-foreground">{data.mofpi}</p>
       </Reveal>
     </Section>
   )

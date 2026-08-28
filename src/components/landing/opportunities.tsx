@@ -1,66 +1,95 @@
-import {
-  MapIcon,
-  BuildingOffice2Icon,
-  Cog6ToothIcon,
-  CubeIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/outline"
+import { ArrowRightIcon } from "lucide-react"
 
 import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  "land-plot": MapIcon,
-  building: BuildingOffice2Icon,
-  cog: Cog6ToothIcon,
-  package: CubeIcon,
-  handshake: UserGroupIcon,
-}
+import { DropFlourish, PatternBand } from "@/components/ui/brand-pattern"
+import { PullQuote } from "@/components/ui/pull-quote"
 
 export function Opportunities() {
   const { opportunities: data } = landing
+  const ways = data.items.filter((item) => !item.featured)
 
   return (
-    <Section id={data.id} className="bg-secondary/30">
-      <Reveal className="max-w-2xl">
-        <Eyebrow>{data.eyebrow}</Eyebrow>
-        <h2 className="mt-3 text-3xl sm:text-4xl">{data.title}</h2>
-        <p className="mt-4 leading-relaxed text-muted-foreground">{data.body}</p>
-      </Reveal>
+    <Section id={data.id} className="relative overflow-hidden">
+      <PatternBand
+        variant="hatch"
+        className="pointer-events-none absolute inset-0 text-primary/20"
+        patternClassName="opacity-[0.07]"
+      />
 
-      <Stagger className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {data.items.map((item) => {
-          const Icon = iconMap[item.icon] ?? BuildingOffice2Icon
-          return (
-            <MotionItem key={item.title}>
-              <Card className="h-full">
-                <CardHeader>
-                  <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-cta/10">
-                    <Icon className="size-5 text-cta" />
-                  </div>
-                  <CardTitle className="font-heading text-lg">
+      <div className="relative z-10 grid items-stretch gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-10">
+        <Reveal className="flex h-full flex-col overflow-hidden rounded-3xl bg-forest p-7 text-forest-foreground sm:p-9 lg:p-10">
+          <div className="flex items-center gap-3">
+            <DropFlourish className="hidden text-cta/70 sm:block" />
+            <Eyebrow className="text-cta">{data.eyebrow}</Eyebrow>
+          </div>
+          <h2 className="mt-4 text-3xl sm:text-4xl">{data.title}</h2>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/85 sm:text-base">
+            {data.body}
+          </p>
+          <PullQuote className="mt-8 border-cta/70 text-forest-foreground [&_p]:text-2xl [&_p]:sm:text-3xl">
+            {data.quote}
+          </PullQuote>
+          <ul className="mt-8 space-y-2.5 text-sm text-forest-foreground/80">
+            {data.proofs.map((proof) => (
+              <li key={proof} className="flex gap-3">
+                <span
+                  aria-hidden
+                  className="mt-2 size-1.5 shrink-0 rounded-full bg-cta"
+                />
+                <span>{proof}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-auto pt-8">
+            <Button variant="cta" className="h-12 px-6 text-base" asChild>
+              <a href={data.cta.href}>
+                {data.cta.label}
+                <ArrowRightIcon />
+              </a>
+            </Button>
+          </div>
+        </Reveal>
+
+        <Stagger className="overflow-hidden rounded-3xl bg-card ring-1 ring-foreground/8">
+          {ways.map((item, index) => (
+            <MotionItem
+              key={item.title}
+              className="border-b border-border/70 last:border-b-0"
+            >
+              <article className="flex gap-4 px-5 py-5 sm:gap-6 sm:px-7 sm:py-6">
+                <span
+                  aria-hidden
+                  className="font-heading w-10 shrink-0 text-2xl font-semibold text-cta sm:w-12 sm:text-3xl"
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">
+                    {item.kicker}
+                  </p>
+                  <h3 className="mt-1 font-heading text-lg font-semibold">
                     {item.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {item.body}
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+                <div className="hidden w-24 shrink-0 text-right sm:block">
+                  <p className="font-heading text-xl font-semibold text-primary">
+                    {item.metric}
+                  </p>
+                  <p className="mt-1 text-[11px] leading-snug text-muted-foreground">
+                    {item.metricLabel}
+                  </p>
+                </div>
+              </article>
             </MotionItem>
-          )
-        })}
-      </Stagger>
-
-      <Reveal className="mt-8">
-        <Button variant="cta" className="h-11 px-5 text-base" asChild>
-          <a href={data.cta.href}>{data.cta.label}</a>
-        </Button>
-      </Reveal>
+          ))}
+        </Stagger>
+      </div>
     </Section>
   )
 }

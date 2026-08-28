@@ -10,12 +10,36 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CampusRouteImport } from './routes/campus'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as FacilitiesRouteImport } from './routes/facilities'
+import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as Landing2RouteImport } from './routes/landing-2'
+import { Route as Landing3RouteImport } from './routes/landing-3'
+import { Route as Landing4RouteImport } from './routes/landing-4'
+import { Route as OpportunitiesRouteImport } from './routes/opportunities'
+import { Route as WhyRouteImport } from './routes/why'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampusRoute = CampusRouteImport.update({
+  id: '/campus',
+  path: '/campus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DesignSystemRoute = DesignSystemRouteImport.update({
@@ -23,40 +47,143 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
   path: '/design-system',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FacilitiesRoute = FacilitiesRouteImport.update({
+  id: '/facilities',
+  path: '/facilities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestorsRoute = InvestorsRouteImport.update({
+  id: '/investors',
+  path: '/investors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Landing2Route = Landing2RouteImport.update({
   id: '/landing-2',
   path: '/landing-2',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Landing3Route = Landing3RouteImport.update({
+  id: '/landing-3',
+  path: '/landing-3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Landing4Route = Landing4RouteImport.update({
+  id: '/landing-4',
+  path: '/landing-4',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpportunitiesRoute = OpportunitiesRouteImport.update({
+  id: '/opportunities',
+  path: '/opportunities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhyRoute = WhyRouteImport.update({
+  id: '/why',
+  path: '/why',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/campus': typeof CampusRoute
+  '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
+  '/facilities': typeof FacilitiesRoute
+  '/investors': typeof InvestorsRoute
   '/landing-2': typeof Landing2Route
+  '/landing-3': typeof Landing3Route
+  '/landing-4': typeof Landing4Route
+  '/opportunities': typeof OpportunitiesRoute
+  '/why': typeof WhyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/campus': typeof CampusRoute
+  '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
+  '/facilities': typeof FacilitiesRoute
+  '/investors': typeof InvestorsRoute
   '/landing-2': typeof Landing2Route
+  '/landing-3': typeof Landing3Route
+  '/landing-4': typeof Landing4Route
+  '/opportunities': typeof OpportunitiesRoute
+  '/why': typeof WhyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/campus': typeof CampusRoute
+  '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
+  '/facilities': typeof FacilitiesRoute
+  '/investors': typeof InvestorsRoute
   '/landing-2': typeof Landing2Route
+  '/landing-3': typeof Landing3Route
+  '/landing-4': typeof Landing4Route
+  '/opportunities': typeof OpportunitiesRoute
+  '/why': typeof WhyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/design-system' | '/landing-2'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/campus'
+    | '/contact'
+    | '/design-system'
+    | '/facilities'
+    | '/investors'
+    | '/landing-2'
+    | '/landing-3'
+    | '/landing-4'
+    | '/opportunities'
+    | '/why'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/design-system' | '/landing-2'
-  id: '__root__' | '/' | '/design-system' | '/landing-2'
+  to:
+    | '/'
+    | '/about'
+    | '/campus'
+    | '/contact'
+    | '/design-system'
+    | '/facilities'
+    | '/investors'
+    | '/landing-2'
+    | '/landing-3'
+    | '/landing-4'
+    | '/opportunities'
+    | '/why'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/campus'
+    | '/contact'
+    | '/design-system'
+    | '/facilities'
+    | '/investors'
+    | '/landing-2'
+    | '/landing-3'
+    | '/landing-4'
+    | '/opportunities'
+    | '/why'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  CampusRoute: typeof CampusRoute
+  ContactRoute: typeof ContactRoute
   DesignSystemRoute: typeof DesignSystemRoute
+  FacilitiesRoute: typeof FacilitiesRoute
+  InvestorsRoute: typeof InvestorsRoute
   Landing2Route: typeof Landing2Route
+  Landing3Route: typeof Landing3Route
+  Landing4Route: typeof Landing4Route
+  OpportunitiesRoute: typeof OpportunitiesRoute
+  WhyRoute: typeof WhyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,11 +195,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campus': {
+      id: '/campus'
+      path: '/campus'
+      fullPath: '/campus'
+      preLoaderRoute: typeof CampusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/design-system': {
       id: '/design-system'
       path: '/design-system'
       fullPath: '/design-system'
       preLoaderRoute: typeof DesignSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/facilities': {
+      id: '/facilities'
+      path: '/facilities'
+      fullPath: '/facilities'
+      preLoaderRoute: typeof FacilitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investors': {
+      id: '/investors'
+      path: '/investors'
+      fullPath: '/investors'
+      preLoaderRoute: typeof InvestorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/landing-2': {
@@ -82,13 +244,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Landing2RouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/landing-3': {
+      id: '/landing-3'
+      path: '/landing-3'
+      fullPath: '/landing-3'
+      preLoaderRoute: typeof Landing3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/landing-4': {
+      id: '/landing-4'
+      path: '/landing-4'
+      fullPath: '/landing-4'
+      preLoaderRoute: typeof Landing4RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/opportunities': {
+      id: '/opportunities'
+      path: '/opportunities'
+      fullPath: '/opportunities'
+      preLoaderRoute: typeof OpportunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/why': {
+      id: '/why'
+      path: '/why'
+      fullPath: '/why'
+      preLoaderRoute: typeof WhyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  CampusRoute: CampusRoute,
+  ContactRoute: ContactRoute,
   DesignSystemRoute: DesignSystemRoute,
+  FacilitiesRoute: FacilitiesRoute,
+  InvestorsRoute: InvestorsRoute,
   Landing2Route: Landing2Route,
+  Landing3Route: Landing3Route,
+  Landing4Route: Landing4Route,
+  OpportunitiesRoute: OpportunitiesRoute,
+  WhyRoute: WhyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

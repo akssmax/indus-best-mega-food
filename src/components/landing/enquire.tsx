@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
+import { PatternBand } from "@/components/ui/brand-pattern"
 
 export function Enquire() {
   const { enquire } = landing
@@ -56,8 +57,13 @@ export function Enquire() {
   }
 
   return (
-    <Section id={enquire.id} className="bg-secondary/30">
-      <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+    <Section id={enquire.id} className="relative overflow-hidden">
+      <PatternBand
+        variant="rain"
+        className="pointer-events-none absolute inset-0 text-primary/15"
+        patternClassName="opacity-[0.07]"
+      />
+      <div className="relative z-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <Reveal>
           <Eyebrow>{enquire.eyebrow}</Eyebrow>
           <h2 className="mt-3 text-3xl sm:text-4xl">{enquire.title}</h2>
@@ -68,7 +74,7 @@ export function Enquire() {
                 <dt className="text-muted-foreground">{phone.label}</dt>
                 <dd>
                   <a
-                    className="font-medium text-primary hover:underline"
+                    className="inline-flex min-h-11 touch-target items-center font-medium text-primary underline-offset-2 hover:underline active:text-primary/80"
                     href={phone.href}
                   >
                     {phone.number}
@@ -81,7 +87,7 @@ export function Enquire() {
                 <dt className="text-muted-foreground">{email.label}</dt>
                 <dd>
                   <a
-                    className="font-medium text-primary hover:underline"
+                    className="inline-flex min-h-11 touch-target items-center font-medium text-primary underline-offset-2 hover:underline active:text-primary/80"
                     href={email.href}
                   >
                     {email.address}
@@ -102,13 +108,14 @@ export function Enquire() {
               <form className="grid gap-4" onSubmit={onSubmit}>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field label="Name" htmlFor="name">
-                    <Input id="name" name="name" required autoComplete="name" />
+                    <Input id="name" name="name" required autoComplete="name" className="h-11" />
                   </Field>
                   <Field label="Company" htmlFor="company">
                     <Input
                       id="company"
                       name="company"
                       autoComplete="organization"
+                      className="h-11"
                     />
                   </Field>
                 </div>
@@ -120,6 +127,7 @@ export function Enquire() {
                       type="tel"
                       required
                       autoComplete="tel"
+                      className="h-11"
                     />
                   </Field>
                   <Field label="Email" htmlFor="email">
@@ -129,6 +137,7 @@ export function Enquire() {
                       type="email"
                       required
                       autoComplete="email"
+                      className="h-11"
                     />
                   </Field>
                 </div>
@@ -139,7 +148,7 @@ export function Enquire() {
                       if (value) setInterest(value as EnquiryInterest)
                     }}
                   >
-                    <SelectTrigger id="interest" className="w-full">
+                    <SelectTrigger id="interest" className="h-11 w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -155,13 +164,13 @@ export function Enquire() {
                   <Textarea
                     id="message"
                     name="message"
-                    placeholder="Plot size, product, or shared facility you need"
+                    placeholder={enquire.messagePlaceholder}
                   />
                 </Field>
                 <Button
                   type="submit"
                   variant="cta"
-                  className="h-10"
+                  className="h-11 touch-target"
                   disabled={pending}
                 >
                   {pending ? "Sending…" : enquire.submit}

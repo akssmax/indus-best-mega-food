@@ -1,8 +1,26 @@
+import {
+  ArchiveBoxIcon,
+  BeakerIcon,
+  BuildingOffice2Icon,
+  CubeIcon,
+  Square3Stack3DIcon,
+  TruckIcon,
+} from "@heroicons/react/24/outline"
+
 import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  produce: Square3Stack3DIcon,
+  frozen: CubeIcon,
+  aseptic: BeakerIcon,
+  pack: ArchiveBoxIcon,
+  msme: BuildingOffice2Icon,
+  logistics: TruckIcon,
+}
 
 export function Partners() {
   const { partners: data } = landing
@@ -15,36 +33,43 @@ export function Partners() {
         <p className="mt-4 leading-relaxed text-muted-foreground">{data.body}</p>
       </Reveal>
 
-      <Stagger className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        {data.companies.map((company) => (
-          <MotionItem key={company.name}>
-            <Card className="flex h-24 items-center justify-center">
-              <CardContent className="flex items-center justify-center p-4">
-                <span className="text-center text-xs font-medium text-muted-foreground">
-                  {company.name}
-                </span>
-              </CardContent>
-            </Card>
-          </MotionItem>
-        ))}
+      <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {data.companies.map((company) => {
+          const Icon = iconMap[company.icon] ?? Square3Stack3DIcon
+          return (
+            <MotionItem key={company.name} className="h-full">
+              <Card className="h-full">
+                <CardHeader>
+                  <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-cta/10">
+                    <Icon className="size-5 text-cta" />
+                  </div>
+                  <p className="text-[10px] font-medium tracking-[0.16em] text-cta uppercase">
+                    {company.kicker}
+                  </p>
+                  <CardTitle className="font-heading text-lg">
+                    {company.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {company.body}
+                  </p>
+                </CardContent>
+              </Card>
+            </MotionItem>
+          )
+        })}
       </Stagger>
 
       <Reveal className="mt-12" delay={0.06}>
-        <Card className="border-primary/20 bg-primary/5">
-          <CardContent className="p-6 sm:p-8">
-            <blockquote className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-              "{data.testimonial.quote}"
-            </blockquote>
-            <div className="mt-4">
-              <p className="font-heading text-sm font-semibold text-primary">
-                {data.testimonial.author}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {data.testimonial.company}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="rounded-3xl bg-forest p-6 text-forest-foreground sm:p-10">
+          <blockquote className="font-heading text-xl leading-relaxed sm:text-2xl">
+            "{data.testimonial.quote}"
+          </blockquote>
+          <p className="mt-5 text-sm font-medium text-cta">
+            {data.testimonial.author}
+          </p>
+        </div>
       </Reveal>
 
       <Reveal className="mt-8" delay={0.1}>

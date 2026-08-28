@@ -1,37 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router"
 
 import { Hero } from "@/components/landing/hero"
-import { About } from "@/components/landing/about"
+import { LogoStrip } from "@/components/landing/logo-strip"
 import { Why } from "@/components/landing/purpose"
-import { Infrastructure } from "@/components/landing/infrastructure"
 import { Campus } from "@/components/landing/campus"
+import { Products } from "@/components/landing/products"
 import { Opportunities } from "@/components/landing/opportunities"
-import { Stats } from "@/components/landing/stats"
 import { Location } from "@/components/landing/location"
-import { Partners } from "@/components/landing/partners"
-import { Gallery } from "@/components/landing/gallery"
-import { News } from "@/components/landing/news"
 import { FinalCta } from "@/components/landing/final-cta"
-import { Enquire } from "@/components/landing/enquire"
+import { getNouryaProducts } from "@/lib/nourya"
 
-export const Route = createFileRoute("/")({ component: HomePage })
+export const Route = createFileRoute("/")({
+  loader: () => getNouryaProducts(),
+  component: HomePage,
+})
 
 function HomePage() {
+  const products = Route.useLoaderData()
+
   return (
     <main>
       <Hero />
-      <About />
+      <LogoStrip />
       <Why />
-      <Infrastructure />
       <Campus />
+      <Products products={products} />
       <Opportunities />
-      <Stats />
       <Location />
-      <Partners />
-      <Gallery />
-      <News />
-      <FinalCta />
-      <Enquire />
+      <FinalCta bridgeFrom="bg-secondary/25" />
     </main>
   )
 }

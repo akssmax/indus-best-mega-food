@@ -19,18 +19,9 @@ export function News() {
           <MotionItem key={item.title}>
             <Card className="h-full">
               <CardHeader>
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="text-xs">
-                    {item.tag}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(item.date).toLocaleDateString("en-IN", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </span>
-                </div>
+                <Badge variant="secondary" className="text-xs">
+                  {item.tag}
+                </Badge>
                 <h3 className="font-heading text-lg font-semibold">
                   {item.title}
                 </h3>

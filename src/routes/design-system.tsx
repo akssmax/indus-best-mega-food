@@ -1,7 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 
 import { site } from "@/content/site"
+import { fontPairings } from "@/lib/fonts"
+import { useTheme } from "@/lib/theme"
 import { Eyebrow, Section } from "@/components/landing/section"
+import { ThemeSelector } from "@/components/theme/theme-selector"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -37,6 +40,30 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Separator } from "@/components/ui/separator"
+import { CampusHotspots } from "@/components/ui/campus-hotspots"
+import { ProcessingChips } from "@/components/ui/processing-chips"
+import { CollectionGauge } from "@/components/ui/collection-gauge"
+import { ProcessFlow } from "@/components/ui/process-flow"
+import { StatusSeal } from "@/components/ui/status-seal"
+import { UtilityMeters } from "@/components/ui/utility-meters"
+import { LiveIndicator } from "@/components/ui/live-indicator"
+import { LogoStrip } from "@/components/landing/logo-strip"
+import { DropFlourish, PatternBand, WaveEdge } from "@/components/ui/brand-pattern"
+import {
+  SiteFooter,
+  footerVariantMeta,
+  footerVariants,
+} from "@/components/layout/site-footer"
+import { OverlayNav } from "@/components/layout/headers/overlay-nav"
+import { IslandNav } from "@/components/layout/headers/island-nav"
+import { MastheadNav } from "@/components/layout/headers/masthead-nav"
+import { SnapCarousel, SnapSlide } from "@/components/ui/snap-carousel"
+import { SpecTable } from "@/components/ui/spec-table"
+import { PullQuote } from "@/components/ui/pull-quote"
+import { CaptionGallery } from "@/components/ui/caption-gallery"
+import { DesignSystemLayout } from "@/components/design-system/design-system-layout"
+import { landingSkins } from "@/lib/skins"
+import { cn } from "@/lib/utils"
 
 export const Route = createFileRoute("/design-system")({
   head: () => ({
@@ -69,7 +96,7 @@ const colors = [
     name: "CTA",
     token: "--cta",
     className: "bg-cta text-cta-foreground",
-    note: "Harvest amber. Primary conversion actions — not brand green.",
+    note: "Conversion colour. Harvest amber, logo green, or sky — follows the selected palette.",
   },
   {
     name: "Forest",
@@ -114,7 +141,7 @@ const typeRows = [
   { label: "H1", className: "font-heading text-4xl font-semibold", sample: "Food manufacturing" },
   { label: "H2", className: "font-heading text-3xl font-semibold", sample: "Inside the campus" },
   { label: "H3", className: "font-heading text-xl font-semibold", sample: "Plug-and-play sheds" },
-  { label: "Body", className: "font-sans text-base", sample: "Geist for UI, body, and headings." },
+  { label: "Body", className: "font-sans text-base", sample: "Headings and UI follow the selected pairing." },
   { label: "Small", className: "font-sans text-sm text-muted-foreground", sample: "Captions, tables, helper text." },
   {
     label: "Eyebrow",
@@ -123,15 +150,66 @@ const typeRows = [
   },
 ] as const
 
+const patternDemos = [
+  {
+    variant: "rain" as const,
+    name: "Rain",
+    note: "The logo drop, tiled and slightly turned — like weather over the belt.",
+    surface: "bg-forest text-forest-foreground",
+    pattern: "text-forest-foreground",
+  },
+  {
+    variant: "bloom" as const,
+    name: "Bloom",
+    note: "Six drops around a seed. Crop, cluster, collection.",
+    surface: "bg-primary text-primary-foreground",
+    pattern: "text-primary-foreground",
+  },
+  {
+    variant: "vein" as const,
+    name: "Vein",
+    note: "Drop with a leaf vein. The mark as a quiet damask.",
+    surface: "bg-background text-foreground ring-1 ring-border",
+    pattern: "text-primary",
+  },
+  {
+    variant: "flow" as const,
+    name: "Flow",
+    note: "Parallel currents. Process lines, water, and movement.",
+    surface: "bg-secondary text-secondary-foreground",
+    pattern: "text-aqua",
+  },
+  {
+    variant: "lattice" as const,
+    name: "Lattice",
+    note: "Drops interlocking up and down. A field, not a grid of squares.",
+    surface: "bg-cta text-cta-foreground",
+    pattern: "text-cta-foreground",
+  },
+  {
+    variant: "hatch" as const,
+    name: "Hatch",
+    note: "Diagonal construction lines. Industrial / atelier bands.",
+    surface: "bg-muted text-foreground ring-1 ring-border",
+    pattern: "text-foreground",
+  },
+] as const
+
 function DesignSystemPage() {
+  const { theme } = useTheme()
+  const activePairing =
+    fontPairings.find((pairing) => pairing.id === theme.font) ?? fontPairings[0]
+
   return (
     <main>
-      <Section>
+      <DesignSystemLayout>
+      <Section id="introduction">
         <Eyebrow>IBMFP</Eyebrow>
         <h1 className="mt-3 text-4xl sm:text-5xl">Design system</h1>
         <p className="mt-4 max-w-2xl text-muted-foreground">
-          Forest and aqua from the mark, harvest amber for conversion, Geist
-          sans for headings and UI. Tokens live in{" "}
+          Forest and aqua from the mark. Harvest amber is one conversion option
+          among five palettes — pick a theme below to restyle the whole site,
+          including the homepage. Tokens live in{" "}
           <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
             src/styles.css
           </code>
@@ -142,12 +220,26 @@ function DesignSystemPage() {
         </Button>
       </Section>
 
+      <Section className="bg-muted/50" id="theme">
+        <Eyebrow>Theme</Eyebrow>
+        <h2 className="mt-3 text-3xl">Show the client a direction.</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Five palettes built on color theory — Harvest (split-complementary
+          amber), Canal (analogous teal/sky), Copper (warm split-comp), Sage
+          (monochromatic green), and Umber (earth gold). Base colour and radius
+          sit on top so you can compare cream vs paper without changing the
+          brand colours.
+        </p>
+        <ThemeSelector className="mt-8" />
+      </Section>
+
       <Section className="bg-muted/50" id="color">
         <Eyebrow>Colour</Eyebrow>
         <h2 className="mt-3 text-3xl">Tokens</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          CTAs use complementary harvest amber so they contrast against forest
-          green instead of competing with it.
+          CTAs follow the selected palette. Harvest keeps the amber; Canal,
+          Copper, Sage, and Umber each shift the conversion colour using a
+          distinct color-theory scheme.
         </p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {colors.map((color) => (
@@ -171,10 +263,14 @@ function DesignSystemPage() {
 
       <Section id="type">
         <Eyebrow>Typography</Eyebrow>
-        <h2 className="mt-3 text-3xl">Geist sans</h2>
+        <h2 className="mt-3 text-3xl">{activePairing.label}</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          One family for wordmark, headlines, and interface. Headings are
-          semibold with tight tracking.
+          {activePairing.heading} for headings, {activePairing.body} for UI.
+          Change the pairing in{" "}
+          <a href="#theme" className="text-primary underline-offset-4 hover:underline">
+            Theme
+          </a>
+          . It is stored in this browser and applies site-wide.
         </p>
         <div className="mt-8 overflow-hidden rounded-xl ring-1 ring-foreground/10">
           <Table>
@@ -205,7 +301,8 @@ function DesignSystemPage() {
         <h2 className="mt-3 text-3xl">Buttons</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
           Use <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">cta</code>{" "}
-          for enquire and plot requests. Use{" "}
+          for enquire and plot requests — the fill follows the selected palette.
+          Use{" "}
           <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">default</code>{" "}
           for brand-green actions that are not the primary conversion.
         </p>
@@ -335,17 +432,384 @@ function DesignSystemPage() {
         </Accordion>
       </Section>
 
-      <Section className="bg-forest text-forest-foreground">
-        <Eyebrow className="text-cta">Surfaces</Eyebrow>
-        <h2 className="mt-3 text-3xl">Forest band</h2>
-        <p className="mt-4 max-w-xl text-forest-foreground/80">
-          Hero, vision, and footer sit on deep forest with cream type and amber
-          eyebrows. Use this for photography overlays, not long body copy.
+      <Section id="logo-strip" className="pb-0">
+        <Eyebrow>Social proof</Eyebrow>
+        <h2 className="mt-3 text-3xl">LogoStrip</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Full-width client marquee used between hero and Why. Client logos and
+          labels come from <code>landing.clients</code>. The track pauses on
+          hover for fine pointers and respects reduced motion.
         </p>
-        <Button variant="cta" className="mt-6">
-          Harvest CTA on forest
-        </Button>
       </Section>
+      <LogoStrip />
+
+      <Section id="bento">
+        <Eyebrow>Bento visuals</Eyebrow>
+        <h2 className="mt-3 text-3xl">Campus components</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Interactive pieces used in the Why grid. Forest, aqua, and harvest
+          amber only — no generic icon wells.
+        </p>
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          <Card id="campus-hotspots" className="scroll-mt-24 overflow-hidden p-0">
+            <div className="p-5">
+              <CardTitle>CampusHotspots</CardTitle>
+              <CardDescription className="mt-1">
+                Photo with live spec pins. Hover a pin to lift it.
+              </CardDescription>
+            </div>
+            <div className="px-5 pb-5">
+              <CampusHotspots
+                src="/images/warehouse.jpg"
+                alt="Warehouse sheds"
+                className="h-48"
+                pins={[
+                  { label: "16 sheds", x: "30%", y: "35%", tone: "cta" },
+                  { label: "Utilities", x: "70%", y: "68%", tone: "primary" },
+                ]}
+              />
+            </div>
+          </Card>
+          <Card id="processing-chips" className="scroll-mt-24">
+            <CardHeader>
+              <CardTitle>ProcessingChips</CardTitle>
+              <CardDescription>
+                Select a line to show throughput. Used on shared processing.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ProcessingChips
+                items={[
+                  { label: "Tomato", hint: "12 MTPH", tone: "cta", icon: "tomato" },
+                  { label: "Mango", hint: "6 MTPH", tone: "primary", icon: "mango" },
+                  { label: "IQF", hint: "2 MT/H", tone: "aqua", icon: "iqf" },
+                  { label: "Pack house", hint: "10 MT/H", tone: "primary", icon: "pack" },
+                ]}
+              />
+            </CardContent>
+          </Card>
+          <Card id="collection-gauge" className="scroll-mt-24">
+            <CardHeader>
+              <CardTitle>CollectionGauge</CardTitle>
+              <CardDescription>
+                Arc meter with animated fill, count-up value, live badge, and
+                staggered site chips. Respects reduced motion.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CollectionGauge
+                value="3"
+                unit="centres"
+                sites={["Durg", "Bilaspur", "Abhanpur"]}
+              />
+            </CardContent>
+          </Card>
+          <Card id="process-flow" className="scroll-mt-24">
+            <CardHeader>
+              <CardTitle>ProcessFlow</CardTitle>
+              <CardDescription>
+                Sequential steps with icon wells and staggered entrance. Icons loop gently; respects reduced motion.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ProcessFlow
+                steps={[
+                  { title: "Frozen", detail: "−20°C · 1,500 MT", tone: "aqua", icon: "frozen" },
+                  { title: "Chilled", detail: "0–10°C · 3,500 MT", tone: "primary", icon: "chilled" },
+                  { title: "IQF", detail: "2 MT/H", tone: "cta", icon: "iqf" },
+                ]}
+              />
+            </CardContent>
+          </Card>
+          <Card id="status-seal" className="scroll-mt-24">
+            <CardHeader>
+              <div className="flex items-center justify-between gap-3">
+                <CardTitle>LiveIndicator</CardTitle>
+                <LiveIndicator />
+              </div>
+              <CardDescription>
+                Pulse for shared capacity. Respects reduced motion.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <StatusSeal kicker="MOFPI" title="2014 · Operational" />
+              <p className="mt-3 text-sm text-muted-foreground">
+                StatusSeal is a full-width scheme credential strip with shield
+                mark and live operational badge.
+              </p>
+            </CardContent>
+          </Card>
+          <Card id="utility-meters" className="scroll-mt-24">
+            <CardHeader>
+              <CardTitle>UtilityMeters</CardTitle>
+              <CardDescription>
+                Utility capacity with icon wells, animated fill bars, and
+                staggered entrance. Respects reduced motion.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <UtilityMeters
+                items={[
+                  { label: "Process water", value: "2.7 MLD", fill: 86, tone: "aqua", icon: "water" },
+                  { label: "ETP & STP", value: "Centralised", fill: 72, tone: "primary", icon: "effluent" },
+                  { label: "Weighbridge", value: "100 MT", fill: 64, tone: "cta", icon: "weighbridge" },
+                ]}
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </Section>
+
+      <Section id="skins">
+        <Eyebrow>Landing skins</Eyebrow>
+        <h2 className="mt-3 text-3xl">Locked palettes for the experiments.</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          These do not follow the theme picker. Each landing wraps in{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
+            data-skin
+          </code>{" "}
+          and owns its header.
+        </p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          {landingSkins.map((skin) => (
+            <Card key={skin.id} size="sm">
+              <CardHeader>
+                <CardTitle>{skin.label}</CardTitle>
+                <CardDescription>{skin.note}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" className="h-11 touch-manipulation" asChild>
+                  <Link to={skin.href}>Open {skin.label}</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="headers">
+        <Eyebrow>Headers</Eyebrow>
+        <h2 className="mt-3 text-3xl">Three navs, all touch-first.</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Overlay (Atelier), island (Night), masthead (Broadsheet). Open the
+          landing pages to see them over real content — the frames below are
+          structural demos on the live theme.
+        </p>
+        <div className="mt-10 space-y-10 overflow-hidden rounded-xl ring-1 ring-border">
+          <div>
+            <p className="px-4 pt-4 text-xs font-medium tracking-[0.18em] text-primary uppercase">
+              Overlay
+            </p>
+            <OverlayNav />
+          </div>
+          <div className="bg-forest pb-6">
+            <p className="px-4 pt-4 text-xs font-medium tracking-[0.18em] text-cta uppercase">
+              Island
+            </p>
+            <IslandNav />
+          </div>
+          <div>
+            <p className="px-4 pt-4 text-xs font-medium tracking-[0.18em] text-primary uppercase">
+              Masthead
+            </p>
+            <MastheadNav />
+          </div>
+        </div>
+        <Separator className="my-10" />
+        <h3 className="text-xl">Spec table, snap strip, pull quote</h3>
+        <div className="mt-6 grid gap-8 lg:grid-cols-2">
+          <SpecTable
+            rows={[
+              { label: "Acres", value: "50+" },
+              { label: "MSME sheds", value: "16" },
+              { label: "Cold", value: "5,000 MT" },
+            ]}
+          />
+          <PullQuote cite="Indus Best Mega Food Park">
+            You install the equipment. The campus already has the land.
+          </PullQuote>
+        </div>
+        <SnapCarousel className="mt-8">
+          {["Plots", "Sheds", "Cold chain"].map((label) => (
+            <SnapSlide key={label}>
+              <Card size="sm">
+                <CardHeader>
+                  <CardTitle>{label}</CardTitle>
+                  <CardDescription>Snap on mobile, grid on desktop.</CardDescription>
+                </CardHeader>
+              </Card>
+            </SnapSlide>
+          ))}
+        </SnapCarousel>
+        <div className="mt-8">
+          <CaptionGallery
+            items={[
+              {
+                src: "/images/warehouse.jpg",
+                alt: "Warehouse",
+                caption: "Warehouse",
+              },
+              {
+                src: "/images/aseptic-line.jpg",
+                alt: "Aseptic line",
+                caption: "Aseptic line",
+              },
+              {
+                src: "/images/admin-lab.jpg",
+                alt: "Labs",
+                caption: "Labs",
+              },
+            ]}
+          />
+        </div>
+      </Section>
+
+      <Section id="footers">
+        <Eyebrow>Layout</Eyebrow>
+        <h2 className="mt-3 text-3xl">Footers</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Three modern layouts on the same content. The live site uses{" "}
+          <strong className="font-medium text-foreground">Directory</strong> in
+          the <strong className="font-medium text-foreground">light</strong>{" "}
+          tone. Swap{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
+            variant
+          </code>{" "}
+          and{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">tone</code>{" "}
+          on{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
+            SiteFooter
+          </code>{" "}
+          when you pick one.
+        </p>
+      </Section>
+
+      <div className="space-y-12 pb-16">
+        {footerVariants.map((variant) => {
+          const meta = footerVariantMeta[variant]
+          return (
+            <div key={variant}>
+              <div className="mx-auto max-w-6xl px-4 pb-4 sm:px-6 lg:px-8">
+                <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+                  {meta.name}
+                </p>
+                <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+                  {meta.note}{" "}
+                  <code className="rounded-md bg-muted px-1.5 py-0.5 text-xs">
+                    variant=&quot;{variant}&quot;
+                  </code>
+                </p>
+              </div>
+              <div className="overflow-hidden ring-1 ring-foreground/10">
+                <SiteFooter variant={variant} tone="dark" />
+              </div>
+              {variant === "directory" ? (
+                <div className="mt-6 overflow-hidden ring-1 ring-foreground/10">
+                  <SiteFooter variant={variant} tone="light" />
+                </div>
+              ) : null}
+            </div>
+          )
+        })}
+      </div>
+
+      <Section id="patterns">
+        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <Eyebrow>Patterns</Eyebrow>
+            <h2 className="mt-3 text-3xl">The drop, not a blank field.</h2>
+          </div>
+          <DropFlourish className="text-aqua" />
+        </div>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Tile these on section bands instead of a flat fill.{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
+            BrandPattern
+          </code>{" "}
+          and{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
+            PatternBand
+          </code>{" "}
+          live in{" "}
+          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
+            src/components/ui/brand-pattern.tsx
+          </code>
+          . Colour follows the active theme.
+        </p>
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {patternDemos.map((demo) => (
+            <PatternBand
+              key={demo.variant}
+              variant={demo.variant}
+              className={cn("min-h-64 rounded-2xl p-6 sm:p-8", demo.surface)}
+              patternClassName={cn("opacity-20", demo.pattern)}
+            >
+              <p className="text-xs font-medium tracking-[0.18em] uppercase opacity-70">
+                {demo.name}
+              </p>
+              <h3 className="mt-2 font-heading text-2xl">{demo.name}</h3>
+              <p className="mt-2 max-w-sm text-sm opacity-80">{demo.note}</p>
+              <p className="mt-6 font-mono text-xs opacity-60">
+                variant=&quot;{demo.variant}&quot;
+              </p>
+            </PatternBand>
+          ))}
+          <div className="overflow-hidden rounded-2xl ring-1 ring-border md:col-span-2">
+            <div className="bg-muted/40 px-6 py-5 sm:px-8">
+              <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+                Wave
+              </p>
+              <h3 className="mt-2 font-heading text-2xl">Organic join</h3>
+              <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+                A hill-line instead of a hard rule. Sit it on the cream, fill it
+                with forest — the next band begins without a knife edge.
+              </p>
+              <p className="mt-4 font-mono text-xs text-muted-foreground">
+                {"<WaveEdge />"}
+              </p>
+            </div>
+            <WaveEdge className="text-forest" />
+            <PatternBand
+              variant="rain"
+              className="bg-forest px-6 py-10 text-forest-foreground sm:px-8"
+              patternClassName="text-forest-foreground opacity-[0.12]"
+            >
+              <p className="text-sm text-forest-foreground/80">
+                PatternBand + WaveEdge. Use on About, purpose, or the final CTA.
+              </p>
+            </PatternBand>
+          </div>
+        </div>
+      </Section>
+
+      <section id="surfaces" className="relative scroll-mt-24">
+        <WaveEdge className="-mb-px text-forest" />
+        <PatternBand
+          variant="rain"
+          className="bg-forest px-4 py-20 text-forest-foreground sm:px-6 lg:px-8 lg:py-28"
+          patternClassName="text-forest-foreground opacity-[0.12]"
+        >
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="flex items-center gap-3">
+              <DropFlourish className="text-cta" />
+              <Eyebrow className="text-cta">Surfaces</Eyebrow>
+            </div>
+            <h2 className="mt-3 max-w-xl text-3xl sm:text-4xl">
+              A forest band with weather on it.
+            </h2>
+            <p className="mt-4 max-w-xl text-forest-foreground/80">
+              Hero, vision, and footer can sit on this instead of a plain green
+              slab. The wave is the join. The drop is from the mark — not a
+              generic texture.
+            </p>
+            <Button variant="cta" className="mt-6">
+              Talk to the project team
+            </Button>
+          </div>
+        </PatternBand>
+      </section>
+      </DesignSystemLayout>
     </main>
   )
 }

@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router"
+
 import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -47,7 +49,7 @@ export function About() {
           </div>
           <div className="mt-8">
             <Button variant="cta" className="h-11 px-5 text-base" asChild>
-              <a href={about.cta.href}>{about.cta.label}</a>
+              <Link to={about.cta.href}>{about.cta.label}</Link>
             </Button>
           </div>
         </Reveal>
