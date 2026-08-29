@@ -14,7 +14,7 @@ import { FontLoader } from "@/components/layout/font-loader"
 import { LandingSwitcher } from "@/components/layout/landing-switcher"
 import { AppError, AppNotFound } from "@/components/layout/app-error"
 import { Toaster } from "@/components/ui/sonner"
-import { isLandingExperiment } from "@/lib/skins"
+import { hideSiteChrome } from "@/lib/skins"
 import { isDashboardRoute } from "@/app/lib/routes"
 import { themeBootScript } from "@/lib/theme"
 import appCss from "../styles.css?url"
@@ -80,15 +80,15 @@ function PageChrome({ children }: { children: ReactNode }) {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   })
-  const experiment = isLandingExperiment(pathname)
+  const chromeless = hideSiteChrome(pathname)
   const dashboard = isDashboardRoute(pathname)
 
   return (
     <>
-      {experiment || dashboard ? null : <SiteHeader />}
+      {chromeless || dashboard ? null : <SiteHeader />}
       {children}
-      {experiment || dashboard ? null : <SiteFooter tone="light" />}
-      {dashboard ? null : <LandingSwitcher />}
+      {chromeless || dashboard ? null : <SiteFooter tone="light" />}
+      {dashboard || chromeless ? null : <LandingSwitcher />}
     </>
   )
 }

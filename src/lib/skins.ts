@@ -31,6 +31,14 @@ export function isLandingExperiment(pathname: string) {
   return landingSkins.some((skin) => skin.href === pathname)
 }
 
+export function isHeroTunerRoute(pathname: string) {
+  return pathname === "/hero-1"
+}
+
+export function hideSiteChrome(pathname: string) {
+  return isLandingExperiment(pathname) || isHeroTunerRoute(pathname)
+}
+
 export function showLandingSwitcher(pathname: string) {
   return pathname === "/" || isLandingExperiment(pathname)
 }

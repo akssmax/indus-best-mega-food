@@ -6,54 +6,18 @@ import { cn } from "@/lib/utils"
 
 const PEAK_MTPH = peakAsepticMtph
 
-function ThroughputBar({ mtph, peak }: { mtph: number; peak: number }) {
-  const fill = peak > 0 ? Math.round((mtph / peak) * 100) : 0
-
-  return (
-    <div className="mt-2.5">
-      <div className="mb-1 flex items-baseline justify-between gap-2">
-        <span className="text-[0.5625rem] font-medium tracking-[0.14em] text-muted-foreground uppercase">
-          Line throughput
-        </span>
-        <span className="text-[0.5625rem] tabular-nums text-muted-foreground">
-          {fill}% of peak
-        </span>
-      </div>
-      <div
-        className="relative h-1.5 overflow-hidden rounded-full bg-muted/80"
-        role="img"
-        aria-label={`${mtph} MTPH, ${fill} percent of peak line capacity`}
-      >
-        <div
-          className={cn(
-            "h-full rounded-full bg-gradient-to-r from-primary to-cta transition-[width] duration-500",
-            fill >= 90 && "from-cta to-cta"
-          )}
-          style={{ width: `${fill}%` }}
-        />
-      </div>
-      <div className="mt-1 flex justify-between text-[0.5625rem] tabular-nums text-muted-foreground/80">
-        <span>0</span>
-        <span>{peak} MTPH peak</span>
-      </div>
-    </div>
-  )
-}
-
 function ProcessingLineCard({
   line,
-  peakMtph,
 }: {
   line: (typeof processingLines)[number]
-  peakMtph: number
 }) {
   const mtph = parseMtph(line.capacity)
-  const isPeak = mtph >= peakMtph
+  const isPeak = mtph >= PEAK_MTPH
 
   return (
-    <article className="flex h-full flex-col rounded-xl bg-card p-3.5 ring-1 ring-foreground/8 sm:p-4">
-      <div className="flex items-start gap-2.5">
-        <div className="relative size-9 shrink-0 overflow-hidden rounded-lg bg-muted ring-1 ring-foreground/10 sm:size-10">
+    <article className="flex h-full flex-col rounded-2xl bg-card p-4 ring-1 ring-foreground/8 sm:p-5">
+      <div className="flex items-start gap-3">
+        <div className="relative size-11 shrink-0 overflow-hidden rounded-xl bg-muted ring-1 ring-foreground/10 sm:size-12">
           <img
             src={line.image.src}
             alt=""
@@ -64,37 +28,35 @@ function ProcessingLineCard({
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <p className="font-heading text-[0.6875rem] font-medium tracking-[0.14em] text-muted-foreground uppercase">
+            <p className="font-heading text-sm font-medium tracking-[0.12em] text-muted-foreground uppercase">
               {line.crop}
             </p>
             {isPeak ? (
-              <span className="shrink-0 rounded-full bg-cta/12 px-1.5 py-0.5 text-[0.5625rem] font-medium tracking-[0.1em] text-cta uppercase ring-1 ring-cta/25">
+              <span className="shrink-0 rounded-full bg-cta/12 px-2 py-0.5 text-[0.6875rem] font-medium tracking-[0.08em] text-cta uppercase ring-1 ring-cta/25">
                 Peak
               </span>
             ) : null}
           </div>
-          <p className="mt-0.5 text-xs leading-snug text-foreground/80">{line.output}</p>
+          <p className="mt-1 text-sm leading-snug text-foreground/85">{line.output}</p>
         </div>
       </div>
 
-      <div className="mt-3 flex items-baseline gap-1.5">
+      <div className="mt-4 flex items-baseline gap-2">
         <span
           className={cn(
-            "font-heading text-3xl font-semibold tabular-nums leading-none tracking-tight",
+            "font-heading text-4xl font-semibold tabular-nums leading-none tracking-tight",
             isPeak ? "text-cta" : "text-primary"
           )}
         >
           {mtph}
         </span>
-        <span className="text-[0.625rem] font-medium tracking-[0.14em] text-muted-foreground uppercase">
+        <span className="text-xs font-medium tracking-[0.14em] text-muted-foreground uppercase">
           MTPH
         </span>
       </div>
 
-      <ThroughputBar mtph={mtph} peak={peakMtph} />
-
-      <p className="mt-3 border-t border-border/50 pt-2.5 text-[0.6875rem] leading-snug text-muted-foreground">
-        <span className="font-medium text-foreground/75">Brix / spec · </span>
+      <p className="mt-auto pt-4 text-sm leading-relaxed text-muted-foreground">
+        <span className="font-medium text-foreground/80">Brix / spec · </span>
         {line.spec}
       </p>
     </article>
@@ -127,13 +89,13 @@ export function ProcessingCapacityTable({
 
       <Stagger
         className={cn(
-          "grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4",
+          "grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5",
           showHeader ? "mt-8" : "mt-0"
         )}
       >
         {processingLines.map((line) => (
           <MotionItem key={line.crop}>
-            <ProcessingLineCard line={line} peakMtph={PEAK_MTPH} />
+            <ProcessingLineCard line={line} />
           </MotionItem>
         ))}
       </Stagger>

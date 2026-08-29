@@ -71,6 +71,7 @@ import { SpecTable } from "@/components/ui/spec-table"
 import { PullQuote } from "@/components/ui/pull-quote"
 import { CaptionGallery } from "@/components/ui/caption-gallery"
 import { DesignSystemLayout } from "@/components/design-system/design-system-layout"
+import { HeroBgTuner } from "@/components/design-system/hero-bg-tuner"
 import { landingSkins } from "@/lib/skins"
 import { cn } from "@/lib/utils"
 
@@ -683,6 +684,23 @@ function DesignSystemPage() {
               },
             ]}
           />
+        </div>
+      </Section>
+
+      <Section id="hero-bg" className="scroll-mt-24">
+        <Eyebrow>Debug · temporary</Eyebrow>
+        <h2 className="mt-3 text-3xl">Hero background tuner</h2>
+        <p className="mt-3 max-w-2xl text-muted-foreground">
+          Live WGSL controls for the WebGPU ocean drop effect. For the full
+          homepage hero with a left-side panel, open{" "}
+          <a href="/hero-1" className="font-medium text-foreground underline underline-offset-2">
+            /hero-1
+          </a>
+          . The preview below uses a simplified mock; copy JSON when you have
+          values you want to keep.
+        </p>
+        <div className="mt-10 overflow-hidden rounded-xl ring-1 ring-border">
+          <HeroBgTuner />
         </div>
       </Section>
 

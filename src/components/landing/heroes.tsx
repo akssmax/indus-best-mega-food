@@ -354,9 +354,9 @@ function HeroShell({
         <OceanBackground tone="forest" />
         <div
           aria-hidden
-          className="pointer-events-none absolute bottom-0 left-[-6%] size-72 rounded-full bg-cta/15 blur-3xl"
+          className="pointer-events-none absolute bottom-0 left-[-6%] z-0 size-72 rounded-full bg-cta/15 blur-3xl"
         />
-        {children}
+        <div className="relative z-10">{children}</div>
       </section>
       <WaveEdge
         position="bottom"
@@ -414,6 +414,31 @@ function HeroCtaRow({ className }: { className?: string }) {
         {hero.secondaryCta.label}
         <ArrowRightIcon className="size-4" />
       </a>
+    </div>
+  )
+}
+
+function HeroCopySlide({
+  copy,
+  className,
+}: {
+  copy: ReturnType<typeof getSlideCopy>
+  className?: string
+}) {
+  return (
+    <div
+      className={cn(
+        "relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-6 text-center sm:gap-7 lg:gap-8",
+        className
+      )}
+    >
+      <h1 className="max-w-3xl text-4xl leading-[1.08] font-semibold sm:text-5xl lg:text-[3.35rem]">
+        {copy.headline}
+      </h1>
+      <p className="max-w-2xl text-base leading-relaxed text-forest-foreground/85 sm:text-lg">
+        {copy.body}
+      </p>
+      <HeroCtaRow className="justify-center" />
     </div>
   )
 }
@@ -479,6 +504,8 @@ function HeroCopyAnimated({
   )
 }
 
+const heroSlideTransition = { duration: 0.52, ease: motionEase }
+
 function campusCardPosition(side: HeroSlideCard["side"]) {
   return cn(
     "absolute z-10 w-[min(100%,16rem)]",
@@ -489,24 +516,20 @@ function campusCardPosition(side: HeroSlideCard["side"]) {
 }
 
 function CampusHeroVisual({
+  slide,
   activeIndex,
   setPaused,
-  reduce,
 }: {
+  slide: HeroSlide
   activeIndex: number
   setPaused: (paused: boolean) => void
-  reduce: boolean | null
 }) {
   const { slides } = landing.hero
-  const slide = slides[activeIndex] ?? slides[0]
   const imageFetchPriority = activeIndex === 0 ? "high" : "auto"
 
   return (
-    <motion.div
-      className="relative mx-auto w-full max-w-none lg:mx-0"
-      initial={reduce ? undefined : { opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.12, ease: motionEase }}
+    <div
+      className="group relative mt-10 w-full lg:mt-12"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -516,36 +539,17 @@ function CampusHeroVisual({
         }
       }}
     >
-      <div className="group relative overflow-hidden rounded-3xl shadow-[0_24px_56px_rgba(15,43,29,0.28)] ring-1 ring-forest-foreground/15">
-        <div className="relative aspect-[5/4] sm:aspect-[16/11] lg:aspect-[4/3]">
-          {reduce ? (
-            <img
-              src={slide.image.src}
-              alt={slide.image.alt}
-              className="absolute inset-0 size-full object-cover object-center"
-              fetchPriority={imageFetchPriority}
-              loading="eager"
-              decoding="async"
-            />
-          ) : (
-            <AnimatePresence mode="sync">
-              <motion.img
-                key={slide.image.src}
-                src={slide.image.src}
-                alt={slide.image.alt}
-                className="absolute inset-0 size-full object-cover object-center"
-                fetchPriority={imageFetchPriority}
-                loading="eager"
-                decoding="async"
-                initial={{ opacity: 0, scale: 1.06 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.02 }}
-                transition={{ duration: 0.85, ease: motionEase }}
-              />
-            </AnimatePresence>
-          )}
-          <div className="absolute inset-0 bg-linear-to-t from-forest/55 via-forest/10 to-forest/5" />
-          <div className="absolute inset-0 bg-linear-to-r from-forest/25 via-transparent to-forest/15 opacity-80" />
+      <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_56px_rgba(15,43,29,0.28)] ring-1 ring-forest-foreground/15">
+        <div className="relative aspect-[16/10] sm:aspect-[2/1] lg:aspect-[21/9]">
+          <img
+            src={slide.image.src}
+            alt={slide.image.alt}
+            className="absolute inset-0 size-full object-cover object-center"
+            fetchPriority={imageFetchPriority}
+            loading="eager"
+            decoding="async"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-forest/55 via-forest/10 to-transparent" />
 
           {slide.cards.map((card) => (
             <div
@@ -560,45 +564,62 @@ function CampusHeroVisual({
               <FloatStatCard card={card} />
             </div>
           ))}
-        </div>
 
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 px-4 py-3 sm:px-5 sm:py-4">
-          {slides.map((item, index) => (
-            <span
-              key={item.image.src}
-              aria-hidden
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                index === activeIndex
-                  ? "w-5 bg-cta"
-                  : "w-1.5 bg-forest-foreground/35"
-              )}
-            />
-          ))}
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 px-4 py-3 sm:px-5 sm:py-4">
+            {slides.map((item, index) => (
+              <span
+                key={item.image.src}
+                aria-hidden
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300",
+                  index === activeIndex
+                    ? "w-5 bg-cta"
+                    : "w-1.5 bg-forest-foreground/35"
+                )}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
 export function CampusHero({ markHero = true }: { markHero?: boolean }) {
   const { slides } = landing.hero
   const { activeIndex, setPaused, reduce } = useHeroCarousel(slides.length)
+  const slide = slides[activeIndex] ?? slides[0]
+  const copy = getSlideCopy(slide)
+
+  const slideBody = (
+    <>
+      <HeroCopySlide copy={copy} />
+      <CampusHeroVisual
+        slide={slide}
+        activeIndex={activeIndex}
+        setPaused={setPaused}
+      />
+    </>
+  )
 
   return (
     <HeroShell markHero={markHero}>
-      <div
-        className={cn(
-          heroGridClass,
-          "lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:gap-8 xl:gap-10"
+      <div className={cn(contentContainerClass, "relative pb-12 lg:pb-16")}>
+        {reduce ? (
+          slideBody
+        ) : (
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={heroSlideTransition}
+            >
+              {slideBody}
+            </motion.div>
+          </AnimatePresence>
         )}
-      >
-        <HeroCopyAnimated activeIndex={activeIndex} />
-        <CampusHeroVisual
-          activeIndex={activeIndex}
-          setPaused={setPaused}
-          reduce={reduce}
-        />
       </div>
     </HeroShell>
   )

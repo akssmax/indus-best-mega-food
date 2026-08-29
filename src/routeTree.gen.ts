@@ -16,6 +16,7 @@ import { Route as CampusRouteImport } from './routes/campus'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as FacilitiesRouteImport } from './routes/facilities'
+import { Route as Hero1RouteImport } from './routes/hero-1'
 import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as Landing2RouteImport } from './routes/landing-2'
 import { Route as Landing3RouteImport } from './routes/landing-3'
@@ -61,6 +62,11 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
 const FacilitiesRoute = FacilitiesRouteImport.update({
   id: '/facilities',
   path: '/facilities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Hero1Route = Hero1RouteImport.update({
+  id: '/hero-1',
+  path: '/hero-1',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InvestorsRoute = InvestorsRouteImport.update({
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/facilities': typeof FacilitiesRoute
+  '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
   '/landing-2': typeof Landing2Route
   '/landing-3': typeof Landing3Route
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/facilities': typeof FacilitiesRoute
+  '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
   '/landing-2': typeof Landing2Route
   '/landing-3': typeof Landing3Route
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/facilities': typeof FacilitiesRoute
+  '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
   '/landing-2': typeof Landing2Route
   '/landing-3': typeof Landing3Route
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/design-system'
     | '/facilities'
+    | '/hero-1'
     | '/investors'
     | '/landing-2'
     | '/landing-3'
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/design-system'
     | '/facilities'
+    | '/hero-1'
     | '/investors'
     | '/landing-2'
     | '/landing-3'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/design-system'
     | '/facilities'
+    | '/hero-1'
     | '/investors'
     | '/landing-2'
     | '/landing-3'
@@ -245,6 +257,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DesignSystemRoute: typeof DesignSystemRoute
   FacilitiesRoute: typeof FacilitiesRoute
+  Hero1Route: typeof Hero1Route
   InvestorsRoute: typeof InvestorsRoute
   Landing2Route: typeof Landing2Route
   Landing3Route: typeof Landing3Route
@@ -303,6 +316,13 @@ declare module '@tanstack/react-router' {
       path: '/facilities'
       fullPath: '/facilities'
       preLoaderRoute: typeof FacilitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hero-1': {
+      id: '/hero-1'
+      path: '/hero-1'
+      fullPath: '/hero-1'
+      preLoaderRoute: typeof Hero1RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/investors': {
@@ -422,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DesignSystemRoute: DesignSystemRoute,
   FacilitiesRoute: FacilitiesRoute,
+  Hero1Route: Hero1Route,
   InvestorsRoute: InvestorsRoute,
   Landing2Route: Landing2Route,
   Landing3Route: Landing3Route,

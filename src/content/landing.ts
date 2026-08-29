@@ -17,11 +17,8 @@ export const landing = {
       src: "/images/warehouse.jpg",
       alt: "Warehouse and campus at Indus Best Mega Food Park, Raipur",
     },
-    primaryCta: { label: "Explore the Campus", href: "/campus" },
-    secondaryCta: {
-      label: "Enquire Now",
-      href: "/contact",
-    },
+    primaryCta: { label: "Enquire Now", href: "/contact" },
+    secondaryCta: { label: "Explore the Campus", href: "/campus" },
     stats: [
       { value: "50+", label: "Acres" },
       { value: "16", label: "MSME sheds" },

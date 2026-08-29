@@ -42,12 +42,23 @@ export const aboutPage = {
         role: "Chairman & Managing Director",
         name: "Maj. Satyapal Sindhu",
         bio: "Chairman of the board with vast, cross-sector experience guiding the park's long-term direction and stakeholder relationships.",
+        image: {
+          src: "/images/team/satyapal-sindhu.png",
+          alt: "Maj. Satyapal Sindhu",
+        },
+        linkedin: "https://www.linkedin.com/in/satyapal-sindhu-39aa719/",
       },
       {
         role: "Chief Executive Officer",
         name: "Dr S K Mishra",
         credentials: "PhD",
         bio: "Techno-commercial leader with extensive experience across agro-based industry verticals — from collection and processing to campus operations.",
+        image: {
+          src: "/images/team/sk-mishra.jpg",
+          alt: "Dr S K Mishra",
+        },
+        linkedin:
+          "https://www.linkedin.com/in/dr-sk-mishra-a-kaizeneer-ceo-at-indus-best-mega-food-park-raipur-cg-47317844/",
       },
     ],
   },

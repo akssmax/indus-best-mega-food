@@ -445,27 +445,24 @@ function StageImageOverlays({
 }) {
   return (
     <>
-      <div className="absolute inset-0 bg-black/25" aria-hidden />
       <div
-        className="absolute inset-x-0 top-0 h-[28%] bg-gradient-to-b from-black/60 via-black/25 to-transparent"
+        className="absolute inset-x-0 top-0 h-[24%] bg-gradient-to-b from-black/35 via-black/10 to-transparent"
         aria-hidden
       />
-      <div
-        className={cn(
-          "absolute inset-x-0 bottom-0 bg-gradient-to-t to-transparent",
-          compact
-            ? "h-[92%] from-black/90 via-black/55"
-            : "h-[76%] from-black/95 via-black/78"
-        )}
-        aria-hidden
-      />
-      <div
-        className={cn(
-          "absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t to-transparent opacity-90",
-          stage.tint
-        )}
-        aria-hidden
-      />
+      {compact ? (
+        <div
+          className="absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-black/55 via-black/20 to-transparent"
+          aria-hidden
+        />
+      ) : (
+        <div
+          className={cn(
+            "absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t to-transparent opacity-55",
+            stage.tint
+          )}
+          aria-hidden
+        />
+      )}
     </>
   )
 }
@@ -478,7 +475,7 @@ function StageDetailCard({
   animated?: boolean
 }) {
   return (
-    <div className="flex h-full flex-col rounded-xl bg-black/20 p-4 backdrop-blur-[2px] sm:bg-black/15">
+    <div className="flex h-full flex-col rounded-xl border border-white/12 bg-black/35 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.22)] backdrop-blur-md supports-backdrop-filter:bg-black/25 sm:backdrop-blur-lg">
       <h3 className="font-heading text-xl font-semibold leading-snug text-white line-clamp-2">
         {stage.title}
       </h3>
@@ -567,7 +564,7 @@ function StagePanel({
           alt=""
           className={cn(
             "size-full object-cover",
-            !isActive && "brightness-[0.82] saturate-[0.88]"
+            !isActive && "brightness-[0.92] saturate-[0.95]"
           )}
           style={{ objectPosition: stage.image.position }}
           loading="lazy"
@@ -725,7 +722,7 @@ function StageThumb({
         loading="lazy"
         decoding="async"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
       <span className="absolute inset-x-0 bottom-1 text-center text-[0.5625rem] font-medium tracking-[0.12em] text-white uppercase">
         {stage.step}
       </span>

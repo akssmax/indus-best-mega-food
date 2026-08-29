@@ -49,6 +49,7 @@ export const designSystemNav = [
       { id: "skins", label: "Landing skins" },
       { id: "headers", label: "Headers" },
       { id: "heroes", label: "Heroes" },
+      { id: "hero-bg", label: "Hero BG tuner" },
       { id: "footers", label: "Footers" },
     ],
   },

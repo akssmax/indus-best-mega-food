@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import type { HTMLAttributes, ReactNode } from "react"
 
 import { contentContainerClass, contentGutterClass } from "@/lib/layout"
 import { cn } from "@/lib/utils"
@@ -10,12 +10,13 @@ export function Section({
   className,
   innerClassName,
   children,
+  ...rest
 }: {
   id?: string
   className?: string
   innerClassName?: string
   children: ReactNode
-}) {
+} & HTMLAttributes<HTMLElement>) {
   return (
     <section
       id={id}
@@ -24,6 +25,7 @@ export function Section({
         contentGutterClass,
         className
       )}
+      {...rest}
     >
       <div className={cn(contentContainerClass, innerClassName)}>
         {children}

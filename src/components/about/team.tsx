@@ -1,8 +1,7 @@
 import { aboutPage } from "@/content/about"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
-import { cn } from "@/lib/utils"
 
 function memberInitials(name: string) {
   return name
@@ -13,6 +12,53 @@ function memberInitials(name: string) {
     .map((part) => part[0])
     .join("")
     .toUpperCase()
+}
+
+function MemberPhoto({
+  member,
+}: {
+  member: (typeof aboutPage.team.members)[number]
+}) {
+  const photo = member.image ? (
+    <img
+      src={member.image.src}
+      alt={member.image.alt}
+      className="absolute inset-0 size-full object-cover object-[center_18%] transition-transform duration-500 hover-fine:group-hover/card:scale-[1.03]"
+    />
+  ) : (
+    <span
+      aria-hidden
+      className="flex size-full items-center justify-center bg-primary/10 font-heading text-4xl font-semibold text-primary"
+    >
+      {memberInitials(member.name)}
+    </span>
+  )
+
+  const frame = (
+    <div className="relative aspect-[4/5] w-full overflow-hidden bg-secondary/40 sm:aspect-[5/6]">
+      {photo}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-linear-to-t from-black/25 via-transparent to-transparent"
+      />
+    </div>
+  )
+
+  if (member.linkedin) {
+    return (
+      <a
+        href={member.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block transition-opacity hover:opacity-95"
+        aria-label={`${member.name} on LinkedIn`}
+      >
+        {frame}
+      </a>
+    )
+  }
+
+  return frame
 }
 
 export function AboutTeam() {
@@ -26,39 +72,27 @@ export function AboutTeam() {
         <p className="mt-4 leading-relaxed text-muted-foreground">{team.body}</p>
       </Reveal>
 
-      <Stagger className="mt-10 grid gap-5 sm:grid-cols-2">
+      <Stagger className="mt-10 grid gap-6 sm:grid-cols-2">
         {team.members.map((member) => (
           <MotionItem key={member.name}>
-            <Card className="h-full overflow-hidden">
-              <CardHeader className="flex-row items-start gap-4 space-y-0">
-                <span
-                  aria-hidden
-                  className={cn(
-                    "flex size-14 shrink-0 items-center justify-center rounded-2xl",
-                    "bg-primary/10 font-heading text-lg font-semibold text-primary"
-                  )}
-                >
-                  {memberInitials(member.name)}
-                </span>
-                <div className="min-w-0 space-y-1">
-                  <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
-                    {member.role}
-                  </p>
-                  <CardTitle className="font-heading text-xl leading-snug sm:text-2xl">
-                    {member.name}
-                    {"credentials" in member && member.credentials ? (
-                      <span className="ml-1.5 text-base font-medium text-muted-foreground">
-                        , {member.credentials}
-                      </span>
-                    ) : null}
-                  </CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-relaxed text-muted-foreground">
+            <Card className="group/card h-full gap-0 overflow-hidden p-0">
+              <MemberPhoto member={member} />
+              <div className="p-5 sm:p-6">
+                <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+                  {member.role}
+                </p>
+                <h3 className="mt-2 font-heading text-xl leading-snug font-semibold sm:text-2xl">
+                  {member.name}
+                  {"credentials" in member && member.credentials ? (
+                    <span className="ml-1.5 text-base font-medium text-muted-foreground">
+                      , {member.credentials}
+                    </span>
+                  ) : null}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {member.bio}
                 </p>
-              </CardContent>
+              </div>
             </Card>
           </MotionItem>
         ))}

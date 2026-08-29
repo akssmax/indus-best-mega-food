@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
 import { site } from "@/content/site"
-import { PageHero } from "@/components/layout/page-hero"
 import { Enquire } from "@/components/landing/enquire"
 
 const page = site.innerPages.contact
@@ -19,8 +18,14 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   return (
     <main>
-      <PageHero eyebrow={page.eyebrow} title={page.title} body={page.body} />
-      <Enquire />
+      <Enquire
+        variant="hero"
+        intro={{
+          eyebrow: page.eyebrow,
+          title: page.title,
+          body: page.body,
+        }}
+      />
     </main>
   )
 }

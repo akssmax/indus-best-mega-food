@@ -328,6 +328,38 @@ export function PatternCorner({
   )
 }
 
+export const waveEdgePath =
+  "M0 32C120 10 200 58 320 42c108-15 152-44 284-30 126 13 166 50 298 34 120-13 174-52 316-32 84 11 138 36 222 20V72H0V32Z"
+
+/** Mask that clips the bottom of hero photos to the WaveEdge silhouette. */
+export function heroWaveImageMaskStyle() {
+  const maskHeight = 500
+  const waveBand = 72
+  const waveOffset = maskHeight - waveBand
+  const mask = `url("data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 ${maskHeight}" preserveAspectRatio="none">
+      <defs>
+        <mask id="m">
+          <rect width="1440" height="${maskHeight}" fill="white"/>
+          <g transform="translate(0,${waveOffset})">
+            <path d="${waveEdgePath}" fill="black"/>
+          </g>
+        </mask>
+      </defs>
+      <rect width="1440" height="${maskHeight}" fill="white" mask="url(#m)"/>
+    </svg>`
+  )}")`
+
+  return {
+    WebkitMaskImage: mask,
+    maskImage: mask,
+    WebkitMaskSize: "100% 100%",
+    maskSize: "100% 100%",
+    WebkitMaskRepeat: "no-repeat",
+    maskRepeat: "no-repeat",
+  } as const
+}
+
 export function WaveEdge({
   position = "top",
   className,
@@ -346,10 +378,7 @@ export function WaveEdge({
         className
       )}
     >
-      <path
-        fill="currentColor"
-        d="M0 32C120 10 200 58 320 42c108-15 152-44 284-30 126 13 166 50 298 34 120-13 174-52 316-32 84 11 138 36 222 20V72H0V32Z"
-      />
+      <path fill="currentColor" d={waveEdgePath} />
     </svg>
   )
 }
