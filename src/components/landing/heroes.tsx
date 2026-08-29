@@ -428,16 +428,20 @@ function HeroCtaRow({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex flex-col items-start gap-4 sm:flex-row sm:items-center",
+        "flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-4",
         className
       )}
     >
-      <Button variant="cta" className="h-12 px-6 text-base" asChild>
+      <Button
+        variant="cta"
+        className="h-12 w-full px-6 text-base sm:w-auto"
+        asChild
+      >
         <a href={hero.primaryCta.href}>{hero.primaryCta.label}</a>
       </Button>
       <a
         href={hero.secondaryCta.href}
-        className="inline-flex min-h-11 touch-target items-center gap-1.5 text-sm font-medium text-forest-foreground underline-offset-4 hover:underline active:text-forest-foreground/80"
+        className="inline-flex min-h-11 w-full touch-target items-center justify-center gap-1.5 text-sm font-medium text-forest-foreground underline-offset-4 hover:underline active:text-forest-foreground/80 sm:w-auto sm:justify-start"
       >
         {hero.secondaryCta.label}
         <ArrowRightIcon className="size-4" />
