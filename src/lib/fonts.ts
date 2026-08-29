@@ -19,23 +19,30 @@ export const fontPairings = [
   {
     id: "editorial",
     label: "Editorial",
-    heading: "Newsreader",
-    body: "Source Sans 3",
-    note: "Grocery editorial.",
+    heading: "Libre Baskerville",
+    body: "Work Sans",
+    note: "Magazine editorial — classic serif with a clean sans.",
   },
   {
     id: "premium",
     label: "Premium",
-    heading: "Cormorant",
-    body: "Outfit",
-    note: "Premium F&B.",
+    heading: "Playfair Display",
+    body: "Manrope",
+    note: "Refined F&B — high-contrast serif with geometric sans.",
   },
   {
     id: "modern",
     label: "Modern",
-    heading: "Instrument Serif",
-    body: "Instrument Sans",
-    note: "Contemporary staples.",
+    heading: "DM Serif Display",
+    body: "Plus Jakarta Sans",
+    note: "Contemporary UI — crisp serif and friendly sans.",
+  },
+  {
+    id: "inter",
+    label: "Inter",
+    heading: "Inter Bold",
+    body: "Inter",
+    note: "Neutral sans — bold headings, regular body.",
   },
 ] as const
 
@@ -65,4 +72,4 @@ export function readStoredFontPairing(): FontPairingId {
   return FONT_DEFAULT
 }
 
-export const fontBootScript = `(function(){try{var a=["heritage","geist","editorial","premium","modern"];var f=localStorage.getItem("${FONT_STORAGE_KEY}");if(f&&a.indexOf(f)!==-1)document.documentElement.setAttribute("data-font",f)}catch(e){}})()`
+export const fontBootScript = `(function(){try{var a=["heritage","geist","editorial","premium","modern","inter"];var f=localStorage.getItem("${FONT_STORAGE_KEY}");if(f&&a.indexOf(f)!==-1)document.documentElement.setAttribute("data-font",f)}catch(e){}})()`

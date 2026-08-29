@@ -337,18 +337,23 @@ html[data-font="geist"] {
 }
 
 html[data-font="editorial"] {
-  --font-heading-active: "Newsreader Variable", ui-serif, Georgia, serif;
-  --font-sans-active: "Source Sans 3 Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading-active: "Libre Baskerville", ui-serif, Georgia, serif;
+  --font-sans-active: "Work Sans Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 html[data-font="premium"] {
-  --font-heading-active: "Cormorant Variable", ui-serif, Georgia, serif;
-  --font-sans-active: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading-active: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans-active: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 html[data-font="modern"] {
-  --font-heading-active: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-sans-active: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading-active: "DM Serif Display", ui-serif, Georgia, serif;
+  --font-sans-active: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+html[data-font="inter"] {
+  --font-heading-active: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans-active: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Locked landing skins — scoped, do not follow the global theme picker */
@@ -387,8 +392,8 @@ html[data-font="modern"] {
 }
 
 [data-skin="night"] {
-  --font-heading-active: "Cormorant Variable", ui-serif, Georgia, serif;
-  --font-sans-active: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading-active: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans-active: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
   --background: oklch(0.15 0.02 150);
   --foreground: oklch(0.93 0.02 90);
   --card: oklch(0.2 0.022 150);
@@ -425,8 +430,8 @@ html[data-font="modern"] {
 }
 
 [data-skin="broadsheet"] {
-  --font-heading-active: "Newsreader Variable", ui-serif, Georgia, serif;
-  --font-sans-active: "Source Sans 3 Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading-active: "Libre Baskerville", ui-serif, Georgia, serif;
+  --font-sans-active: "Work Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --background: oklch(0.975 0.012 85);
   --foreground: oklch(0.16 0.02 40);
   --card: oklch(0.99 0.006 85);
@@ -507,5 +512,14 @@ html[data-font="modern"] {
   h3,
   h4 {
     @apply font-heading font-semibold tracking-tight text-balance;
+  }
+
+  html[data-font="inter"] :is(h1, h2, h3, h4, .font-heading) {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  html[data-font="inter"] body {
+    font-weight: 400;
   }
 }

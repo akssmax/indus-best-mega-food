@@ -202,17 +202,7 @@ function ThemeControls({ compact = false }: { compact?: boolean }) {
         )}
       </div>
 
-      {compact ? (
-        <div className="flex flex-wrap items-center gap-2">
-          <Button variant="cta" size="sm">
-            Enquire
-          </Button>
-          <Button size="sm">Brand</Button>
-          <Button variant="outline" size="sm">
-            Outline
-          </Button>
-        </div>
-      ) : (
+      {!compact ? (
         <div className="grid gap-3">
           <p className="text-sm font-medium">Preview</p>
           <div className="flex flex-wrap items-center gap-2">
@@ -232,7 +222,7 @@ function ThemeControls({ compact = false }: { compact?: boolean }) {
             </Button>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

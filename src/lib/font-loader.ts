@@ -16,21 +16,24 @@ async function importFontPairing(id: FontPairingId) {
       return
     case "editorial":
       await Promise.all([
-        import("@fontsource-variable/newsreader"),
-        import("@fontsource-variable/source-sans-3"),
+        import("@fontsource/libre-baskerville"),
+        import("@fontsource-variable/work-sans"),
       ])
       return
     case "premium":
       await Promise.all([
-        import("@fontsource-variable/cormorant"),
-        import("@fontsource-variable/outfit"),
+        import("@fontsource/playfair-display"),
+        import("@fontsource-variable/manrope"),
       ])
       return
     case "modern":
       await Promise.all([
-        import("@fontsource/instrument-serif"),
-        import("@fontsource-variable/instrument-sans"),
+        import("@fontsource/dm-serif-display"),
+        import("@fontsource-variable/plus-jakarta-sans"),
       ])
+      return
+    case "inter":
+      await import("@fontsource-variable/inter")
       return
   }
 }

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import {
   FONT_DEFAULT,
   FONT_STORAGE_KEY,
+  fontPairings,
   isFontPairingId,
   type FontPairingId,
 } from "@/lib/fonts"
@@ -268,6 +269,6 @@ export function useTheme() {
 const paletteList = palettes.map((item) => item.id).join(",")
 const baseList = bases.map((item) => item.id).join(",")
 const radiusList = radii.map((item) => item.id).join(",")
-const fontList = "heritage,geist,editorial,premium,modern"
+const fontList = fontPairings.map((item) => item.id).join(",")
 
 export const themeBootScript = `(function(){try{var d=document.documentElement;var t={};try{t=JSON.parse(localStorage.getItem("${THEME_STORAGE_KEY}")||"{}")||{}}catch(e){}var P="${paletteList}".split(",");var B="${baseList}".split(",");var R="${radiusList}".split(",");var F="${fontList}".split(",");var M={leaf:"sage",aqua:"canal",mark:"copper",ink:"umber"};var raw=t.palette||"harvest";var p=P.indexOf(raw)!==-1?raw:M[raw]||"harvest";var b=t.base&&B.indexOf(t.base)!==-1?t.base:"cream";var r=t.radius&&R.indexOf(t.radius)!==-1?t.radius:"md";var f=t.font&&F.indexOf(t.font)!==-1?t.font:localStorage.getItem("${FONT_STORAGE_KEY}");if(!f||F.indexOf(f)===-1)f="${FONT_DEFAULT}";d.setAttribute("data-palette",p);d.setAttribute("data-base",b);d.setAttribute("data-radius",r);d.setAttribute("data-font",f)}catch(e){}})()`
