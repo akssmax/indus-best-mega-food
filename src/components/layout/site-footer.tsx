@@ -336,22 +336,6 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
                 </p>
               </div>
             ))}
-            <div className="pt-2">
-              {site.phones.map((phone) => (
-                <p key={phone.href}>
-                  <FooterLink href={phone.href} wrap>
-                    {phone.label}: {phone.number}
-                  </FooterLink>
-                </p>
-              ))}
-              {site.emails.map((email) => (
-                <p key={email.href}>
-                  <FooterLink href={email.href} wrap>
-                    {email.address}
-                  </FooterLink>
-                </p>
-              ))}
-            </div>
           </div>
         </div>
       </div>
@@ -384,18 +368,8 @@ function EditorialFooter({ tone }: { tone: FooterTone }) {
             <ArrowRightIcon />
           </a>
         </Button>
-        <div className={cn("mt-10 space-y-1", styles.body)}>
+        <div className={cn("mt-10", styles.body)}>
           <p>{site.addresses.works.lines.join(" · ")}</p>
-          <p>
-            {site.phones.map((phone, index) => (
-              <span key={phone.href}>
-                {index > 0 ? " · " : null}
-                <FooterLink href={phone.href} wrap>
-                  {phone.label} {phone.number}
-                </FooterLink>
-              </span>
-            ))}
-          </p>
         </div>
         <Socials className="mt-6 justify-center" />
       </div>

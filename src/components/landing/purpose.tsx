@@ -60,7 +60,7 @@ export function Why() {
             <article
               className={cn(
                 cardChrome,
-                "h-full overflow-hidden p-0 lg:p-0"
+                "group/card h-full overflow-hidden p-0 lg:p-0"
               )}
             >
               {"image" in featured && featured.image ? (

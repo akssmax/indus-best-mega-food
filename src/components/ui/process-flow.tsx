@@ -28,22 +28,22 @@ export type ProcessStep = {
 const lightTones = {
   primary: {
     well: "bg-primary/12 text-primary ring-primary/25",
-    wash: "bg-primary/[0.04]",
-    selected: "ring-primary/35 bg-primary/[0.07]",
+    wash: "bg-card",
+    selected: "ring-primary/35 bg-card",
     dot: "bg-primary",
     dotIdle: "bg-foreground/15 group-hover/step:bg-primary/40",
   },
   cta: {
     well: "bg-cta/15 text-cta ring-cta/30",
-    wash: "bg-cta/[0.05]",
-    selected: "ring-cta/35 bg-cta/[0.07]",
+    wash: "bg-card",
+    selected: "ring-cta/35 bg-card",
     dot: "bg-cta",
     dotIdle: "bg-foreground/15 group-hover/step:bg-cta/40",
   },
   aqua: {
     well: "bg-aqua/20 text-forest ring-aqua/35",
-    wash: "bg-aqua/[0.08]",
-    selected: "ring-aqua/40 bg-aqua/[0.1]",
+    wash: "bg-card",
+    selected: "ring-aqua/40 bg-card",
     dot: "bg-aqua",
     dotIdle: "bg-foreground/15 group-hover/step:bg-aqua/40",
   },

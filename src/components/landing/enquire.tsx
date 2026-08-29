@@ -5,7 +5,6 @@ import { useServerFn } from "@tanstack/react-start"
 
 import { landing, enquiryInterests } from "@/content/landing"
 import type { EnquiryInterest } from "@/content/landing"
-import { site } from "@/content/site"
 import { submitEnquiry } from "@/lib/enquiry"
 import { saveEnquiry } from "@/app/lib/enquiry-store"
 import { Button } from "@/components/ui/button"
@@ -24,14 +23,16 @@ import { Eyebrow, Section } from "@/components/landing/section"
 import { OceanBackground } from "@/components/landing/ocean-background"
 import { Reveal } from "@/components/landing/motion"
 import { PatternBand } from "@/components/ui/brand-pattern"
-import { ContactEmailLink, ContactPhoneLink } from "@/components/ui/contact-link"
-
 import { cn } from "@/lib/utils"
 
 type EnquireIntro = {
   eyebrow: string
   title: string
   body: string
+  replyStat?: {
+    value: string
+    label: string
+  }
 }
 
 export function Enquire({
@@ -104,56 +105,9 @@ export function Enquire({
       >
         {headline.body}
       </p>
-      <dl className={cn("mt-8 space-y-1 text-sm", isHero && "text-forest-foreground")}>
-        {site.phones.map((phone) => (
-          <div key={phone.href} className="py-0.5">
-            <dt
-              className={cn(
-                "px-3",
-                isHero ? "text-forest-foreground/65" : "text-muted-foreground"
-              )}
-            >
-              {phone.label}
-            </dt>
-            <dd>
-              <ContactPhoneLink
-                href={phone.href}
-                className={
-                  isHero
-                    ? "text-cta hover:bg-forest-foreground/10 active:bg-forest-foreground/15"
-                    : undefined
-                }
-              >
-                {phone.number}
-              </ContactPhoneLink>
-            </dd>
-          </div>
-        ))}
-        {site.emails.map((email) => (
-          <div key={email.href} className="py-0.5">
-            <dt
-              className={cn(
-                "px-3",
-                isHero ? "text-forest-foreground/65" : "text-muted-foreground"
-              )}
-            >
-              {email.label}
-            </dt>
-            <dd>
-              <ContactEmailLink
-                href={email.href}
-                className={
-                  isHero
-                    ? "text-cta hover:bg-forest-foreground/10 active:bg-forest-foreground/15"
-                    : undefined
-                }
-              >
-                {email.address}
-              </ContactEmailLink>
-            </dd>
-          </div>
-        ))}
-      </dl>
+      {headline.replyStat ? (
+        <ReplyStatBadge stat={headline.replyStat} hero={isHero} />
+      ) : null}
     </Reveal>
   )
 
@@ -216,6 +170,44 @@ export function Enquire({
       />
       {grid}
     </Section>
+  )
+}
+
+function ReplyStatBadge({
+  stat,
+  hero,
+}: {
+  stat: { value: string; label: string }
+  hero: boolean
+}) {
+  return (
+    <p className="mt-6">
+      <span
+        className={cn(
+          "inline-flex items-center gap-2 rounded-full px-3.5 py-2 ring-1 backdrop-blur-sm",
+          hero
+            ? "bg-forest-foreground/10 ring-forest-foreground/15"
+            : "bg-muted ring-foreground/10"
+        )}
+      >
+        <span
+          className={cn(
+            "font-heading text-sm font-semibold",
+            hero ? "text-cta" : "text-primary"
+          )}
+        >
+          {stat.value}
+        </span>
+        <span
+          className={cn(
+            "text-xs",
+            hero ? "text-forest-foreground/75" : "text-muted-foreground"
+          )}
+        >
+          {stat.label}
+        </span>
+      </span>
+    </p>
   )
 }
 

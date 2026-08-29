@@ -1,5 +1,6 @@
 import { ShieldCheckIcon } from "lucide-react"
 
+import { PatternCorner } from "@/components/ui/brand-pattern"
 import { cn } from "@/lib/utils"
 
 function SealMark() {
@@ -27,7 +28,13 @@ export function StatusSeal({
         className
       )}
     >
-      <div className="relative flex flex-1 flex-col justify-between gap-4 px-4 py-4 sm:px-5 sm:py-5">
+      <PatternCorner
+        variant="bloom"
+        position="top-right"
+        size="sm"
+        className="text-cta opacity-[0.14]"
+      />
+      <div className="relative z-10 flex flex-1 flex-col justify-between gap-4 px-4 py-4 sm:px-5 sm:py-5">
         <SealMark />
 
         <div className="flex min-w-0 flex-1 flex-col justify-center">

@@ -46,10 +46,10 @@ export function Opportunities({ flat = false }: { flat?: boolean }) {
                 </li>
               ))}
             </ul>
-            <div className="mt-auto pt-8">
+            <div className="mt-auto flex w-full flex-col items-stretch pt-8 xl:items-start">
               <Button
                 variant="cta"
-                className="h-12 w-full px-6 text-base lg:w-auto"
+                className="h-12 w-full px-6 text-base xl:w-auto"
                 asChild
               >
                 <a href={data.cta.href}>

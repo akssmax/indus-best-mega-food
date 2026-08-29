@@ -24,6 +24,7 @@ function ContactPage() {
           eyebrow: page.eyebrow,
           title: page.title,
           body: page.body,
+          replyStat: page.replyStat,
         }}
       />
     </main>

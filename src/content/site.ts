@@ -91,9 +91,13 @@ export const site = {
       cta: { label: "Talk to the project team", href: "/contact" },
     },
     contact: {
-      eyebrow: "Contact",
+      eyebrow: "Contact us",
       title: "Tell us the unit you want to set up.",
       body: "Plot, MSME shed, shared line, or a partnership conversation. Use the form below — the project team replies with availability and a current rate card.",
+      replyStat: {
+        value: "1–2 business days",
+        label: "Typical project team reply",
+      },
       description:
         "Enquire about a plot, MSME shed, shared facility capacity, or joint venture at Indus Best Mega Food Park, Bemta–Sarora.",
     },
