@@ -38,11 +38,12 @@ export const heroVariantMeta: Record<
   },
 }
 
+// Water droplet: soft tip at top, rounded body at bottom (matches brand Drop flourish).
 const DROP_D =
-  "M50 2C78 2 97 28 97 57C97 82 74 107 50 123C26 107 3 82 3 57C3 28 22 2 50 2Z"
+  "M50 7C50 7 18 54 18 84C18 104 32 120 50 120C68 120 82 104 82 84C82 54 50 7 50 7Z"
 
 const dropMask = `url("data:image/svg+xml,${encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125"><path fill="black" d="${DROP_D}"/></svg>`
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 0 80 124"><path fill="black" d="${DROP_D}"/></svg>`
 )}")`
 
 const dropMaskStyle = {
@@ -50,8 +51,8 @@ const dropMaskStyle = {
   maskImage: dropMask,
   WebkitMaskRepeat: "no-repeat",
   maskRepeat: "no-repeat",
-  WebkitMaskSize: "100% 100%",
-  maskSize: "100% 100%",
+  WebkitMaskSize: "108% 106%",
+  maskSize: "108% 106%",
   WebkitMaskPosition: "center",
   maskPosition: "center",
 } as const
