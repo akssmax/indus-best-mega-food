@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 
 import { site } from "@/content/site"
+import { getNouryaProducts } from "@/lib/nourya"
 import { AboutHero } from "@/components/about/hero"
 import { AboutWho } from "@/components/about/who"
 import { AboutTeam } from "@/components/about/team"
@@ -13,6 +14,7 @@ import { AboutPlaces } from "@/components/about/places"
 import { FinalCta } from "@/components/landing/final-cta"
 
 export const Route = createFileRoute("/about")({
+  loader: () => getNouryaProducts(),
   head: () => ({
     meta: [
       { title: `About us | ${site.name}` },
@@ -27,6 +29,8 @@ export const Route = createFileRoute("/about")({
 })
 
 function AboutPage() {
+  const products = Route.useLoaderData()
+
   return (
     <main>
       <AboutHero />
@@ -35,10 +39,10 @@ function AboutPage() {
       <AboutCluster />
       <AboutPurpose />
       <AboutSnapshot />
-      <AboutNourya />
+      <AboutNourya products={products} />
       <AboutQuality />
       <AboutPlaces />
-      <FinalCta />
+      <FinalCta bridgeFrom="background" />
     </main>
   )
 }

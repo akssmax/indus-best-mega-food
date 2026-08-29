@@ -17,7 +17,7 @@ export function CampusFacilities({ flat = false }: { flat?: boolean }) {
 
   return (
     <SectionBand tone="secondary-30" to="background" flat={flat}>
-      <Section id={campusOverview.id} className="bg-transparent">
+      <Section id={campusOverview.id} deferPaint className="bg-transparent">
         <Reveal>
           <SectionIntro
             eyebrow={campusOverview.eyebrow}

@@ -2,6 +2,7 @@ import { landing } from "@/content/landing"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
+import { landingImageSizes } from "@/lib/media"
 
 type CampusOverviewItem = (typeof landing.campusOverview.items)[number]
 
@@ -12,6 +13,9 @@ export function CampusOverviewCard({ item }: { item: CampusOverviewItem }) {
         <img
           src={item.image.src}
           alt={item.image.alt}
+          sizes={landingImageSizes.card}
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 size-full rounded-none object-cover transition-transform duration-500 hover-fine:group-hover/card:scale-105"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />

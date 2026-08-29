@@ -3,7 +3,9 @@ import { createFileRoute } from "@tanstack/react-router"
 import { site } from "@/content/site"
 import { PageHero } from "@/components/layout/page-hero"
 import { Why } from "@/components/landing/purpose"
+import { Stats } from "@/components/landing/stats"
 import { FinalCta } from "@/components/landing/final-cta"
+import { ForestBandBridge } from "@/lib/section-band"
 
 const page = site.innerPages.why
 
@@ -22,7 +24,9 @@ function WhyPage() {
     <main>
       <PageHero eyebrow={page.eyebrow} title={page.title} body={page.body} />
       <Why />
-      <FinalCta />
+      <ForestBandBridge from="background" />
+      <Stats />
+      <FinalCta bridge="bottom" />
     </main>
   )
 }

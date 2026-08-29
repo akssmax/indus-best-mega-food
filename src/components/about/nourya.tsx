@@ -1,9 +1,11 @@
 import { aboutPage } from "@/content/about"
 import { Button } from "@/components/ui/button"
+import { FeaturedProductGrid } from "@/components/landing/featured-product-grid"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
+import type { NouryaProduct } from "@/lib/nourya"
 
-export function AboutNourya() {
+export function AboutNourya({ products }: { products: NouryaProduct[] }) {
   const { nourya } = aboutPage
 
   return (
@@ -26,6 +28,8 @@ export function AboutNourya() {
           ))}
         </ul>
       </Reveal>
+
+      <FeaturedProductGrid products={products} className="mt-10" />
 
       <Reveal className="mt-8 flex flex-col items-start gap-3 sm:flex-row" delay={0.1}>
         <Button variant="cta" className="h-11 px-5 text-base" asChild>

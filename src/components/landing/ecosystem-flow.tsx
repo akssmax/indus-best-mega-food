@@ -658,6 +658,8 @@ function MobileStageHero({ stage }: { stage: (typeof flowStages)[number] }) {
           alt=""
           className="size-full object-cover"
           style={{ objectPosition: stage.image.position }}
+          loading="lazy"
+          decoding="async"
           animate={
             reduce ? { scale: 1.05 } : { scale: [1.05, 1.12] }
           }
@@ -824,7 +826,7 @@ export function EcosystemFlow({ flat = false }: { flat?: boolean }) {
           patternClassName="opacity-[0.1]"
         />
 
-        <Section id={ecosystem.id} className="relative z-10 bg-transparent">
+        <Section id={ecosystem.id} deferPaint className="relative z-10 bg-transparent">
           <Reveal className="mx-auto max-w-2xl text-center lg:max-w-3xl">
             <div className="flex flex-col items-center gap-2">
               <DropFlourish className="hidden text-cta/45 sm:block" />

@@ -2,6 +2,7 @@ import { landing } from "@/content/landing"
 import { landings } from "@/content/landings"
 import { site } from "@/content/site"
 import { pickFeaturedProducts, type NouryaProduct } from "@/lib/nourya"
+import { landingImageSizes, sizedImageUrl } from "@/lib/media"
 import { OverlayNav } from "@/components/layout/headers/overlay-nav"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SkinFrame } from "@/components/landings/skin-frame"
@@ -109,6 +110,8 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
                       <img
                         src={facility.image.src}
                         alt={facility.image.alt}
+                        loading="lazy"
+                        decoding="async"
                         className="size-full object-cover"
                       />
                     </div>
@@ -209,8 +212,11 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
                     <div className="aspect-[4/5] overflow-hidden bg-muted">
                       {product.image ? (
                         <img
-                          src={product.image}
+                          src={sizedImageUrl(product.image, 640)}
                           alt={product.title}
+                          sizes={landingImageSizes.product}
+                          loading="lazy"
+                          decoding="async"
                           className="size-full object-cover"
                         />
                       ) : null}

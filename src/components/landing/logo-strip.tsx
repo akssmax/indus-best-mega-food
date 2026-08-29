@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import { landing } from "@/content/landing"
 import { Reveal } from "@/components/landing/motion"
 import { PatternBand, WaveEdge } from "@/components/ui/brand-pattern"
+import { landingImageSizes } from "@/lib/media"
 import { cn } from "@/lib/utils"
 
 const markEase = [0.22, 1, 0.36, 1] as const
@@ -24,6 +25,11 @@ function ClientMark({ name, logo }: { name: string; logo?: string }) {
     <img
       src={logo}
       alt={name}
+      width={184}
+      height={40}
+      sizes={landingImageSizes.logo}
+      loading="lazy"
+      decoding="async"
       className="h-9 w-auto max-w-[10.5rem] object-contain object-left sm:h-10 sm:max-w-[11.5rem]"
     />
   ) : (

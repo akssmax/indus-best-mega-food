@@ -2,6 +2,7 @@ import { landing } from "@/content/landing"
 import { landings } from "@/content/landings"
 import { site } from "@/content/site"
 import { pickFeaturedProducts, type NouryaProduct } from "@/lib/nourya"
+import { landingImageSizes, sizedImageUrl } from "@/lib/media"
 import { MastheadNav } from "@/components/layout/headers/masthead-nav"
 import { BottomDock } from "@/components/layout/headers/bottom-dock"
 import { SiteFooter } from "@/components/layout/site-footer"
@@ -53,6 +54,10 @@ export function BroadsheetLanding({ products }: { products: NouryaProduct[] }) {
               <img
                 src={landing.hero.image.src}
                 alt={landing.hero.image.alt}
+                sizes={landingImageSizes.hero}
+                fetchPriority="high"
+                loading="eager"
+                decoding="sync"
                 className="aspect-[21/9] w-full object-cover sm:aspect-[2.4/1]"
               />
             </div>
@@ -136,8 +141,11 @@ export function BroadsheetLanding({ products }: { products: NouryaProduct[] }) {
                     <div className="aspect-square overflow-hidden bg-muted">
                       {product.image ? (
                         <img
-                          src={product.image}
+                          src={sizedImageUrl(product.image, 640)}
                           alt={product.title}
+                          sizes={landingImageSizes.product}
+                          loading="lazy"
+                          decoding="async"
                           className="size-full object-cover"
                         />
                       ) : null}

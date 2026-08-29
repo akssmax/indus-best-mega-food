@@ -67,6 +67,10 @@ export function AtelierHeroGallery({ className }: { className?: string }) {
           alt={slide.alt}
           aria-hidden={slideIndex !== index}
           className="absolute inset-0 size-full object-cover"
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          loading={slideIndex === 0 ? "eager" : "lazy"}
+          decoding={slideIndex === 0 ? "sync" : "async"}
+          fetchPriority={slideIndex === 0 ? "high" : "low"}
           initial={false}
           animate={{
             opacity: slideIndex === index ? 1 : 0,

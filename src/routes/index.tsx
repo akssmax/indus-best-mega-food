@@ -8,9 +8,8 @@ import { Why } from "@/components/landing/purpose"
 import { WhoIsItFor } from "@/components/landing/who-is-it-for"
 import { EcosystemFlow } from "@/components/landing/ecosystem-flow"
 import { CampusFacilities } from "@/components/landing/campus-facilities"
-import { Products } from "@/components/landing/products"
+import { ProductsDeferred } from "@/components/landing/products-deferred"
 import { Opportunities } from "@/components/landing/opportunities"
-import { getNouryaProducts } from "@/lib/nourya"
 import { Location } from "@/components/landing/location"
 import { Faq } from "@/components/landing/faq"
 import { FinalCta } from "@/components/landing/final-cta"
@@ -21,6 +20,8 @@ const lcpHeroImage = landing.hero.slides[0]?.image.src ?? landing.hero.image.src
 export const Route = createFileRoute("/")({
   head: () => ({
     links: [
+      { rel: "preconnect", href: "https://cdn.shopify.com" },
+      { rel: "dns-prefetch", href: "https://maps.google.com" },
       {
         rel: "preload",
         href: lcpHeroImage,
@@ -29,12 +30,10 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  loader: () => getNouryaProducts(),
   component: HomePage,
 })
 
 function HomePage() {
-  const products = Route.useLoaderData()
   return (
     <main>
       <Hero />
@@ -44,7 +43,7 @@ function HomePage() {
       <WhoIsItFor />
       <EcosystemFlow />
       <CampusFacilities />
-      <Products products={products} />
+      <ProductsDeferred />
       <Opportunities />
       <SectionBand tone="secondary-25">
         <Location bandFrom={null} />

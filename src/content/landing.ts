@@ -11,8 +11,8 @@ export type EnquiryInterest = (typeof enquiryInterests)[number]["value"]
 export const landing = {
   hero: {
     eyebrow: "Mega Food Park · Raipur, Chhattisgarh",
-    headline: "Start processing without building the campus first.",
-    body: "Plot, shed, or shared capacity — cold chain, warehousing and utilities already on site.",
+    headline: "Build your plant. Skip the greenfield.",
+    body: "Plots and sheds with power, water, cold chain, and collection already on site — capital goes into your line, not the estate.",
     image: {
       src: "/images/warehouse.jpg",
       alt: "Warehouse and campus at Indus Best Mega Food Park, Raipur",
@@ -27,8 +27,8 @@ export const landing = {
     ],
     slides: [
       {
-        headline: "Start processing without building the campus first.",
-        body: "Plot, shed, or shared capacity — cold chain, warehousing and utilities already on site.",
+        headline: "Build your plant. Skip the greenfield.",
+        body: "Plots and sheds with power, water, cold chain, and collection already on site — capital goes into your line, not the estate.",
         image: {
           src: "/images/warehouse.jpg",
           alt: "Warehouse and MSME sheds at Indus Best Mega Food Park",
@@ -43,14 +43,14 @@ export const landing = {
           {
             value: "5,000 MT",
             label: "Cold on campus",
-            detail: "Frozen and chilled, ready to book",
+            detail: "Hold inventory beside your line",
             side: "right" as const,
           },
         ],
       },
       {
-        headline: "Shared lines already packing.",
-        body: "Tomato concentrate, mango puree, and IQF — book throughput without building the line.",
+        headline: "Your brand on lines already packing.",
+        body: "Co-pack or co-brand on aseptic, puree, and IQF. Fill orders this season — then grow into your own unit on the same campus.",
         image: {
           src: "/images/aseptic-line.jpg",
           alt: "Aseptic processing line on campus",
@@ -59,20 +59,20 @@ export const landing = {
           {
             value: "12 MTPH",
             label: "Tomato concentrate",
-            detail: "Aseptic line already packing",
+            detail: "Throughput under your label",
             side: "left" as const,
           },
           {
             value: "2 MT/H",
             label: "IQF capacity",
-            detail: "Book throughput without the capex",
+            detail: "Book the line, skip the capex",
             side: "right" as const,
           },
         ],
       },
       {
-        headline: "Developed land with utilities in place.",
-        body: "30–35 serviced plots on 50+ acres — roads, water, power, and ETP ready.",
+        headline: "Invest in a campus that's already running.",
+        body: "MOFPI-listed and operational near Raipur. Joint venture, plot, or partnership on a live asset — not a prospectus.",
         image: {
           src: "/images/cpc-building.jpg",
           alt: "Central processing campus at Bemta–Sarora",
@@ -81,20 +81,20 @@ export const landing = {
           {
             value: "50+",
             label: "Acres on site",
-            detail: "Developed land with utilities in place",
+            detail: "Capital into an operating park",
             side: "left" as const,
           },
           {
             value: "30–35",
             label: "Industrial plots",
-            detail: "Roads, water, power, and ETP ready",
+            detail: "Lease or co-develop, not greenfield",
             side: "right" as const,
           },
         ],
       },
       {
-        headline: "Logistics and utilities at the gate.",
-        body: "100 MT weighbridge and 2.7 MLD process water — shared infrastructure you do not duplicate.",
+        headline: "Ship from a gate that's already built.",
+        body: "Weighbridge, process water, and highway access on campus — logistics capex you do not duplicate.",
         image: {
           src: "/images/weigh-bridge.jpg",
           alt: "Entry gate and 100 MT weighbridge",
@@ -103,7 +103,7 @@ export const landing = {
           {
             value: "100 MT",
             label: "Weighbridge",
-            detail: "Logistics at the campus gate",
+            detail: "Dispatch without building the gate",
             side: "left" as const,
           },
           {
@@ -115,8 +115,8 @@ export const landing = {
         ],
       },
       {
-        headline: "Storage beside the line.",
-        body: "12,000 MT dry warehouse and quality labs — with PPC intake across three districts.",
+        headline: "Hold the run beside the line you own.",
+        body: "Cold rooms, dry warehouse, and quality labs on site — inventory and QA without a second campus.",
         image: {
           src: "/images/admin-lab.jpg",
           alt: "Quality control laboratory on campus",
@@ -125,7 +125,7 @@ export const landing = {
           {
             value: "12,000 MT",
             label: "Dry warehouse",
-            detail: "Hold inventory beside the line",
+            detail: "Inventory next to production",
             side: "left" as const,
           },
           {

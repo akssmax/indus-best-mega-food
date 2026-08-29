@@ -50,10 +50,14 @@ export function categoryFrom(title: string, handle: string): NouryaCategory {
   return "Other"
 }
 
-export function priceLabelFrom(variants: ShopifyVariant[] | undefined): string | null {
+export function priceLabelFrom(
+  variants: ShopifyVariant[] | undefined,
+  { subunit = false }: { subunit?: boolean } = {}
+): string | null {
   const amounts = (variants ?? [])
     .map((variant) => Number(variant.price))
     .filter((amount) => Number.isFinite(amount) && amount > 0)
+    .map((amount) => (subunit ? amount / 100 : amount))
 
   if (amounts.length === 0) return null
 
@@ -63,13 +67,41 @@ export function priceLabelFrom(variants: ShopifyVariant[] | undefined): string |
   return min !== max ? `From ${formatted}` : formatted
 }
 
+function toHttps(src: string | null | undefined) {
+  if (!src) return null
+  return src.startsWith("//") ? `https:${src}` : src
+}
+
 function toProduct(raw: ShopifyProduct): NouryaProduct {
   return {
     title: raw.title,
     handle: raw.handle,
     href: `${SHOP_ORIGIN}/products/${raw.handle}`,
-    image: raw.images?.[0]?.src ?? null,
+    image: toHttps(raw.images?.[0]?.src),
     priceLabel: priceLabelFrom(raw.variants),
+    category: categoryFrom(raw.title, raw.handle),
+  }
+}
+
+type ShopifyAjaxProduct = {
+  title?: string
+  handle?: string
+  featured_image?: string
+  images?: string[]
+  variants?: ShopifyVariant[]
+}
+
+function toProductFromAjax(raw: ShopifyAjaxProduct): NouryaProduct | null {
+  if (typeof raw.title !== "string" || typeof raw.handle !== "string") {
+    return null
+  }
+
+  return {
+    title: raw.title,
+    handle: raw.handle,
+    href: `${SHOP_ORIGIN}/products/${raw.handle}`,
+    image: toHttps(raw.featured_image ?? raw.images?.[0]),
+    priceLabel: priceLabelFrom(raw.variants, { subunit: true }),
     category: categoryFrom(raw.title, raw.handle),
   }
 }
@@ -295,9 +327,47 @@ function mapProducts(payload: unknown): NouryaProduct[] | null {
     .map(toProduct)
 }
 
+const CATALOG_CACHE_MS = 10 * 60 * 1000
+let catalogCache: { at: number; products: NouryaProduct[] } | null = null
+
+async function fetchFeaturedByHandle(handle: string) {
+  const response = await fetch(`${SHOP_ORIGIN}/products/${handle}.js`, {
+    headers: { Accept: "application/json" },
+    signal: AbortSignal.timeout(4000),
+  })
+  if (!response.ok) return null
+  return toProductFromAjax(await response.json())
+}
+
+function mergeWithFallback(live: NouryaProduct[]) {
+  const seen = new Set(live.map((product) => product.handle))
+  return [
+    ...live,
+    ...nouryaFallback.filter((product) => !seen.has(product.handle)),
+  ]
+}
+
 export const getNouryaProducts = createServerFn({ method: "GET" }).handler(
   async () => {
+    if (catalogCache && Date.now() - catalogCache.at < CATALOG_CACHE_MS) {
+      return catalogCache.products
+    }
+
     try {
+      const featured = (
+        await Promise.all(
+          featuredHandles.map((handle) =>
+            fetchFeaturedByHandle(handle).catch(() => null)
+          )
+        )
+      ).filter((product): product is NouryaProduct => product !== null)
+
+      if (featured.length > 0) {
+        const products = mergeWithFallback(featured)
+        catalogCache = { at: Date.now(), products }
+        return products
+      }
+
       const response = await fetch(PRODUCTS_URL, {
         headers: { Accept: "application/json" },
         signal: AbortSignal.timeout(8000),
@@ -306,7 +376,9 @@ export const getNouryaProducts = createServerFn({ method: "GET" }).handler(
       if (!response.ok) return nouryaFallback
 
       const mapped = mapProducts(await response.json())
-      return mapped ?? nouryaFallback
+      const products = mapped ?? nouryaFallback
+      catalogCache = { at: Date.now(), products }
+      return products
     } catch {
       return nouryaFallback
     }

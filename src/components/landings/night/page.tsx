@@ -2,6 +2,7 @@ import { landing } from "@/content/landing"
 import { landings } from "@/content/landings"
 import { site } from "@/content/site"
 import { pickFeaturedProducts, type NouryaProduct } from "@/lib/nourya"
+import { landingImageSizes, sizedImageUrl } from "@/lib/media"
 import { IslandNav } from "@/components/layout/headers/island-nav"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SkinFrame } from "@/components/landings/skin-frame"
@@ -159,8 +160,11 @@ export function NightLanding({ products }: { products: NouryaProduct[] }) {
                     <div className="relative aspect-[5/4] bg-muted">
                       {product.image ? (
                         <img
-                          src={product.image}
+                          src={sizedImageUrl(product.image, 800)}
                           alt={product.title}
+                          sizes={landingImageSizes.card}
+                          loading="lazy"
+                          decoding="async"
                           className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         />
                       ) : null}

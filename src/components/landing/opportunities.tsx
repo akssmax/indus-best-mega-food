@@ -14,7 +14,7 @@ export function Opportunities({ flat = false }: { flat?: boolean }) {
 
   return (
     <SectionBand tone="card" from="background" to="secondary-25" flat={flat}>
-      <Section id={data.id} className="relative overflow-hidden bg-transparent">
+      <Section id={data.id} deferPaint className="relative overflow-hidden bg-transparent">
       <div className="relative z-10 grid items-stretch gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-10">
         <Reveal className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-forest p-7 text-forest-foreground sm:p-9 lg:p-10">
           <div

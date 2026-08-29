@@ -9,12 +9,15 @@ export function Section({
   id,
   className,
   innerClassName,
+  deferPaint = false,
   children,
   ...rest
 }: {
   id?: string
   className?: string
   innerClassName?: string
+  /** Skip style/layout work until the section is near the viewport. */
+  deferPaint?: boolean
   children: ReactNode
 } & HTMLAttributes<HTMLElement>) {
   return (
@@ -23,6 +26,7 @@ export function Section({
       className={cn(
         "scroll-mt-24 py-16 lg:py-24",
         contentGutterClass,
+        deferPaint && "content-visibility-auto",
         className
       )}
       {...rest}

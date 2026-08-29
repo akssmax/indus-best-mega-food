@@ -241,21 +241,50 @@ export function OceanBackground({
       window.clearInterval(anchorWatch)
     }, 32)
 
+    let idleId = 0
+    let idleTimeout = 0
+
+    const cancelIdleStart = () => {
+      window.cancelIdleCallback?.(idleId)
+      window.clearTimeout(idleTimeout)
+      idleId = 0
+      idleTimeout = 0
+    }
+
+    const scheduleStart = () => {
+      if (disposeRenderer || idleId || idleTimeout) return
+      const run = () => {
+        idleId = 0
+        idleTimeout = 0
+        start()
+      }
+      const requestIdle = window.requestIdleCallback
+      if (requestIdle) {
+        idleId = requestIdle.call(window, run, { timeout: 1600 })
+        return
+      }
+      idleTimeout = window.setTimeout(run, 280)
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) start()
-        else stop()
+        if (entry?.isIntersecting) scheduleStart()
+        else {
+          cancelIdleStart()
+          stop()
+        }
       },
-      { rootMargin: "160px" }
+      { rootMargin: "48px" }
     )
     observer.observe(wrap)
 
     const hostRect = section.getBoundingClientRect()
-    if (hostRect.bottom > -160 && hostRect.top < window.innerHeight + 160) {
-      start()
+    if (hostRect.bottom > -48 && hostRect.top < window.innerHeight + 48) {
+      scheduleStart()
     }
 
     return () => {
+      cancelIdleStart()
       window.clearInterval(anchorWatch)
       if (interaction !== "static" || hoverZoom !== 1) {
         window.removeEventListener("pointermove", onPointerMove)

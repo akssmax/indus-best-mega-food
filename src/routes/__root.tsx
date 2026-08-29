@@ -14,7 +14,7 @@ import { FontLoader } from "@/components/layout/font-loader"
 import { LandingSwitcher } from "@/components/layout/landing-switcher"
 import { AppError, AppNotFound } from "@/components/layout/app-error"
 import { Toaster } from "@/components/ui/sonner"
-import { hideSiteChrome } from "@/lib/skins"
+import { hideSiteChrome, showLandingSwitcher } from "@/lib/skins"
 import { isDashboardRoute } from "@/app/lib/routes"
 import { themeBootScript } from "@/lib/theme"
 import appCss from "../styles.css?url"
@@ -88,7 +88,7 @@ function PageChrome({ children }: { children: ReactNode }) {
       {chromeless || dashboard ? null : <SiteHeader />}
       {children}
       {chromeless || dashboard ? null : <SiteFooter tone="light" />}
-      {dashboard || chromeless ? null : <LandingSwitcher />}
+      {dashboard || !showLandingSwitcher(pathname) ? null : <LandingSwitcher />}
     </>
   )
 }

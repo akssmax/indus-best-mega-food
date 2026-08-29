@@ -12,6 +12,11 @@
   touch-action: manipulation;
 }
 
+@utility content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
 @theme inline {
   --font-heading: var(--font-heading-active);
   --font-sans: var(--font-sans-active);

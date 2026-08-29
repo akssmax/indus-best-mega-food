@@ -49,15 +49,15 @@ export function PlatformPillars() {
               <article className="overflow-hidden rounded-3xl bg-card ring-1 ring-foreground/8">
                 <div
                   className={cn(
-                    "grid items-center lg:grid-cols-2",
+                    "grid lg:grid-cols-2 lg:items-stretch",
                     !imageFirst && "lg:[&>*:first-child]:order-2"
                   )}
                 >
-                  <div className="relative aspect-[16/10] min-h-[14rem] overflow-hidden lg:aspect-auto lg:min-h-[22rem]">
+                  <div className="relative aspect-[16/10] min-h-[14rem] overflow-hidden sm:aspect-[5/3] lg:aspect-auto lg:min-h-[22rem] lg:h-full">
                     <img
                       src={pillar.image.src}
                       alt={pillar.image.alt}
-                      className="size-full object-cover"
+                      className="absolute inset-0 size-full object-cover object-center"
                       loading={index === 0 ? "eager" : "lazy"}
                     />
                     <div
