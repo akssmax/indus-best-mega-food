@@ -4,21 +4,17 @@ import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
-import { BrandPattern, DropFlourish, PatternBand } from "@/components/ui/brand-pattern"
+import { BrandPattern, DropFlourish } from "@/components/ui/brand-pattern"
 import { PullQuote } from "@/components/ui/pull-quote"
+import { SectionBand } from "@/lib/section-band"
 
-export function Opportunities() {
+export function Opportunities({ flat = false }: { flat?: boolean }) {
   const { opportunities: data } = landing
   const ways = data.items.filter((item) => !item.featured)
 
   return (
-    <Section id={data.id} className="relative overflow-hidden">
-      <PatternBand
-        variant="hatch"
-        className="pointer-events-none absolute inset-0 text-primary/20"
-        patternClassName="opacity-[0.07]"
-      />
-
+    <SectionBand tone="card" from="background" to="secondary-25" flat={flat}>
+      <Section id={data.id} className="relative overflow-hidden bg-transparent">
       <div className="relative z-10 grid items-stretch gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-10">
         <Reveal className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-forest p-7 text-forest-foreground sm:p-9 lg:p-10">
           <div
@@ -102,6 +98,7 @@ export function Opportunities() {
           ))}
         </Stagger>
       </div>
-    </Section>
+      </Section>
+    </SectionBand>
   )
 }

@@ -27,7 +27,7 @@ function FacilitiesPage() {
         cta={page.cta}
       />
       <Campus />
-      <FinalCta bridgeFrom="bg-secondary/30" />
+      <FinalCta bridgeFrom="secondary-30" />
     </main>
   )
 }

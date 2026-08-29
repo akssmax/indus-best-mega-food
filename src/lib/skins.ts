@@ -6,6 +6,12 @@ export const landingSkins = [
     note: "Stone, charcoal, terracotta. Procurement-first.",
   },
   {
+    id: "platform",
+    href: "/landing-5",
+    label: "Platform",
+    note: "Live palette. ElevenLabs-style hero, flat joins.",
+  },
+  {
     id: "night",
     href: "/landing-3",
     label: "Night",
@@ -16,12 +22,6 @@ export const landingSkins = [
     href: "/landing-4",
     label: "Broadsheet",
     note: "Paper, ink, chili. Editorial journal.",
-  },
-  {
-    id: "mint",
-    href: "/landing-5",
-    label: "Mint",
-    note: "Teal-green gradients. Fintech growth.",
   },
 ] as const
 

@@ -1,37 +1,20 @@
-import { lazy, Suspense } from "react"
 import { createFileRoute } from "@tanstack/react-router"
 
 import { landing } from "@/content/landing"
 import { Hero } from "@/components/landing/hero"
 import { LogoStrip } from "@/components/landing/logo-strip"
-import { HomeSectionFallback } from "@/components/landing/home-section-fallback"
-import { ProductsDeferred } from "@/components/landing/products-deferred"
-
-const Why = lazy(() =>
-  import("@/components/landing/purpose").then((module) => ({
-    default: module.Why,
-  }))
-)
-const Campus = lazy(() =>
-  import("@/components/landing/campus").then((module) => ({
-    default: module.Campus,
-  }))
-)
-const Opportunities = lazy(() =>
-  import("@/components/landing/opportunities").then((module) => ({
-    default: module.Opportunities,
-  }))
-)
-const Location = lazy(() =>
-  import("@/components/landing/location").then((module) => ({
-    default: module.Location,
-  }))
-)
-const FinalCta = lazy(() =>
-  import("@/components/landing/final-cta").then((module) => ({
-    default: module.FinalCta,
-  }))
-)
+// import { SocialProof } from "@/components/landing/social-proof"
+import { Why } from "@/components/landing/purpose"
+import { WhoIsItFor } from "@/components/landing/who-is-it-for"
+import { EcosystemFlow } from "@/components/landing/ecosystem-flow"
+import { CampusFacilities } from "@/components/landing/campus-facilities"
+import { Products } from "@/components/landing/products"
+import { Opportunities } from "@/components/landing/opportunities"
+import { getNouryaProducts } from "@/lib/nourya"
+import { Location } from "@/components/landing/location"
+import { Faq } from "@/components/landing/faq"
+import { FinalCta } from "@/components/landing/final-cta"
+import { SectionBand } from "@/lib/section-band"
 
 const lcpHeroImage = landing.hero.slides[0]?.image.src ?? landing.hero.image.src
 
@@ -46,30 +29,28 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
+  loader: () => getNouryaProducts(),
   component: HomePage,
 })
 
 function HomePage() {
+  const products = Route.useLoaderData()
   return (
     <main>
       <Hero />
-      <LogoStrip />
-      <Suspense fallback={<HomeSectionFallback />}>
-        <Why />
-      </Suspense>
-      <Suspense fallback={<HomeSectionFallback />}>
-        <Campus />
-      </Suspense>
-      <ProductsDeferred />
-      <Suspense fallback={<HomeSectionFallback />}>
-        <Opportunities />
-      </Suspense>
-      <Suspense fallback={<HomeSectionFallback />}>
-        <Location />
-      </Suspense>
-      <Suspense fallback={<HomeSectionFallback />}>
-        <FinalCta bridgeFrom="bg-secondary/25" />
-      </Suspense>
+      <LogoStrip variant="home" />
+      {/* <SocialProof /> */}
+      <Why />
+      <WhoIsItFor />
+      <EcosystemFlow />
+      <CampusFacilities />
+      <Products products={products} />
+      <Opportunities />
+      <SectionBand tone="secondary-25">
+        <Location bandFrom={null} />
+        <Faq />
+      </SectionBand>
+      <FinalCta bridgeFrom="secondary-25" />
     </main>
   )
 }

@@ -276,6 +276,58 @@ export function PatternBand({
   )
 }
 
+const cornerMask = {
+  "top-left": "linear-gradient(to bottom right, #000 14%, transparent 58%)",
+  "top-right": "linear-gradient(to bottom left, #000 14%, transparent 58%)",
+  "bottom-left": "linear-gradient(to top right, #000 14%, transparent 58%)",
+  "bottom-right": "linear-gradient(to top left, #000 14%, transparent 58%)",
+} as const
+
+const cornerPosition = {
+  "top-left": "left-0 top-0",
+  "top-right": "right-0 top-0",
+  "bottom-left": "left-0 bottom-0",
+  "bottom-right": "right-0 bottom-0",
+} as const
+
+export type PatternCornerPosition = keyof typeof cornerMask
+
+export function PatternCorner({
+  variant,
+  position = "top-right",
+  size = "md",
+  className,
+}: {
+  variant: PatternVariant
+  position?: PatternCornerPosition
+  size?: "sm" | "md" | "lg"
+  className?: string
+}) {
+  const sizeClass = {
+    sm: "size-28",
+    md: "size-36 sm:size-40",
+    lg: "size-44 sm:size-52",
+  }[size]
+
+  return (
+    <div
+      aria-hidden
+      className={cn(
+        "pointer-events-none absolute z-0 overflow-hidden",
+        cornerPosition[position],
+        sizeClass,
+        className
+      )}
+      style={{
+        maskImage: cornerMask[position],
+        WebkitMaskImage: cornerMask[position],
+      }}
+    >
+      <BrandPattern variant={variant} />
+    </div>
+  )
+}
+
 export function WaveEdge({
   position = "top",
   className,
@@ -289,14 +341,14 @@ export function WaveEdge({
       viewBox="0 0 1440 72"
       preserveAspectRatio="none"
       className={cn(
-        "pointer-events-none block aspect-[20/1] h-auto w-full shrink-0 align-top",
+        "pointer-events-none block h-[clamp(1.75rem,3.5vw,4rem)] w-full shrink-0 leading-[0] [shape-rendering:geometricPrecision]",
         position === "bottom" && "rotate-180",
         className
       )}
     >
       <path
         fill="currentColor"
-        d="M0 28C118 8 196 62 318 44c110-16 154-46 286-32 128 14 168 52 302 36 122-14 176-54 318-34 86 12 142 38 216 22V76H0V28Z"
+        d="M0 32C120 10 200 58 320 42c108-15 152-44 284-30 126 13 166 50 298 34 120-13 174-52 316-32 84 11 138 36 222 20V72H0V32Z"
       />
     </svg>
   )

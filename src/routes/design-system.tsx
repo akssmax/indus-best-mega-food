@@ -51,6 +51,7 @@ import { LogoStrip } from "@/components/landing/logo-strip"
 import {
   BandHero,
   DropHero,
+  CampusHero,
   FrameHero,
   MarkHero,
   heroVariantMeta,
@@ -690,8 +691,10 @@ function DesignSystemPage() {
         <h2 className="mt-3 text-3xl">Hero sections</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
           Four forest-band heroes on the same copy and campus photos.{" "}
-          <strong className="font-medium text-foreground">Drop</strong> is live
+          <strong className="font-medium text-foreground">Campus</strong> is live
           on the homepage;{" "}
+          <strong className="font-medium text-foreground">Drop</strong> is kept
+          as the backup mask variant;{" "}
           <strong className="font-medium text-foreground">Mark</strong> uses the
           IBMFP logo badge as the mask;{" "}
           <strong className="font-medium text-foreground">Frame</strong> and{" "}
@@ -710,6 +713,7 @@ function DesignSystemPage() {
         <div className="mt-10 space-y-12">
           {(
             [
+              { variant: "campus" as const, Component: CampusHero },
               { variant: "drop" as const, Component: DropHero },
               { variant: "mark" as const, Component: MarkHero },
               { variant: "frame" as const, Component: FrameHero },
@@ -722,7 +726,7 @@ function DesignSystemPage() {
                 <div className="border-b border-border bg-muted/40 px-4 py-4 sm:px-6">
                   <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
                     {meta.name}
-                    {variant === "drop" ? " · Live" : null}
+                    {variant === "campus" ? " · Live" : null}
                   </p>
                   <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
                     {meta.note}

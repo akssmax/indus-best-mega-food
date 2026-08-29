@@ -3,7 +3,8 @@ import { ArrowUpRight } from "lucide-react"
 import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Eyebrow, Section } from "@/components/landing/section"
+import { SectionIntro } from "@/components/landing/feature-card"
+import { Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 import { PatternBand } from "@/components/ui/brand-pattern"
 import { pickFeaturedProducts, type NouryaProduct } from "@/lib/nourya"
@@ -20,11 +21,13 @@ export function Products({ products }: { products: NouryaProduct[] }) {
         patternClassName="opacity-[0.08]"
       />
       <div className="relative z-10">
-      <Reveal className="max-w-2xl">
-        <Eyebrow>{data.eyebrow}</Eyebrow>
-        <h2 className="mt-3 text-3xl sm:text-4xl">{data.title}</h2>
-        <p className="mt-4 leading-relaxed text-muted-foreground">{data.body}</p>
-      </Reveal>
+        <Reveal>
+          <SectionIntro
+            eyebrow={data.eyebrow}
+            title={data.title}
+            body={data.body}
+          />
+        </Reveal>
 
       <Stagger className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
         {featured.map((product) => (

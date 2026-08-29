@@ -147,31 +147,6 @@ export function CollectionGauge({
             </motion.p>
           )}
         </div>
-
-        <div className="absolute -bottom-1 left-1/2 z-10 -translate-x-1/2">
-          {reduce ? (
-            <span className="inline-flex min-h-8 items-center rounded-full bg-cta px-3 py-1 text-xs font-semibold text-cta-foreground shadow-[0_10px_24px_color-mix(in_oklch,var(--cta)_45%,transparent)]">
-              Collection live
-            </span>
-          ) : (
-            <motion.span
-              className="inline-flex min-h-8 items-center gap-1.5 rounded-full bg-cta px-3 py-1 text-xs font-semibold text-cta-foreground shadow-[0_10px_24px_color-mix(in_oklch,var(--cta)_45%,transparent)]"
-              initial={{ opacity: 0, y: 10, scale: 0.92 }}
-              animate={
-                inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.92 }
-              }
-              transition={{ duration: 0.5, ease, delay: 0.42 }}
-            >
-              <motion.span
-                aria-hidden
-                className="size-1.5 rounded-full bg-cta-foreground/90"
-                animate={{ scale: [1, 1.35, 1], opacity: [0.75, 1, 0.75] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-              />
-              Collection live
-            </motion.span>
-          )}
-        </div>
       </div>
 
       <ChipList

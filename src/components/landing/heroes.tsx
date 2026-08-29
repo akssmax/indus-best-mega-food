@@ -17,7 +17,7 @@ import { WaveEdge } from "@/components/ui/brand-pattern"
 import { contentContainerClass, contentGutterClass } from "@/lib/layout"
 import { cn } from "@/lib/utils"
 
-export const heroVariants = ["drop", "mark", "frame", "band"] as const
+export const heroVariants = ["campus", "drop", "mark", "frame", "band"] as const
 
 export type HeroVariant = (typeof heroVariants)[number]
 
@@ -25,9 +25,13 @@ export const heroVariantMeta: Record<
   HeroVariant,
   { name: string; note: string }
 > = {
+  campus: {
+    name: "Campus",
+    note: "Full campus photo, hover stat cards, and copy that rotates with each slide. Live homepage.",
+  },
   drop: {
     name: "Drop",
-    note: "Brand drop mask, ghost silhouette, and floating stat cards. Live homepage.",
+    note: "Brand drop mask, ghost silhouette, and floating stat cards. Backup variant.",
   },
   mark: {
     name: "Mark",
@@ -86,11 +90,64 @@ export const heroShellClass =
 
 const HERO_SLIDE_MS = 6000
 
+type HeroSlide = (typeof landing.hero.slides)[number]
+
 type HeroSlideCard = {
   value: string
   label: string
   detail: string
   side: "left" | "right"
+}
+
+function useHeroCarousel(slideCount: number) {
+  const reduce = useReducedMotion()
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (reduce || slideCount < 2 || paused) return
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % slideCount)
+    }, HERO_SLIDE_MS)
+
+    return () => window.clearInterval(timer)
+  }, [paused, reduce, slideCount])
+
+  useEffect(() => {
+    if (reduce || slideCount < 2) return
+
+    const slides = landing.hero.slides
+    const nextIndex = (activeIndex + 1) % slideCount
+    const nextSrc = slides[nextIndex]?.image.src
+    if (!nextSrc) return
+
+    const link = document.createElement("link")
+    link.rel = "preload"
+    link.as = "image"
+    link.href = nextSrc
+    document.head.appendChild(link)
+
+    return () => {
+      document.head.removeChild(link)
+    }
+  }, [activeIndex, reduce, slideCount])
+
+  return {
+    activeIndex,
+    setActiveIndex,
+    paused,
+    setPaused,
+    reduce,
+  }
+}
+
+function getSlideCopy(slide: HeroSlide) {
+  const { hero } = landing
+  return {
+    headline: slide.headline ?? hero.headline,
+    body: slide.body ?? hero.body,
+  }
 }
 
 function FloatStatCard({ card }: { card: HeroSlideCard }) {
@@ -303,7 +360,7 @@ function HeroShell({
       </section>
       <WaveEdge
         position="bottom"
-        className="relative z-[1] -mt-1 -mb-px bg-card text-forest"
+        className="relative z-[1] -mt-px block bg-card text-forest"
       />
     </>
   )
@@ -331,20 +388,219 @@ function HeroCopy({ className }: { className?: string }) {
         </p>
       </MotionItem>
       <MotionItem>
-        <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-          <Button variant="cta" className="h-12 px-6 text-base" asChild>
-            <a href={hero.primaryCta.href}>{hero.primaryCta.label}</a>
-          </Button>
-          <a
-            href={hero.secondaryCta.href}
-            className="inline-flex min-h-11 touch-target items-center gap-1.5 text-sm font-medium text-forest-foreground underline-offset-4 hover:underline active:text-forest-foreground/80"
-          >
-            {hero.secondaryCta.label}
-            <ArrowRightIcon className="size-4" />
-          </a>
-        </div>
+        <HeroCtaRow />
       </MotionItem>
     </Stagger>
+  )
+}
+
+function HeroCtaRow({ className }: { className?: string }) {
+  const { hero } = landing
+
+  return (
+    <div
+      className={cn(
+        "flex flex-col items-start gap-4 sm:flex-row sm:items-center",
+        className
+      )}
+    >
+      <Button variant="cta" className="h-12 px-6 text-base" asChild>
+        <a href={hero.primaryCta.href}>{hero.primaryCta.label}</a>
+      </Button>
+      <a
+        href={hero.secondaryCta.href}
+        className="inline-flex min-h-11 touch-target items-center gap-1.5 text-sm font-medium text-forest-foreground underline-offset-4 hover:underline active:text-forest-foreground/80"
+      >
+        {hero.secondaryCta.label}
+        <ArrowRightIcon className="size-4" />
+      </a>
+    </div>
+  )
+}
+
+function HeroCopyAnimated({
+  activeIndex,
+  className,
+}: {
+  activeIndex: number
+  className?: string
+}) {
+  const { hero } = landing
+  const { slides } = hero
+  const slide = slides[activeIndex] ?? slides[0]
+  const copy = getSlideCopy(slide)
+  const reduce = useReducedMotion()
+
+  return (
+    <div className={cn("relative z-10 mx-auto w-full max-w-xl lg:mx-0", className)}>
+      <Reveal when="mount">
+        <Eyebrow className="text-cta">{hero.eyebrow}</Eyebrow>
+      </Reveal>
+
+      <div className="mt-5 min-h-[9.5rem] sm:min-h-[10.5rem] lg:min-h-[11.5rem]">
+        {reduce ? (
+          <>
+            <h1 className="text-4xl leading-[1.08] font-semibold sm:text-5xl lg:text-[3.35rem]">
+              {copy.headline}
+            </h1>
+            <p className="mt-6 max-w-lg text-base leading-relaxed text-forest-foreground/85 sm:text-lg">
+              {copy.body}
+            </p>
+          </>
+        ) : (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.45, ease: motionEase }}
+            >
+              <h1 className="text-4xl leading-[1.08] font-semibold sm:text-5xl lg:text-[3.35rem]">
+                {copy.headline}
+              </h1>
+              <motion.p
+                className="mt-6 max-w-lg text-base leading-relaxed text-forest-foreground/85 sm:text-lg"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.06, ease: motionEase }}
+              >
+                {copy.body}
+              </motion.p>
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </div>
+
+      <Reveal when="mount" delay={0.12} className="mt-8">
+        <HeroCtaRow />
+      </Reveal>
+    </div>
+  )
+}
+
+function campusCardPosition(side: HeroSlideCard["side"]) {
+  return cn(
+    "absolute z-10 w-[min(100%,16rem)]",
+    side === "left"
+      ? "bottom-5 left-4 sm:bottom-7 sm:left-6"
+      : "top-5 right-4 sm:top-7 sm:right-6"
+  )
+}
+
+function CampusHeroVisual({
+  activeIndex,
+  setPaused,
+  reduce,
+}: {
+  activeIndex: number
+  setPaused: (paused: boolean) => void
+  reduce: boolean | null
+}) {
+  const { slides } = landing.hero
+  const slide = slides[activeIndex] ?? slides[0]
+  const imageFetchPriority = activeIndex === 0 ? "high" : "auto"
+
+  return (
+    <motion.div
+      className="relative mx-auto w-full max-w-none lg:mx-0"
+      initial={reduce ? undefined : { opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.12, ease: motionEase }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+          setPaused(false)
+        }
+      }}
+    >
+      <div className="group relative overflow-hidden rounded-3xl shadow-[0_24px_56px_rgba(15,43,29,0.28)] ring-1 ring-forest-foreground/15">
+        <div className="relative aspect-[5/4] sm:aspect-[16/11] lg:aspect-[4/3]">
+          {reduce ? (
+            <img
+              src={slide.image.src}
+              alt={slide.image.alt}
+              className="absolute inset-0 size-full object-cover object-center"
+              fetchPriority={imageFetchPriority}
+              loading="eager"
+              decoding="async"
+            />
+          ) : (
+            <AnimatePresence mode="sync">
+              <motion.img
+                key={slide.image.src}
+                src={slide.image.src}
+                alt={slide.image.alt}
+                className="absolute inset-0 size-full object-cover object-center"
+                fetchPriority={imageFetchPriority}
+                loading="eager"
+                decoding="async"
+                initial={{ opacity: 0, scale: 1.06 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.02 }}
+                transition={{ duration: 0.85, ease: motionEase }}
+              />
+            </AnimatePresence>
+          )}
+          <div className="absolute inset-0 bg-linear-to-t from-forest/55 via-forest/10 to-forest/5" />
+          <div className="absolute inset-0 bg-linear-to-r from-forest/25 via-transparent to-forest/15 opacity-80" />
+
+          {slide.cards.map((card) => (
+            <div
+              key={`${activeIndex}-${card.side}-${card.label}`}
+              className={cn(
+                campusCardPosition(card.side),
+                "pointer-events-none opacity-0 translate-y-2 scale-[0.98] transition-all duration-300 ease-out",
+                "group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100",
+                "group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100"
+              )}
+            >
+              <FloatStatCard card={card} />
+            </div>
+          ))}
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 px-4 py-3 sm:px-5 sm:py-4">
+          {slides.map((item, index) => (
+            <span
+              key={item.image.src}
+              aria-hidden
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-300",
+                index === activeIndex
+                  ? "w-5 bg-cta"
+                  : "w-1.5 bg-forest-foreground/35"
+              )}
+            />
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+export function CampusHero({ markHero = true }: { markHero?: boolean }) {
+  const { slides } = landing.hero
+  const { activeIndex, setPaused, reduce } = useHeroCarousel(slides.length)
+
+  return (
+    <HeroShell markHero={markHero}>
+      <div
+        className={cn(
+          heroGridClass,
+          "lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:gap-8 xl:gap-10"
+        )}
+      >
+        <HeroCopyAnimated activeIndex={activeIndex} />
+        <CampusHeroVisual
+          activeIndex={activeIndex}
+          setPaused={setPaused}
+          reduce={reduce}
+        />
+      </div>
+    </HeroShell>
   )
 }
 
@@ -531,6 +787,7 @@ export function BandHero({ markHero = false }: { markHero?: boolean }) {
 }
 
 const heroByVariant = {
+  campus: CampusHero,
   drop: DropHero,
   mark: MarkHero,
   frame: FrameHero,
@@ -538,12 +795,12 @@ const heroByVariant = {
 } as const
 
 export function Hero({
-  variant = "drop",
+  variant = "campus",
   markHero,
 }: {
   variant?: HeroVariant
   markHero?: boolean
 }) {
   const Component = heroByVariant[variant]
-  return <Component markHero={markHero ?? variant === "drop"} />
+  return <Component markHero={markHero ?? variant === "campus"} />
 }

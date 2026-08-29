@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { MintLanding } from "@/components/landings/mint/page"
+import { PlatformLanding } from "@/components/landings/platform/page"
 import { getNouryaProducts } from "@/lib/nourya"
 
 export const Route = createFileRoute("/landing-5")({
@@ -10,5 +10,5 @@ export const Route = createFileRoute("/landing-5")({
 
 function LandingFive() {
   const products = Route.useLoaderData()
-  return <MintLanding products={products} />
+  return <PlatformLanding products={products} />
 }

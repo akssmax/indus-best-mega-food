@@ -11,16 +11,16 @@ export type EnquiryInterest = (typeof enquiryInterests)[number]["value"]
 export const landing = {
   hero: {
     eyebrow: "Mega Food Park · Raipur, Chhattisgarh",
-    headline: "Set up your processing unit on a campus that's already built.",
-    body: "Developed plots, 16 plug-and-play MSME sheds, fruit and vegetable lines, 5,000 MT cold storage, and 12,000 MT dry warehouse — at Village Bemta–Sarora, in Chhattisgarh's growing belt.",
+    headline: "Start processing without building the campus first.",
+    body: "Plot, shed, or shared capacity — cold chain, warehousing and utilities already on site.",
     image: {
       src: "/images/warehouse.jpg",
       alt: "Warehouse and campus at Indus Best Mega Food Park, Raipur",
     },
-    primaryCta: { label: "Enquire about a plot or shed", href: "/contact" },
+    primaryCta: { label: "Explore the Campus", href: "/campus" },
     secondaryCta: {
-      label: "See the campus",
-      href: "/campus",
+      label: "Enquire Now",
+      href: "/contact",
     },
     stats: [
       { value: "50+", label: "Acres" },
@@ -30,6 +30,8 @@ export const landing = {
     ],
     slides: [
       {
+        headline: "Start processing without building the campus first.",
+        body: "Plot, shed, or shared capacity — cold chain, warehousing and utilities already on site.",
         image: {
           src: "/images/warehouse.jpg",
           alt: "Warehouse and MSME sheds at Indus Best Mega Food Park",
@@ -50,6 +52,8 @@ export const landing = {
         ],
       },
       {
+        headline: "Shared lines already packing.",
+        body: "Tomato concentrate, mango puree, and IQF — book throughput without building the line.",
         image: {
           src: "/images/aseptic-line.jpg",
           alt: "Aseptic processing line on campus",
@@ -70,6 +74,8 @@ export const landing = {
         ],
       },
       {
+        headline: "Developed land with utilities in place.",
+        body: "30–35 serviced plots on 50+ acres — roads, water, power, and ETP ready.",
         image: {
           src: "/images/cpc-building.jpg",
           alt: "Central processing campus at Bemta–Sarora",
@@ -90,6 +96,8 @@ export const landing = {
         ],
       },
       {
+        headline: "Logistics and utilities at the gate.",
+        body: "100 MT weighbridge and 2.7 MLD process water — shared infrastructure you do not duplicate.",
         image: {
           src: "/images/weigh-bridge.jpg",
           alt: "Entry gate and 100 MT weighbridge",
@@ -110,6 +118,8 @@ export const landing = {
         ],
       },
       {
+        headline: "Storage beside the line.",
+        body: "12,000 MT dry warehouse and quality labs — with PPC intake across three districts.",
         image: {
           src: "/images/admin-lab.jpg",
           alt: "Quality control laboratory on campus",
@@ -131,8 +141,21 @@ export const landing = {
       },
     ],
   },
+  socialProof: {
+    id: "social-proof",
+    eyebrow: "At a glance",
+    title: "Scheme-backed and operational.",
+    body: "Mega Food Park status, project scale, and location — verified against MOFPI scheme listings.",
+    // TODO: align acreage claims — hero slides use "50+" developed acres; MOFPI/PIB cite 63.8-acre project area.
+    credibility: [
+      { value: "63.8 acres", label: "Project area" },
+      { value: "2021", label: "Operational since" },
+      { value: "Raipur", label: "Chhattisgarh" },
+      { value: "Mega Food Park", label: "MOFPI scheme" },
+    ],
+  },
   clients: {
-    label: "Our clients",
+    label: "Companies & ecosystem partners",
     items: [
       { name: "Nestlé", logo: "/images/clients/nestle.svg" },
       { name: "Mother Dairy", logo: "/images/clients/mother-dairy.svg" },
@@ -147,6 +170,195 @@ export const landing = {
       },
       { name: "DeHaat", logo: "/images/clients/dehaat.png" },
     ] as { name: string; logo?: string }[],
+  },
+  audience: {
+    id: "who-is-it-for",
+    eyebrow: "Built for food businesses",
+    title: "Plot, shed, shared capacity, or scale-up — choose your route.",
+    body: "Plot, plug-and-play shed, shared processing lines, or farm-gate sourcing — each route links to what you need next.",
+    items: [
+      {
+        title: "Food Manufacturers",
+        subtitle: "Set up your own processing unit",
+        body: "Develop your manufacturing facility on a serviced industrial plot with access to essential infrastructure and utilities.",
+        cta: { label: "Explore Plots", href: "#campus" },
+        icon: "factory" as const,
+      },
+      {
+        title: "MSMEs & Growing Businesses",
+        subtitle: "Start without building everything from scratch",
+        body: "Plug-and-play facilities help smaller businesses get access to food processing infrastructure without the full burden of greenfield development.",
+        cta: { label: "Explore Facilities", href: "#facilities" },
+        icon: "building" as const,
+      },
+      {
+        title: "Established Food Companies",
+        subtitle: "Expand your processing capabilities",
+        body: "Access shared processing, cold chain, warehousing and other infrastructure without duplicating every facility yourself.",
+        cta: { label: "View Capabilities", href: "#processing-capabilities" },
+        icon: "expand" as const,
+      },
+      {
+        title: "Agri & Food Entrepreneurs",
+        subtitle: "Move produce from farm to market",
+        body: "Use the connected processing ecosystem to collect, process, store and prepare agricultural produce for larger markets.",
+        cta: { label: "Talk to Us", href: "/contact" },
+        icon: "sprout" as const,
+      },
+    ],
+  },
+  benefits: {
+    id: "why-indus-best",
+    eyebrow: "Why choose us",
+    title: "Why set up here instead of building alone.",
+    body: "Land, utilities, cold chain, and shared lines are already running — so you focus on product and throughput, not civil works.",
+    items: [
+      {
+        title: "Faster setup",
+        body: "Reduce the time and complexity involved in developing a food processing facility from the ground up.",
+        icon: "clock" as const,
+      },
+      {
+        title: "Shared infrastructure",
+        body: "Access processing, cold chain, warehousing and other common facilities without duplicating every investment.",
+        icon: "share" as const,
+      },
+      {
+        title: "Connected to agriculture",
+        body: "Located within an agricultural catchment with Primary Processing Centres supporting the movement of produce into the processing ecosystem.",
+        icon: "crop" as const,
+      },
+      {
+        title: "Built for scale",
+        body: "Combine land, processing, storage, utilities and logistics within one integrated food processing campus.",
+        icon: "scale" as const,
+      },
+    ],
+  },
+  ecosystem: {
+    id: "ecosystem",
+    eyebrow: "From farm to market",
+    title: "One connected ecosystem for food processing.",
+    body: "IBMFP connects agricultural sourcing with central processing, storage and dispatch — with Primary Processing Centres at Durg, Bilaspur and Abhanpur (New Raipur).",
+    steps: [
+      { title: "Farmers", detail: "Agri and horticulture in the growing belt.", tone: "primary" as const },
+      { title: "Primary Processing Centres", detail: "Intake and grading at Durg, Bilaspur and Abhanpur.", tone: "cta" as const },
+      { title: "Indus Best Mega Food Park", detail: "Central campus at Village Bemta–Sarora.", tone: "aqua" as const },
+      { title: "Processing", detail: "Aseptic, concentrate, IQF and pack house.", tone: "primary" as const },
+      { title: "Packaging", detail: "Sort, grade and pack for market.", tone: "cta" as const },
+      { title: "Cold Chain", detail: "Frozen, chilled and IQF storage.", tone: "aqua" as const },
+      { title: "Warehousing", detail: "12,000 MT dry bulk storage.", tone: "primary" as const },
+      { title: "Distribution", detail: "NH-53, rail at Tilda, dispatch-ready.", tone: "cta" as const },
+    ],
+  },
+  facilityCategories: {
+    id: "facilities",
+    eyebrow: "Infrastructure",
+    title: "Processing, storage, and utilities on one campus.",
+    body: "Five shared categories on campus — processing, cold chain, warehousing, quality labs, and utilities.",
+  },
+  campusOverview: {
+    id: "campus",
+    eyebrow: "The campus",
+    title: "Plots, sheds, and on-site infrastructure.",
+    body: "Developed land with utilities in place. Choose a serviced plot, a plug-and-play shed, or book shared capacity on lines already running.",
+    items: [
+      {
+        title: "Serviced plots",
+        body: "30–35 developed plots with roads, water, power, and effluent treatment, ready to commission.",
+        metric: "30–35",
+        metricLabel: "ready plots",
+        image: {
+          src: "/images/admin-building.jpg",
+          alt: "Admin building and developed campus plots",
+        },
+      },
+      {
+        title: "Plug-and-play sheds",
+        body: "Sixteen MSME units with utilities in place — install equipment, not the building.",
+        metric: "16",
+        metricLabel: "MSME sheds",
+        image: {
+          src: "/images/warehouse.jpg",
+          alt: "MSME warehouse sheds at Indus Best Mega Food Park",
+        },
+      },
+      {
+        title: "Shared processing",
+        body: "Aseptic, concentrate, IQF, and pack house capacity on lines already packing.",
+        metric: "Live",
+        metricLabel: "aseptic · IQF · pack",
+        image: {
+          src: "/images/aseptic-line.jpg",
+          alt: "Aseptic process line",
+        },
+      },
+      {
+        title: "Cold and dry storage",
+        body: "5,000 MT cold storage and 12,000 MT dry warehouse beside production.",
+        metric: "17k MT",
+        metricLabel: "cold + dry",
+        image: {
+          src: "/images/warehouse.jpg",
+          alt: "Cold storage warehouse",
+        },
+      },
+    ],
+  },
+  processingCapabilities: {
+    id: "processing-capabilities",
+    eyebrow: "Processing capabilities",
+    title: "Shared aseptic and concentrate throughput.",
+    body: "Book capacity on shared lines rated in MT per hour — compare throughput by crop below.",
+  },
+  faq: {
+    id: "faq",
+    eyebrow: "Have questions?",
+    title: "Everything you need to know before setting up.",
+    items: [
+      {
+        question: "What is Indus Best Mega Food Park?",
+        answer:
+          "Indus Best Mega Food Park is an integrated food processing infrastructure project located in Raipur district, Chhattisgarh, providing facilities for food processing, storage, utilities and related activities.",
+      },
+      {
+        question: "Who can set up a unit at the park?",
+        answer:
+          "Food manufacturers, MSMEs, agri-businesses and other eligible food processing businesses can explore available infrastructure and setup options.",
+      },
+      {
+        question: "What types of infrastructure are available?",
+        answer:
+          "Processing, cold storage, warehousing, pack house, food testing, utilities, developed plots, and plug-and-play facilities.",
+      },
+      {
+        question: "Can I set up my own processing unit?",
+        answer:
+          "Yes. Serviced industrial plots (30–35 on campus) come with roads, water, power, and effluent treatment — so you commission the plant, not the estate.",
+      },
+      {
+        question: "Are plug-and-play facilities available?",
+        answer:
+          "Sixteen MSME sheds are available with utilities in place. Walk in, install your equipment, and start operations without a full greenfield build.",
+      },
+      {
+        question: "What processing capabilities are available?",
+        answer:
+          "Aseptic and concentrate lines for tomato, mango, and other fruit and vegetable juices, plus IQF at 2 MT/H. See the processing capabilities section for full throughput details.",
+        link: { label: "View processing capabilities", href: "#processing-capabilities" },
+      },
+      {
+        question: "Where is the park located?",
+        answer:
+          "Village Bemta–Sarora, Tilda block, Raipur district, Chhattisgarh 493101 — with NH-53 adjacent, rail at Tilda, and Swami Vivekananda Airport at Raipur.",
+      },
+      {
+        question: "How can I enquire about setting up a unit?",
+        answer:
+          "Contact our team to discuss available plots, facilities and setup requirements.",
+      },
+    ],
+    cta: { label: "Talk to the Indus Best team", href: "/contact" },
   },
   about: {
     id: "about",
@@ -335,8 +547,8 @@ export const landing = {
   products: {
     id: "products",
     eyebrow: "Made at the park",
-    title: "Nourya — products from this campus.",
-    body: "Tomato puree, desi ghee, and chemical-free jaggery packed on the lines at Bemta–Sarora. The full Nourya range is in the shop.",
+    title: "Nourya — packed on these lines.",
+    body: "Tomato puree, desi ghee, and chemical-free jaggery leave Bemta–Sarora under the Nourya brand. Browse the range made on campus.",
     cta: {
       label: "Shop Nourya",
       href: "https://nourya-in.myshopify.com/",
@@ -415,7 +627,7 @@ export const landing = {
   location: {
     id: "location",
     eyebrow: "The works",
-    title: "Next to the crop. Next to the highway.",
+    title: "Next to the crop. Connected to the market.",
     body: "The plant is at Village Bemta–Sarora, near Raipur, Chhattisgarh 493101 — Tilda block. One campus. Crop in the catchment, NH-53 at the gate, rail at Tilda, and the airport 60 km out.",
     campusQuery: "Bemta Sarora, Tilda, Raipur, Chhattisgarh 493101",
     campusLabel: "Village Bemta–Sarora, near Raipur · 493101",
@@ -657,10 +869,10 @@ export const landing = {
     ],
   },
   finalCta: {
-    title: "Let's get your unit on this campus.",
-    body: "Plot, plug-and-play shed, shared line, or a partnership. Tell us what you want to run — the project team replies with availability and a current rate card.",
-    primaryCta: { label: "Send an enquiry", href: "/contact" },
-    secondaryCta: { label: "See the campus", href: "/campus" },
+    title: "Ready to build your next food processing unit?",
+    body: "Tell us what you're looking to manufacture, and we'll help you find the right infrastructure at Indus Best.",
+    primaryCta: { label: "Enquire Now", href: "/contact" },
+    secondaryCta: { label: "Explore the Campus", href: "/campus" },
   },
   enquire: {
     id: "contact",

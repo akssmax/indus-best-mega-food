@@ -10,8 +10,9 @@ import {
 import { landing } from "@/content/landing"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
-import { WaveEdge } from "@/components/ui/brand-pattern"
 import { googleMapsEmbed, googleMapsSearch } from "@/lib/maps"
+import { SectionBand, type BandSurface } from "@/lib/section-band"
+import { cn } from "@/lib/utils"
 
 const benefitIcons: Record<(typeof landing.location.benefits)[number]["icon"], LucideIcon> = {
   crop: SproutIcon,
@@ -20,14 +21,21 @@ const benefitIcons: Record<(typeof landing.location.benefits)[number]["icon"], L
   air: PlaneIcon,
 }
 
-export function Location() {
+export function Location({
+  bandFrom = "background",
+  embedded = false,
+}: {
+  bandFrom?: BandSurface | null
+  embedded?: boolean
+}) {
   const { location: data } = landing
   const embedSrc = googleMapsEmbed(data.campusQuery, 14)
 
-  return (
-    <div className="bg-secondary/25">
-      <WaveEdge className="relative -mt-px bg-background text-secondary/25" />
-      <Section id={data.id} className="bg-transparent">
+  const content = (
+    <Section
+      id={data.id}
+      className={cn("bg-transparent", embedded && "py-8 lg:py-10")}
+    >
         <Reveal className="max-w-2xl">
           <Eyebrow>{data.eyebrow}</Eyebrow>
           <h2 className="mt-3 text-3xl sm:text-4xl">{data.title}</h2>
@@ -118,6 +126,13 @@ export function Location() {
           </Reveal>
         </div>
       </Section>
-    </div>
+  )
+
+  if (bandFrom == null) return content
+
+  return (
+    <SectionBand tone="secondary-25" from={bandFrom}>
+      {content}
+    </SectionBand>
   )
 }

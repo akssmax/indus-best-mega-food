@@ -4,18 +4,24 @@ import { OceanBackground } from "@/components/landing/ocean-background"
 import { Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
 import { WaveEdge } from "@/components/ui/brand-pattern"
+import {
+  ForestBandBridge,
+  type BandSurface,
+  bandBg,
+  bandWave,
+} from "@/lib/section-band"
 import { cn } from "@/lib/utils"
 
 export type CtaBridge = boolean | "top" | "bottom" | "both"
 
 export function FinalCta({
   bridge = "both",
-  bridgeFrom = "bg-background",
+  bridgeFrom = "secondary-25",
 }: {
   /** Forest waves at the joins. Pass `"top"`, `"bottom"`, or `"both"`. */
   bridge?: CtaBridge
-  /** Fill behind the top wave so it matches the section above. */
-  bridgeFrom?: string
+  /** Surface colour of the section above the forest band. */
+  bridgeFrom?: BandSurface
 }) {
   const { finalCta: data } = landing
   const showTop = bridge === true || bridge === "both" || bridge === "top"
@@ -23,9 +29,7 @@ export function FinalCta({
 
   return (
     <>
-      {showTop ? (
-        <WaveEdge className={cn("-mb-px text-forest", bridgeFrom)} />
-      ) : null}
+      {showTop ? <ForestBandBridge from={bridgeFrom} /> : null}
       <Section
         id="final-cta"
         className="relative z-10 flex min-h-[32rem] items-center overflow-hidden bg-forest py-24 text-forest-foreground sm:min-h-[36rem] lg:min-h-[40rem] lg:py-36"
@@ -55,7 +59,11 @@ export function FinalCta({
       {showBottom ? (
         <WaveEdge
           position="bottom"
-          className="relative z-[1] -mt-1 -mb-px bg-card text-forest"
+          className={cn(
+            "relative z-[1] -mt-px block",
+            bandBg.card,
+            bandWave.forest
+          )}
         />
       ) : null}
     </>
