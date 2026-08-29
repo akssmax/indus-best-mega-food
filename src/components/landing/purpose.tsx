@@ -150,7 +150,7 @@ export function Why() {
               <h3 className="font-heading text-lg font-semibold">
                 {scheme.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 mb-4 text-sm leading-relaxed text-muted-foreground sm:mb-5">
                 {scheme.body}
               </p>
               <StatusSeal

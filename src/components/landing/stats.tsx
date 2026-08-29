@@ -197,7 +197,7 @@ export function Stats() {
         <h2 className="mt-3 text-3xl sm:text-4xl">{numbers.title}</h2>
       </Reveal>
 
-      <Stagger className="relative mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 xl:grid-cols-6">
+      <Stagger className="relative mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 xl:grid-cols-6">
         {numbers.items.map((stat, index) => (
           <MotionItem key={stat.label}>
             <StatCard value={stat.value} label={stat.label} index={index} />

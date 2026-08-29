@@ -445,7 +445,7 @@ export const landing = {
         icon: "rail" as const,
       },
       {
-        title: "Air at Raipur",
+        title: "Airport at Raipur",
         body: "Swami Vivekananda Airport is 60 km from the plant — close enough for buyers, samples, and time-sensitive freight.",
         icon: "air" as const,
       },

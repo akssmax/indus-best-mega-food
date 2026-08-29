@@ -10,6 +10,7 @@ import {
 import { site } from "@/content/site"
 import { SiteHeader } from "@/components/layout/site-header"
 import { SiteFooter } from "@/components/layout/site-footer"
+import { FontLoader } from "@/components/layout/font-loader"
 import { LandingSwitcher } from "@/components/layout/landing-switcher"
 import { AppError, AppNotFound } from "@/components/layout/app-error"
 import { Toaster } from "@/components/ui/sonner"
@@ -53,6 +54,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body className="min-h-svh antialiased">
+        <FontLoader />
         <ShellBoundary>
           <div id="top" />
           <PageChrome>{children}</PageChrome>

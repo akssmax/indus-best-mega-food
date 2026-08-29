@@ -15,6 +15,7 @@ export const aboutPage = {
     secondaryCta: { label: "See the campus", href: "/campus" },
     jumps: [
       { label: "The cluster", href: "#cluster" },
+      { label: "Leadership", href: "#team" },
       { label: "Purpose", href: "#purpose" },
       { label: "Nourya", href: "#nourya" },
       { label: "Locations", href: "#locations" },
@@ -30,6 +31,25 @@ export const aboutPage = {
       "Approved under the Ministry of Food Processing Industries Mega Food Park Scheme (2014) and listed as operational.",
     seal: { kicker: "MOFPI", title: "2014 · Operational" },
     image: landing.about.image,
+  },
+  team: {
+    id: "team",
+    eyebrow: "Leadership",
+    title: "The people steering the park.",
+    body: "Indus Best Mega Food Park is led by a board and management team with deep experience across agro-processing, infrastructure, and multi-sector industry.",
+    members: [
+      {
+        role: "Chairman & Managing Director",
+        name: "Maj. Satyapal Sindhu",
+        bio: "Chairman of the board with vast, cross-sector experience guiding the park's long-term direction and stakeholder relationships.",
+      },
+      {
+        role: "Chief Executive Officer",
+        name: "Dr S K Mishra",
+        credentials: "PhD",
+        bio: "Techno-commercial leader with extensive experience across agro-based industry verticals — from collection and processing to campus operations.",
+      },
+    ],
   },
   cluster: {
     id: "cluster",

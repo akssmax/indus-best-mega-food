@@ -52,6 +52,7 @@ import {
   BandHero,
   DropHero,
   FrameHero,
+  MarkHero,
   heroVariantMeta,
   heroVariants,
 } from "@/components/landing/heroes"
@@ -688,12 +689,14 @@ function DesignSystemPage() {
         <Eyebrow>Layout</Eyebrow>
         <h2 className="mt-3 text-3xl">Hero sections</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Three forest-band heroes on the same copy and campus photo.{" "}
+          Four forest-band heroes on the same copy and campus photos.{" "}
           <strong className="font-medium text-foreground">Drop</strong> is live
           on the homepage;{" "}
+          <strong className="font-medium text-foreground">Mark</strong> uses the
+          IBMFP logo badge as the mask;{" "}
           <strong className="font-medium text-foreground">Frame</strong> and{" "}
           <strong className="font-medium text-foreground">Band</strong> swap the
-          visual treatment — rounded frame and wide band instead of the drop
+          visual treatment — rounded frame and wide band instead of a shaped
           mask. Pass{" "}
           <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
             variant
@@ -708,6 +711,7 @@ function DesignSystemPage() {
           {(
             [
               { variant: "drop" as const, Component: DropHero },
+              { variant: "mark" as const, Component: MarkHero },
               { variant: "frame" as const, Component: FrameHero },
               { variant: "band" as const, Component: BandHero },
             ] as const

@@ -75,7 +75,7 @@ export function Products({ products }: { products: NouryaProduct[] }) {
       </Stagger>
 
       <Reveal className="mt-10" delay={0.08}>
-        <Button variant="cta" className="h-11 px-5 text-base" asChild>
+        <Button variant="secondary" className="h-11 px-5 text-base" asChild>
           <a href={data.cta.href} target="_blank" rel="noopener noreferrer">
             {data.cta.label}
           </a>

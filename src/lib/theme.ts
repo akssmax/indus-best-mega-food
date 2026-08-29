@@ -6,6 +6,7 @@ import {
   isFontPairingId,
   type FontPairingId,
 } from "@/lib/fonts"
+import { ensureFontPairingLoaded } from "@/lib/font-loader"
 
 export const THEME_STORAGE_KEY = "ibmfp-theme"
 
@@ -235,6 +236,9 @@ function writeTheme(theme: ThemeState) {
 
 export function applyTheme(partial: Partial<ThemeState>): ThemeState {
   const next = { ...readStoredTheme(), ...partial }
+  if (partial.font) {
+    void ensureFontPairingLoaded(partial.font)
+  }
   writeTheme(next)
   return next
 }

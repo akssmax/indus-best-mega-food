@@ -4,7 +4,7 @@ import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
-import { DropFlourish, PatternBand } from "@/components/ui/brand-pattern"
+import { BrandPattern, DropFlourish, PatternBand } from "@/components/ui/brand-pattern"
 import { PullQuote } from "@/components/ui/pull-quote"
 
 export function Opportunities() {
@@ -20,36 +20,48 @@ export function Opportunities() {
       />
 
       <div className="relative z-10 grid items-stretch gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-10">
-        <Reveal className="flex h-full flex-col overflow-hidden rounded-3xl bg-forest p-7 text-forest-foreground sm:p-9 lg:p-10">
-          <div className="flex items-center gap-3">
-            <DropFlourish className="hidden text-cta/70 sm:block" />
-            <Eyebrow className="text-cta">{data.eyebrow}</Eyebrow>
+        <Reveal className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-forest p-7 text-forest-foreground sm:p-9 lg:p-10">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute right-0 bottom-0 z-0 size-44 sm:size-52 lg:size-60 [mask-image:linear-gradient(225deg,#000_18%,transparent_60%)]"
+          >
+            <BrandPattern variant="bloom" className="text-cta opacity-[0.38]" />
           </div>
-          <h2 className="mt-4 text-3xl sm:text-4xl">{data.title}</h2>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/85 sm:text-base">
-            {data.body}
-          </p>
-          <PullQuote className="mt-8 border-cta/70 text-forest-foreground [&_p]:text-2xl [&_p]:sm:text-3xl">
-            {data.quote}
-          </PullQuote>
-          <ul className="mt-8 space-y-2.5 text-sm text-forest-foreground/80">
-            {data.proofs.map((proof) => (
-              <li key={proof} className="flex gap-3">
-                <span
-                  aria-hidden
-                  className="mt-2 size-1.5 shrink-0 rounded-full bg-cta"
-                />
-                <span>{proof}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-auto pt-8">
-            <Button variant="cta" className="h-12 px-6 text-base" asChild>
-              <a href={data.cta.href}>
-                {data.cta.label}
-                <ArrowRightIcon />
-              </a>
-            </Button>
+          <div className="relative z-10 flex h-full flex-col">
+            <div className="flex items-center gap-3">
+              <DropFlourish className="hidden text-cta/70 sm:block" />
+              <Eyebrow className="text-cta">{data.eyebrow}</Eyebrow>
+            </div>
+            <h2 className="mt-4 text-3xl sm:text-4xl">{data.title}</h2>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/85 sm:text-base">
+              {data.body}
+            </p>
+            <PullQuote className="mt-8 border-cta/70 text-forest-foreground [&_p]:text-2xl [&_p]:sm:text-3xl">
+              {data.quote}
+            </PullQuote>
+            <ul className="mt-8 space-y-2.5 text-sm text-forest-foreground/80">
+              {data.proofs.map((proof) => (
+                <li key={proof} className="flex gap-3">
+                  <span
+                    aria-hidden
+                    className="mt-2 size-1.5 shrink-0 rounded-full bg-cta"
+                  />
+                  <span>{proof}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-auto pt-8">
+              <Button
+                variant="cta"
+                className="h-12 w-full px-6 text-base lg:w-auto"
+                asChild
+              >
+                <a href={data.cta.href}>
+                  {data.cta.label}
+                  <ArrowRightIcon />
+                </a>
+              </Button>
+            </div>
           </div>
         </Reveal>
 

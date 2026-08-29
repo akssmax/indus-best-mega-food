@@ -5,6 +5,7 @@ import { MenuIcon, XIcon } from "lucide-react"
 import { site } from "@/content/site"
 import { ThemePopover } from "@/components/theme/theme-selector"
 import { Button } from "@/components/ui/button"
+import { contentContainerClass, contentGutterClass } from "@/lib/layout"
 import {
   Sheet,
   SheetClose,
@@ -190,12 +191,18 @@ export function SiteHeader() {
       data-tone={tone}
       className={cn(
         "sticky top-0 z-40 transition-[background-color,box-shadow,border-color,color] duration-300",
+        contentGutterClass,
         overHero
           ? "border-b border-transparent bg-forest text-forest-foreground"
           : "border-b border-border/70 bg-background/90 text-foreground shadow-[0_8px_24px_rgba(15,43,29,0.06)] backdrop-blur-md"
       )}
     >
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
+      <div
+        className={cn(
+          contentContainerClass,
+          "flex h-14 items-center gap-3 sm:h-16"
+        )}
+      >
         <BrandMark tone={tone} />
 
         <nav

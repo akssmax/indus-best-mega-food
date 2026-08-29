@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { site } from "@/content/site"
 import { AboutHero } from "@/components/about/hero"
 import { AboutWho } from "@/components/about/who"
+import { AboutTeam } from "@/components/about/team"
 import { AboutCluster } from "@/components/about/cluster"
 import { AboutPurpose } from "@/components/about/purpose"
 import { AboutSnapshot } from "@/components/about/snapshot"
@@ -30,6 +31,7 @@ function AboutPage() {
     <main>
       <AboutHero />
       <AboutWho />
+      <AboutTeam />
       <AboutCluster />
       <AboutPurpose />
       <AboutSnapshot />

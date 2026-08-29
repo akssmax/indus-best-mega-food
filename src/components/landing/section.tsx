@@ -1,6 +1,9 @@
 import type { ReactNode } from "react"
 
+import { contentContainerClass, contentGutterClass } from "@/lib/layout"
 import { cn } from "@/lib/utils"
+
+export { contentContainerClass, contentGutterClass }
 
 export function Section({
   id,
@@ -17,11 +20,12 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8 lg:py-24",
+        "scroll-mt-24 py-16 lg:py-24",
+        contentGutterClass,
         className
       )}
     >
-      <div className={cn("mx-auto w-full max-w-6xl", innerClassName)}>
+      <div className={cn(contentContainerClass, innerClassName)}>
         {children}
       </div>
     </section>

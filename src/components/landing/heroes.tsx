@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import type { CSSProperties, ReactNode } from "react"
 import { useEffect, useState } from "react"
 import { ArrowRightIcon } from "lucide-react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
@@ -14,9 +14,10 @@ import {
   motionEase,
 } from "@/components/landing/motion"
 import { WaveEdge } from "@/components/ui/brand-pattern"
+import { contentContainerClass, contentGutterClass } from "@/lib/layout"
 import { cn } from "@/lib/utils"
 
-export const heroVariants = ["drop", "frame", "band"] as const
+export const heroVariants = ["drop", "mark", "frame", "band"] as const
 
 export type HeroVariant = (typeof heroVariants)[number]
 
@@ -27,6 +28,10 @@ export const heroVariantMeta: Record<
   drop: {
     name: "Drop",
     note: "Brand drop mask, ghost silhouette, and floating stat cards. Live homepage.",
+  },
+  mark: {
+    name: "Mark",
+    note: "IBMFP logo badge as the photo mask with the same rotating stat cards.",
   },
   frame: {
     name: "Frame",
@@ -53,6 +58,25 @@ const dropMaskStyle = {
   maskRepeat: "no-repeat",
   WebkitMaskSize: "108% 106%",
   maskSize: "108% 106%",
+  WebkitMaskPosition: "center",
+  maskPosition: "center",
+} as const
+
+// Logo badge silhouette — arch top, rounded base (matches /images/logo.png proportions).
+const MARK_D =
+  "M12 88H112Q124 88 124 76V58C124 24 97 0 62 0C27 0 0 24 0 58V76Q0 88 12 88Z"
+
+const markMask = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124 88"><path fill="black" d="${MARK_D}"/></svg>`
+)}")`
+
+const markMaskStyle = {
+  WebkitMaskImage: markMask,
+  maskImage: markMask,
+  WebkitMaskRepeat: "no-repeat",
+  maskRepeat: "no-repeat",
+  WebkitMaskSize: "100% 100%",
+  maskSize: "100% 100%",
   WebkitMaskPosition: "center",
   maskPosition: "center",
 } as const
@@ -88,7 +112,15 @@ function cardPositionClass(side: HeroSlideCard["side"]) {
   )
 }
 
-function DropHeroVisual() {
+function MaskedRotatingHeroVisual({
+  maskStyle,
+  frameClassName,
+  imageObjectPosition = "center 40%",
+}: {
+  maskStyle: CSSProperties
+  frameClassName: string
+  imageObjectPosition?: string
+}) {
   const { hero } = landing
   const slides = hero.slides
   const reduce = useReducedMotion()
@@ -105,12 +137,32 @@ function DropHeroVisual() {
     return () => window.clearInterval(timer)
   }, [reduce, slides.length])
 
+  useEffect(() => {
+    if (reduce || slides.length < 2) return
+
+    const nextIndex = (activeIndex + 1) % slides.length
+    const nextSrc = slides[nextIndex]?.image.src
+    if (!nextSrc) return
+
+    const link = document.createElement("link")
+    link.rel = "preload"
+    link.as = "image"
+    link.href = nextSrc
+    document.head.appendChild(link)
+
+    return () => {
+      document.head.removeChild(link)
+    }
+  }, [activeIndex, reduce, slides])
+
+  const imageFetchPriority = activeIndex === 0 ? "high" : "auto"
+
   const imageLayer = (
     <>
       <div
         aria-hidden
         className="absolute inset-0 translate-x-2.5 translate-y-5 scale-[0.97] opacity-45 blur-2xl sm:translate-x-3 sm:translate-y-6"
-        style={dropMaskStyle}
+        style={maskStyle}
       >
         <div className="size-full bg-forest/90" />
       </div>
@@ -122,12 +174,16 @@ function DropHeroVisual() {
             "drop-shadow(0 10px 20px rgba(15, 43, 29, 0.16)) drop-shadow(0 28px 48px rgba(15, 43, 29, 0.14))",
         }}
       >
-        <div className="absolute inset-0 overflow-hidden" style={dropMaskStyle}>
+        <div className="absolute inset-0 overflow-hidden" style={maskStyle}>
           {reduce ? (
             <img
               src={slide.image.src}
               alt={slide.image.alt}
-              className="absolute inset-0 size-full object-cover object-[center_40%]"
+              className="absolute inset-0 size-full object-cover"
+              style={{ objectPosition: imageObjectPosition }}
+              fetchPriority={imageFetchPriority}
+              loading="eager"
+              decoding="async"
             />
           ) : (
             <AnimatePresence mode="sync">
@@ -135,7 +191,11 @@ function DropHeroVisual() {
                 key={slide.image.src}
                 src={slide.image.src}
                 alt={slide.image.alt}
-                className="absolute inset-0 size-full object-cover object-[center_40%]"
+                className="absolute inset-0 size-full object-cover"
+                style={{ objectPosition: imageObjectPosition }}
+                fetchPriority={imageFetchPriority}
+                loading="eager"
+                decoding="async"
                 initial={{ opacity: 0, scale: 1.05 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.02 }}
@@ -175,7 +235,7 @@ function DropHeroVisual() {
 
   if (reduce) {
     return (
-      <div className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] lg:max-w-[28rem]">
+      <div className={cn("relative mx-auto w-full", frameClassName)}>
         {imageLayer}
         {cardLayer}
       </div>
@@ -184,7 +244,7 @@ function DropHeroVisual() {
 
   return (
     <motion.div
-      className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] lg:max-w-[28rem]"
+      className={cn("relative mx-auto w-full", frameClassName)}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.12, ease: motionEase }}
@@ -202,6 +262,25 @@ function DropHeroVisual() {
   )
 }
 
+function DropHeroVisual() {
+  return (
+    <MaskedRotatingHeroVisual
+      maskStyle={dropMaskStyle}
+      frameClassName="aspect-[4/5] max-w-[26rem] lg:max-w-[28rem]"
+    />
+  )
+}
+
+function MarkHeroVisual() {
+  return (
+    <MaskedRotatingHeroVisual
+      maskStyle={markMaskStyle}
+      frameClassName="aspect-[124/88] max-w-[22rem] lg:max-w-[26rem]"
+      imageObjectPosition="center 45%"
+    />
+  )
+}
+
 function HeroShell({
   children,
   markHero = false,
@@ -213,7 +292,7 @@ function HeroShell({
     <>
       <section
         {...(markHero ? { "data-hero": true } : {})}
-        className={heroShellClass}
+        className={cn(heroShellClass, contentGutterClass)}
       >
         <OceanBackground tone="forest" />
         <div
@@ -381,12 +460,38 @@ function BandHeroVisual() {
   )
 }
 
+const heroGridClass = cn(
+  contentContainerClass,
+  "grid items-center gap-10 pb-14 lg:pb-20"
+)
+
 export function DropHero({ markHero = true }: { markHero?: boolean }) {
   return (
     <HeroShell markHero={markHero}>
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-14 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-6 lg:pb-20 xl:px-8">
+      <div
+        className={cn(
+          heroGridClass,
+          "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-6"
+        )}
+      >
         <HeroCopy />
         <DropHeroVisual />
+      </div>
+    </HeroShell>
+  )
+}
+
+export function MarkHero({ markHero = false }: { markHero?: boolean }) {
+  return (
+    <HeroShell markHero={markHero}>
+      <div
+        className={cn(
+          heroGridClass,
+          "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-6"
+        )}
+      >
+        <HeroCopy />
+        <MarkHeroVisual />
       </div>
     </HeroShell>
   )
@@ -395,7 +500,12 @@ export function DropHero({ markHero = true }: { markHero?: boolean }) {
 export function FrameHero({ markHero = false }: { markHero?: boolean }) {
   return (
     <HeroShell markHero={markHero}>
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-14 sm:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10 lg:pb-20 xl:px-8">
+      <div
+        className={cn(
+          heroGridClass,
+          "lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10"
+        )}
+      >
         <div>
           <HeroCopy className="max-w-xl" />
           <HeroStatPills />
@@ -409,7 +519,7 @@ export function FrameHero({ markHero = false }: { markHero?: boolean }) {
 export function BandHero({ markHero = false }: { markHero?: boolean }) {
   return (
     <HeroShell markHero={markHero}>
-      <div className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 lg:pb-20 xl:px-8">
+      <div className={heroGridClass}>
         <div className="max-w-3xl">
           <HeroCopy className="max-w-2xl" />
           <HeroStatRow className="max-w-2xl" />
@@ -422,6 +532,7 @@ export function BandHero({ markHero = false }: { markHero?: boolean }) {
 
 const heroByVariant = {
   drop: DropHero,
+  mark: MarkHero,
   frame: FrameHero,
   band: BandHero,
 } as const
