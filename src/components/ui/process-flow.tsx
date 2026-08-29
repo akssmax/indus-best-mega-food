@@ -7,7 +7,6 @@ import {
   ThermometerSnowflakeIcon,
   WarehouseIcon,
 } from "lucide-react"
-import { motion, useReducedMotion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -26,41 +25,55 @@ export type ProcessStep = {
   icon?: ProcessFlowIcon
 }
 
-const tones = {
+const lightTones = {
   primary: {
     well: "bg-primary/12 text-primary ring-primary/25",
     wash: "bg-primary/[0.04]",
     selected: "ring-primary/35 bg-primary/[0.07]",
+    dot: "bg-primary",
+    dotIdle: "bg-foreground/15 group-hover/step:bg-primary/40",
   },
   cta: {
     well: "bg-cta/15 text-cta ring-cta/30",
     wash: "bg-cta/[0.05]",
     selected: "ring-cta/35 bg-cta/[0.07]",
+    dot: "bg-cta",
+    dotIdle: "bg-foreground/15 group-hover/step:bg-cta/40",
   },
   aqua: {
     well: "bg-aqua/20 text-forest ring-aqua/35",
     wash: "bg-aqua/[0.08]",
     selected: "ring-aqua/40 bg-aqua/[0.1]",
+    dot: "bg-aqua",
+    dotIdle: "bg-foreground/15 group-hover/step:bg-aqua/40",
   },
 } as const
 
-const ease = [0.22, 1, 0.36, 1] as const
-
-const listVariants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.11, delayChildren: 0.04 },
+const darkTones = {
+  primary: {
+    well: "bg-forest-foreground/35 text-forest-foreground ring-forest-foreground/55",
+    wash: "bg-white/[0.04]",
+    selected: "ring-forest-foreground/40 bg-white/[0.08]",
+    dot: "bg-forest-foreground",
+    dotIdle: "bg-forest-foreground/20 group-hover/step:bg-forest-foreground/45",
   },
-}
-
-const rowVariants = {
-  hidden: { opacity: 0, y: 10 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.48, ease },
+  cta: {
+    well: "bg-cta/35 text-cta-foreground ring-cta/50",
+    wash: "bg-cta/[0.08]",
+    selected: "ring-cta/45 bg-cta/[0.12]",
+    dot: "bg-cta",
+    dotIdle: "bg-forest-foreground/20 group-hover/step:bg-cta/50",
   },
-}
+  aqua: {
+    well: "bg-aqua/35 text-aqua ring-aqua/50",
+    wash: "bg-aqua/[0.08]",
+    selected: "ring-aqua/45 bg-aqua/[0.12]",
+    dot: "bg-aqua",
+    dotIdle: "bg-forest-foreground/20 group-hover/step:bg-aqua/50",
+  },
+} as const
+
+type ToneMap = typeof lightTones
 
 function inferIcon(title: string, icon?: ProcessFlowIcon): ProcessFlowIcon {
   if (icon) return icon
@@ -88,29 +101,31 @@ const icons: Record<
 
 function StepIcon({
   kind,
-  tone,
+  palette,
   large,
+  onDark,
 }: {
   kind: ProcessFlowIcon
-  tone: keyof typeof tones
+  palette: ToneMap[keyof ToneMap]
   large: boolean
+  onDark: boolean
 }) {
   const Icon = icons[kind]
-  const palette = tones[tone]
 
   return (
     <span
       className={cn(
-        "grid shrink-0 place-items-center rounded-xl ring-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]",
+        "grid shrink-0 place-items-center rounded-xl ring-1",
+        onDark
+          ? "shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]"
+          : "shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]",
         large ? "size-10" : "size-9",
         palette.well
       )}
     >
       <Icon
-        className={cn(
-          "block shrink-0",
-          large ? "size-5" : "size-4"
-        )}
+        className={cn("block shrink-0", large ? "size-5" : "size-4")}
+        strokeWidth={onDark ? 2.5 : 2.25}
         aria-hidden
       />
     </span>
@@ -123,45 +138,31 @@ export function ProcessFlow({
   activeIndex,
   onSelect,
   size = "sm",
+  surface = "light",
 }: {
   steps: readonly ProcessStep[]
   className?: string
   activeIndex?: number
   onSelect?: (index: number) => void
   size?: "sm" | "lg"
+  surface?: "light" | "dark"
 }) {
-  const reduce = useReducedMotion()
   const large = size === "lg"
   const interactive = Boolean(onSelect)
-
-  const List = reduce ? "ol" : motion.ol
-  const listProps = reduce
-    ? {}
-    : {
-        initial: "hidden" as const,
-        whileInView: "show" as const,
-        viewport: { once: true, amount: 0.35 },
-        variants: listVariants,
-      }
+  const onDark = surface === "dark"
+  const toneMap = onDark ? darkTones : lightTones
 
   return (
-    <List
-      className={cn("relative flex flex-col gap-2.5", className)}
-      {...listProps}
-    >
+    <ol className={cn("relative flex flex-col gap-2.5", className)}>
       {steps.map((step, index) => {
         const tone = step.tone ?? "primary"
-        const palette = tones[tone]
+        const palette = toneMap[tone]
         const kind = inferIcon(step.title, step.icon)
         const selected = activeIndex === index
         const Row = interactive ? "button" : "div"
-        const Item = reduce ? "li" : motion.li
 
         return (
-          <Item
-            key={step.title}
-            {...(reduce ? {} : { variants: rowVariants })}
-          >
+          <li key={step.title}>
             <Row
               type={interactive ? "button" : undefined}
               onClick={interactive ? () => onSelect?.(index) : undefined}
@@ -169,19 +170,22 @@ export function ProcessFlow({
               className={cn(
                 "group/step relative flex w-full items-center gap-3 text-left outline-none",
                 large ? "gap-4 rounded-2xl px-3.5 py-3.5" : "rounded-2xl px-3 py-3",
-                "ring-1 ring-foreground/8 shadow-[0_4px_16px_rgba(15,43,29,0.06)] transition-all",
+                "ring-1 shadow-[0_4px_16px_rgba(15,43,29,0.06)]",
+                onDark ? "ring-forest-foreground/15" : "ring-foreground/8",
                 palette.wash,
                 interactive &&
-                  "min-h-11 touch-target hover-fine:-translate-y-0.5 hover-fine:shadow-[0_10px_24px_rgba(15,43,29,0.1)] hover-fine:ring-primary/20 focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.99]",
+                  "min-h-11 touch-target hover-fine:ring-primary/20 focus-visible:ring-3 focus-visible:ring-ring/50",
+                onDark && interactive && "hover-fine:ring-forest-foreground/25",
                 selected && palette.selected
               )}
             >
-              <StepIcon kind={kind} tone={tone} large={large} />
+              <StepIcon kind={kind} palette={palette} large={large} onDark={onDark} />
 
               <span className="min-w-0 flex-1">
                 <span
                   className={cn(
-                    "block font-semibold text-foreground",
+                    "block font-semibold",
+                    onDark ? "text-forest-foreground" : "text-foreground",
                     large ? "text-sm" : "text-xs"
                   )}
                 >
@@ -189,7 +193,8 @@ export function ProcessFlow({
                 </span>
                 <span
                   className={cn(
-                    "mt-0.5 block text-muted-foreground",
+                    "mt-0.5 block",
+                    onDark ? "text-forest-foreground/80" : "text-muted-foreground",
                     large ? "text-sm leading-relaxed" : "text-sm leading-snug"
                   )}
                 >
@@ -201,17 +206,15 @@ export function ProcessFlow({
                 <span
                   aria-hidden
                   className={cn(
-                    "size-2 shrink-0 rounded-full transition-all",
-                    selected
-                      ? "bg-primary shadow-[0_0_0_4px_color-mix(in_oklch,var(--primary)_18%,transparent)]"
-                      : "bg-foreground/15 group-hover/step:bg-primary/40"
+                    "size-2 shrink-0 rounded-full",
+                    selected ? palette.dot : palette.dotIdle
                   )}
                 />
               ) : null}
             </Row>
-          </Item>
+          </li>
         )
       })}
-    </List>
+    </ol>
   )
 }

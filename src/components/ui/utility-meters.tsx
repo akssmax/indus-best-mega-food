@@ -6,7 +6,6 @@ import {
   SnowflakeIcon,
   WarehouseIcon,
 } from "lucide-react"
-import { motion, useReducedMotion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -25,76 +24,41 @@ export type UtilityMeter = {
   icon?: UtilityMeterIcon
 }
 
-const tones = {
+const lightTones = {
   primary: {
     well: "bg-primary/12 text-primary ring-primary/25",
     wash: "bg-primary/[0.04]",
     fill: "bg-primary",
-    glow: "shadow-[0_0_12px_color-mix(in_oklch,var(--primary)_35%,transparent)]",
   },
   cta: {
     well: "bg-cta/15 text-cta ring-cta/30",
     wash: "bg-cta/[0.05]",
     fill: "bg-cta",
-    glow: "shadow-[0_0_12px_color-mix(in_oklch,var(--cta)_35%,transparent)]",
   },
   aqua: {
     well: "bg-aqua/20 text-forest ring-aqua/35",
     wash: "bg-aqua/[0.08]",
     fill: "bg-aqua",
-    glow: "shadow-[0_0_12px_color-mix(in_oklch,var(--aqua)_40%,transparent)]",
   },
 } as const
 
-const ease = [0.22, 1, 0.36, 1] as const
-
-const listVariants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.04 },
+const darkTones = {
+  primary: {
+    well: "bg-forest-foreground/20 text-forest-foreground ring-forest-foreground/40",
+    wash: "bg-forest-foreground/[0.06]",
+    fill: "bg-forest-foreground/85",
   },
-}
-
-const rowVariants = {
-  hidden: { opacity: 0, y: 10 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.48, ease },
+  cta: {
+    well: "bg-cta/35 text-cta-foreground ring-cta/50",
+    wash: "bg-cta/[0.08]",
+    fill: "bg-cta",
   },
-}
-
-const barVariants = {
-  hidden: { scaleX: 0, opacity: 0.4 },
-  show: {
-    scaleX: 1,
-    opacity: 1,
-    transition: { duration: 0.85, ease, delay: 0.12 },
+  aqua: {
+    well: "bg-aqua/35 text-aqua ring-aqua/50",
+    wash: "bg-aqua/[0.08]",
+    fill: "bg-aqua",
   },
-}
-
-const iconLoops = {
-  water: {
-    y: [0, -2, 0],
-    transition: { duration: 2.6, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  effluent: {
-    rotate: [0, 8, 0, -8, 0],
-    transition: { duration: 5, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  weighbridge: {
-    scale: [1, 1.06, 1],
-    transition: { duration: 2.8, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  cold: {
-    rotate: [0, -6, 6, 0],
-    transition: { duration: 4.5, repeat: Infinity, ease: "easeInOut" as const },
-  },
-  warehouse: {
-    y: [0, -1.5, 0],
-    transition: { duration: 3.2, repeat: Infinity, ease: "easeInOut" as const },
-  },
-}
+} as const
 
 function inferIcon(label: string, icon?: UtilityMeterIcon): UtilityMeterIcon {
   if (icon) return icon
@@ -118,137 +82,84 @@ const icons: Record<
   warehouse: (p) => <WarehouseIcon {...p} strokeWidth={2.25} />,
 }
 
-function MeterIcon({
-  kind,
-  tone,
-  reduced,
-}: {
-  kind: UtilityMeterIcon
-  tone: keyof typeof tones
-  reduced: boolean | null
-}) {
-  const Icon = icons[kind]
-  const palette = tones[tone]
-
-  const content = (
-    <span
-      className={cn(
-        "relative flex size-9 shrink-0 items-center justify-center rounded-xl ring-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]",
-        palette.well
-      )}
-    >
-      <Icon className="size-4" />
-    </span>
-  )
-
-  if (reduced) return content
-
-  return (
-    <motion.span
-      className="relative flex shrink-0"
-      animate={iconLoops[kind]}
-      style={{ transformOrigin: "center" }}
-    >
-      {content}
-    </motion.span>
-  )
-}
-
-function MeterBar({
-  fill,
-  tone,
-  reduced,
-}: {
-  fill: number
-  tone: keyof typeof tones
-  reduced: boolean | null
-}) {
-  const palette = tones[tone]
-  const width = `${Math.min(100, Math.max(8, fill))}%`
-
-  if (reduced) {
-    return (
-      <span
-        className={cn("block h-full rounded-full", palette.fill)}
-        style={{ width }}
-      />
-    )
-  }
-
-  return (
-    <motion.span
-      className={cn(
-        "block h-full origin-left rounded-full",
-        palette.fill,
-        palette.glow
-      )}
-      custom={fill}
-      variants={barVariants}
-      style={{ width }}
-    />
-  )
-}
-
 export function UtilityMeters({
   items,
   className,
+  surface = "light",
 }: {
   items: readonly UtilityMeter[]
   className?: string
+  surface?: "light" | "dark"
 }) {
-  const reduce = useReducedMotion()
-
-  const List = reduce ? "ul" : motion.ul
-  const listProps = reduce
-    ? {}
-    : {
-        initial: "hidden" as const,
-        whileInView: "show" as const,
-        viewport: { once: true, amount: 0.35 },
-        variants: listVariants,
-      }
+  const onDark = surface === "dark"
+  const toneMap = onDark ? darkTones : lightTones
 
   return (
-    <List className={cn("flex flex-col gap-2.5", className)} {...listProps}>
+    <ul className={cn("flex flex-col gap-2.5", className)}>
       {items.map((item) => {
         const tone = item.tone ?? "primary"
-        const palette = tones[tone]
+        const palette = toneMap[tone]
         const kind = inferIcon(item.label, item.icon)
-        const Item = reduce ? "li" : motion.li
+        const Icon = icons[kind]
+        const width = `${Math.min(100, Math.max(8, item.fill))}%`
 
         return (
-          <Item
-            key={item.label}
-            {...(reduce ? {} : { variants: rowVariants })}
-          >
+          <li key={item.label}>
             <button
               type="button"
               className={cn(
                 "group/meter touch-target flex min-h-12 w-full items-center gap-3 rounded-2xl px-3 py-3 text-left outline-none",
-                "ring-1 ring-foreground/8 shadow-[0_4px_16px_rgba(15,43,29,0.05)] transition-all",
+                "ring-1 shadow-[0_4px_16px_rgba(15,43,29,0.05)]",
+                onDark ? "ring-forest-foreground/15" : "ring-foreground/8",
                 palette.wash,
-                "hover-fine:-translate-y-0.5 hover-fine:shadow-[0_10px_24px_rgba(15,43,29,0.09)] hover-fine:ring-primary/20 focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.99]"
+                "hover-fine:ring-primary/20 focus-visible:ring-3 focus-visible:ring-ring/50",
+                onDark && "hover-fine:ring-forest-foreground/25"
               )}
             >
-              <MeterIcon kind={kind} tone={tone} reduced={reduce} />
+              <span
+                className={cn(
+                  "flex size-9 shrink-0 items-center justify-center rounded-xl ring-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]",
+                  palette.well
+                )}
+              >
+                <Icon className="size-4" />
+              </span>
 
               <span className="min-w-0 flex-1">
                 <span className="flex items-baseline justify-between gap-2">
-                  <span className="text-xs font-medium text-muted-foreground">
+                  <span
+                    className={cn(
+                      "text-xs font-medium",
+                      onDark ? "text-forest-foreground/80" : "text-muted-foreground"
+                    )}
+                  >
                     {item.label}
                   </span>
-                  <span className="font-heading text-sm font-semibold text-foreground">
+                  <span
+                    className={cn(
+                      "font-heading text-sm font-semibold",
+                      onDark ? "text-forest-foreground" : "text-foreground"
+                    )}
+                  >
                     {item.value}
                   </span>
                 </span>
-                <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-muted/80">
-                  <MeterBar fill={item.fill} tone={tone} reduced={reduce} />
+                <span
+                  className={cn(
+                    "mt-2 block h-1.5 overflow-hidden rounded-full",
+                    onDark ? "bg-forest-foreground/15" : "bg-muted/80"
+                  )}
+                >
+                  <span
+                    className={cn("block h-full rounded-full", palette.fill)}
+                    style={{ width }}
+                  />
                 </span>
               </span>
             </button>
-          </Item>
+          </li>
         )
       })}
-    </List>
+    </ul>
   )
 }

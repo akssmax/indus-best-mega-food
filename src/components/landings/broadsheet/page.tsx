@@ -9,6 +9,8 @@ import { SkinFrame } from "@/components/landings/skin-frame"
 import { LandingEnquireForm } from "@/components/landings/enquire-form"
 import { PullQuote } from "@/components/ui/pull-quote"
 import { DropFlourish } from "@/components/ui/brand-pattern"
+import { ContactPhoneLink } from "@/components/ui/contact-link"
+import { LogoStrip } from "@/components/landing/logo-strip"
 import { Reveal, Stagger, MotionItem } from "@/components/landing/motion"
 import { Eyebrow } from "@/components/landing/section"
 
@@ -56,6 +58,8 @@ export function BroadsheetLanding({ products }: { products: NouryaProduct[] }) {
             </div>
           </div>
         </section>
+
+        <LogoStrip variant="plain" />
 
         <section id="campus" className="border-b border-foreground/15 px-4 py-12 sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-6xl">
@@ -190,9 +194,7 @@ export function BroadsheetLanding({ products }: { products: NouryaProduct[] }) {
                   <div key={phone.href} className="border-b border-foreground/10 pb-3">
                     <dt className="text-muted-foreground">{phone.label}</dt>
                     <dd>
-                      <a className="inline-flex min-h-11 items-center font-medium" href={phone.href}>
-                        {phone.number}
-                      </a>
+                      <ContactPhoneLink href={phone.href}>{phone.number}</ContactPhoneLink>
                     </dd>
                   </div>
                 ))}

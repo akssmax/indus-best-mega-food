@@ -49,7 +49,7 @@ export function DesignSystemLayout({ children }: { children: ReactNode }) {
           </div>
         </aside>
 
-        <div className="min-w-0">{children}</div>
+        <div className="min-w-0 overflow-x-clip">{children}</div>
       </div>
     </>
   )

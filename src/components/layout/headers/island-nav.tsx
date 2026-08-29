@@ -47,7 +47,7 @@ export function IslandNav() {
         <div className="ml-auto flex items-center gap-1.5">
           <Button
             variant="cta"
-            className="hidden h-11 touch-manipulation rounded-full px-5 text-sm md:inline-flex"
+            className="hidden h-11 touch-manipulation rounded-full px-5 text-sm font-semibold md:inline-flex"
             asChild
           >
             <a href="/contact">Enquire</a>

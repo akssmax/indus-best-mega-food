@@ -289,7 +289,7 @@ export function WaveEdge({
       viewBox="0 0 1440 72"
       preserveAspectRatio="none"
       className={cn(
-        "pointer-events-none block w-full overflow-visible",
+        "pointer-events-none block aspect-[20/1] h-auto w-full shrink-0 align-top",
         position === "bottom" && "rotate-180",
         className
       )}

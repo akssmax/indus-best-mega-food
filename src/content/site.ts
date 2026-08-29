@@ -112,7 +112,7 @@ export const site = {
         "The Indus Best Mega Food Park campus at Village Bemta–Sarora near Raipur: plots, processing lines, cold storage, utilities, and how to reach the site.",
     },
     opportunities: {
-      eyebrow: "Ways in",
+      eyebrow: "Why invest",
       title: "Set up on a campus that's already running.",
       body: "Plots, sheds, shared lines, and cold rooms are live at Bemta–Sarora. Enquire for availability and a current rate card — allocation is a conversation, not a walk-up tariff.",
       description:

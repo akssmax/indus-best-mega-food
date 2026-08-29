@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
+import { useEffect, useState } from "react"
 import { ArrowRightIcon } from "lucide-react"
-import { motion, useReducedMotion } from "framer-motion"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 
 import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
@@ -55,23 +56,150 @@ const dropMaskStyle = {
   maskPosition: "center",
 } as const
 
-const floatCards = [
-  {
-    value: "16",
-    label: "Plug-and-play sheds",
-    detail: "Install equipment, not the building",
-    side: "left" as const,
-  },
-  {
-    value: "5,000 MT",
-    label: "Cold on campus",
-    detail: "Frozen and chilled, ready to book",
-    side: "right" as const,
-  },
-]
-
 export const heroShellClass =
   "relative z-10 -mt-14 overflow-hidden bg-forest pt-28 text-forest-foreground sm:-mt-16 sm:pt-[7.5rem] lg:pt-36"
+
+const HERO_SLIDE_MS = 6000
+
+type HeroSlideCard = {
+  value: string
+  label: string
+  detail: string
+  side: "left" | "right"
+}
+
+function FloatStatCard({ card }: { card: HeroSlideCard }) {
+  return (
+    <div className="rounded-2xl bg-background/92 px-4 py-3 shadow-[0_12px_32px_rgba(15,43,29,0.12)] ring-1 ring-foreground/10 backdrop-blur-md">
+      <p className="font-heading text-lg font-semibold text-cta">{card.value}</p>
+      <p className="text-sm font-medium text-foreground">{card.label}</p>
+      <p className="text-sm text-muted-foreground">{card.detail}</p>
+    </div>
+  )
+}
+
+function cardPositionClass(side: HeroSlideCard["side"]) {
+  return cn(
+    "absolute z-10 w-[min(100%,15.5rem)]",
+    side === "left"
+      ? "top-[48%] -left-1 sm:-left-8 lg:-left-12"
+      : "top-[16%] -right-1 sm:-right-6 lg:-right-10"
+  )
+}
+
+function DropHeroVisual() {
+  const { hero } = landing
+  const slides = hero.slides
+  const reduce = useReducedMotion()
+  const [activeIndex, setActiveIndex] = useState(0)
+  const slide = slides[activeIndex] ?? slides[0]
+
+  useEffect(() => {
+    if (reduce || slides.length < 2) return
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % slides.length)
+    }, HERO_SLIDE_MS)
+
+    return () => window.clearInterval(timer)
+  }, [reduce, slides.length])
+
+  const imageLayer = (
+    <>
+      <div
+        aria-hidden
+        className="absolute inset-0 translate-x-2.5 translate-y-5 scale-[0.97] opacity-45 blur-2xl sm:translate-x-3 sm:translate-y-6"
+        style={dropMaskStyle}
+      >
+        <div className="size-full bg-forest/90" />
+      </div>
+
+      <div
+        className="absolute inset-0"
+        style={{
+          filter:
+            "drop-shadow(0 10px 20px rgba(15, 43, 29, 0.16)) drop-shadow(0 28px 48px rgba(15, 43, 29, 0.14))",
+        }}
+      >
+        <div className="absolute inset-0 overflow-hidden" style={dropMaskStyle}>
+          {reduce ? (
+            <img
+              src={slide.image.src}
+              alt={slide.image.alt}
+              className="absolute inset-0 size-full object-cover object-[center_40%]"
+            />
+          ) : (
+            <AnimatePresence mode="sync">
+              <motion.img
+                key={slide.image.src}
+                src={slide.image.src}
+                alt={slide.image.alt}
+                className="absolute inset-0 size-full object-cover object-[center_40%]"
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.02 }}
+                transition={{ duration: 0.75, ease: motionEase }}
+              />
+            </AnimatePresence>
+          )}
+          <div className="absolute inset-0 bg-linear-to-t from-white/25 via-white/5 to-transparent" />
+        </div>
+      </div>
+    </>
+  )
+
+  const cardLayer =
+    reduce ? (
+      slide.cards.map((card) => (
+        <div key={`${card.side}-${card.label}`} className={cardPositionClass(card.side)}>
+          <FloatStatCard card={card} />
+        </div>
+      ))
+    ) : (
+      <AnimatePresence mode="popLayout">
+        {slide.cards.map((card) => (
+          <motion.div
+            key={`${activeIndex}-${card.side}-${card.label}`}
+            className={cardPositionClass(card.side)}
+            initial={{ opacity: 0, y: 16, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.45, ease: motionEase }}
+          >
+            <FloatStatCard card={card} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    )
+
+  if (reduce) {
+    return (
+      <div className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] lg:max-w-[28rem]">
+        {imageLayer}
+        {cardLayer}
+      </div>
+    )
+  }
+
+  return (
+    <motion.div
+      className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] lg:max-w-[28rem]"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.12, ease: motionEase }}
+    >
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 0, scale: 1.03 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.85, delay: 0.16, ease: motionEase }}
+      >
+        {imageLayer}
+      </motion.div>
+      {cardLayer}
+    </motion.div>
+  )
+}
 
 function HeroShell({
   children,
@@ -190,136 +318,6 @@ function HeroStatRow({ className }: { className?: string }) {
         </MotionItem>
       ))}
     </Stagger>
-  )
-}
-
-function DropHeroVisual() {
-  const { hero } = landing
-  const reduce = useReducedMotion()
-
-  const content = (
-    <>
-      <div
-        aria-hidden
-        className="absolute inset-0 translate-x-2.5 translate-y-5 scale-[0.97] opacity-45 blur-2xl sm:translate-x-3 sm:translate-y-6"
-        style={dropMaskStyle}
-      >
-        <div className="size-full bg-forest/90" />
-      </div>
-
-      <div
-        className="absolute inset-0"
-        style={{
-          filter:
-            "drop-shadow(0 10px 20px rgba(15, 43, 29, 0.16)) drop-shadow(0 28px 48px rgba(15, 43, 29, 0.14))",
-        }}
-      >
-        <div className="absolute inset-0" style={dropMaskStyle}>
-          <img
-            src={hero.image.src}
-            alt={hero.image.alt}
-            className="absolute inset-0 size-full object-cover object-[center_40%]"
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-white/25 via-white/5 to-transparent" />
-        </div>
-      </div>
-
-      {floatCards.map((card, index) => (
-        <div
-          key={card.label}
-          className={cn(
-            "absolute z-10 w-[min(100%,15.5rem)]",
-            card.side === "left"
-              ? "top-[48%] -left-1 sm:-left-8 lg:-left-12"
-              : "top-[16%] -right-1 sm:-right-6 lg:-right-10"
-          )}
-        >
-          <div className="rounded-2xl bg-background/92 px-4 py-3 shadow-[0_12px_32px_rgba(15,43,29,0.12)] ring-1 ring-foreground/10 backdrop-blur-md">
-            <p className="font-heading text-lg font-semibold text-cta">
-              {card.value}
-            </p>
-            <p className="text-sm font-medium text-foreground">{card.label}</p>
-            <p className="text-sm text-muted-foreground">{card.detail}</p>
-          </div>
-        </div>
-      ))}
-    </>
-  )
-
-  if (reduce) {
-    return (
-      <div className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] lg:max-w-[28rem]">
-        {content}
-      </div>
-    )
-  }
-
-  return (
-    <motion.div
-      className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] lg:max-w-[28rem]"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.12, ease: motionEase }}
-    >
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0, scale: 1.03 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.85, delay: 0.16, ease: motionEase }}
-      >
-        <div
-          aria-hidden
-          className="absolute inset-0 translate-x-2.5 translate-y-5 scale-[0.97] opacity-45 blur-2xl sm:translate-x-3 sm:translate-y-6"
-          style={dropMaskStyle}
-        >
-          <div className="size-full bg-forest/90" />
-        </div>
-
-        <div
-          className="absolute inset-0"
-          style={{
-            filter:
-              "drop-shadow(0 10px 20px rgba(15, 43, 29, 0.16)) drop-shadow(0 28px 48px rgba(15, 43, 29, 0.14))",
-          }}
-        >
-          <div className="absolute inset-0" style={dropMaskStyle}>
-            <img
-              src={hero.image.src}
-              alt={hero.image.alt}
-              className="absolute inset-0 size-full object-cover object-[center_40%]"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-white/25 via-white/5 to-transparent" />
-          </div>
-        </div>
-      </motion.div>
-
-      {floatCards.map((card, index) => (
-        <motion.div
-          key={card.label}
-          className={cn(
-            "absolute z-10 w-[min(100%,15.5rem)]",
-            card.side === "left"
-              ? "top-[48%] -left-1 sm:-left-8 lg:-left-12"
-              : "top-[16%] -right-1 sm:-right-6 lg:-right-10"
-          )}
-          initial={{ opacity: 0, y: 14, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{
-            duration: 0.55,
-            delay: 0.38 + index * 0.1,
-            ease: motionEase,
-          }}
-        >
-          <div className="rounded-2xl bg-background/92 px-4 py-3 shadow-[0_12px_32px_rgba(15,43,29,0.12)] ring-1 ring-foreground/10 backdrop-blur-md">
-            <p className="font-heading text-lg font-semibold text-cta">
-              {card.value}
-            </p>
-            <p className="text-sm font-medium text-foreground">{card.label}</p>
-            <p className="text-sm text-muted-foreground">{card.detail}</p>
-          </div>
-        </motion.div>
-      ))}
-    </motion.div>
   )
 }
 

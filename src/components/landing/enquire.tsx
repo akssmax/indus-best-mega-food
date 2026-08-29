@@ -7,6 +7,7 @@ import { landing, enquiryInterests } from "@/content/landing"
 import type { EnquiryInterest } from "@/content/landing"
 import { site } from "@/content/site"
 import { submitEnquiry } from "@/lib/enquiry"
+import { saveEnquiry } from "@/app/lib/enquiry-store"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -22,6 +23,7 @@ import {
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
 import { PatternBand } from "@/components/ui/brand-pattern"
+import { ContactEmailLink, ContactPhoneLink } from "@/components/ui/contact-link"
 
 export function Enquire() {
   const { enquire } = landing
@@ -36,7 +38,7 @@ export function Enquire() {
 
     setPending(true)
     try {
-      await submit({
+      const result = await submit({
         data: {
           name: String(formData.get("name") ?? ""),
           company: String(formData.get("company") ?? ""),
@@ -46,6 +48,12 @@ export function Enquire() {
           message: String(formData.get("message") ?? ""),
         },
       })
+      if (result.enquiry) {
+        await saveEnquiry({
+          ...result.enquiry,
+          source: "contact",
+        })
+      }
       form.reset()
       setInterest("plot")
       toast.success(enquire.success)
@@ -68,30 +76,20 @@ export function Enquire() {
           <Eyebrow>{enquire.eyebrow}</Eyebrow>
           <h2 className="mt-3 text-3xl sm:text-4xl">{enquire.title}</h2>
           <p className="mt-4 text-muted-foreground">{enquire.body}</p>
-          <dl className="mt-8 space-y-4 text-sm">
+          <dl className="mt-8 space-y-1 text-sm">
             {site.phones.map((phone) => (
-              <div key={phone.href}>
-                <dt className="text-muted-foreground">{phone.label}</dt>
+              <div key={phone.href} className="py-0.5">
+                <dt className="px-3 text-muted-foreground">{phone.label}</dt>
                 <dd>
-                  <a
-                    className="inline-flex min-h-11 touch-target items-center font-medium text-primary underline-offset-2 hover:underline active:text-primary/80"
-                    href={phone.href}
-                  >
-                    {phone.number}
-                  </a>
+                  <ContactPhoneLink href={phone.href}>{phone.number}</ContactPhoneLink>
                 </dd>
               </div>
             ))}
             {site.emails.map((email) => (
-              <div key={email.href}>
-                <dt className="text-muted-foreground">{email.label}</dt>
+              <div key={email.href} className="py-0.5">
+                <dt className="px-3 text-muted-foreground">{email.label}</dt>
                 <dd>
-                  <a
-                    className="inline-flex min-h-11 touch-target items-center font-medium text-primary underline-offset-2 hover:underline active:text-primary/80"
-                    href={email.href}
-                  >
-                    {email.address}
-                  </a>
+                  <ContactEmailLink href={email.href}>{email.address}</ContactEmailLink>
                 </dd>
               </div>
             ))}

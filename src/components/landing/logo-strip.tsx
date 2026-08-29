@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "framer-motion"
 
 import { landing } from "@/content/landing"
 import { Reveal } from "@/components/landing/motion"
-import { PatternBand } from "@/components/ui/brand-pattern"
+import { PatternBand, WaveEdge } from "@/components/ui/brand-pattern"
 import { cn } from "@/lib/utils"
 
 const markEase = [0.22, 1, 0.36, 1] as const
@@ -56,48 +56,62 @@ function ClientMark({ name, logo }: { name: string; logo?: string }) {
   )
 }
 
-export function LogoStrip() {
+export function LogoStrip({ variant = "home" }: { variant?: "home" | "plain" }) {
   const { clients } = landing
+  const isHome = variant === "home"
 
   if (clients.items.length === 0) return null
 
   const loop = [...clients.items, ...clients.items]
 
   return (
-    <section
-      aria-label={clients.label}
-      className="relative overflow-hidden border-b border-border/50 bg-card"
-    >
-      <PatternBand
-        variant="flow"
-        className="pointer-events-none absolute inset-0 text-primary/15"
-        patternClassName="opacity-[0.06]"
-      />
-      <div className="relative z-10 w-full py-5">
-        <Reveal when="mount" delay={0.42}>
-          <p className="mb-4 text-center text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">
-            {clients.label}
-          </p>
-        </Reveal>
-        <Reveal when="mount" delay={0.5}>
-          <div
-            className={cn(
-              "relative w-full overflow-hidden",
-              "[mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]"
-            )}
-          >
-            <div className="flex w-max items-center gap-10 py-1 motion-safe:animate-logo-marquee motion-safe:hover-fine:[animation-play-state:paused] sm:gap-12 lg:gap-16">
-              {loop.map((client, index) => (
-                <ClientMark
-                  key={`${client.name}-${index}`}
-                  name={client.name}
-                  logo={client.logo}
-                />
-              ))}
+    <>
+      <section
+        aria-label={clients.label}
+        className={cn(
+          "relative overflow-hidden bg-card",
+          !isHome && "border-y border-border"
+        )}
+      >
+        {isHome ? (
+          <PatternBand
+            variant="flow"
+            className="pointer-events-none absolute inset-0 text-primary/15"
+            patternClassName="opacity-[0.06]"
+          />
+        ) : null}
+        <div className="relative z-10 w-full py-5">
+          <Reveal when="mount" delay={0.42}>
+            <p className="mb-4 text-center text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">
+              {clients.label}
+            </p>
+          </Reveal>
+          <Reveal when="mount" delay={0.5}>
+            <div
+              className={cn(
+                "relative w-full overflow-hidden",
+                "[mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]"
+              )}
+            >
+              <div className="flex w-max items-center gap-10 py-1 motion-safe:animate-logo-marquee motion-safe:hover-fine:[animation-play-state:paused] sm:gap-12 lg:gap-16">
+                {loop.map((client, index) => (
+                  <ClientMark
+                    key={`${client.name}-${index}`}
+                    name={client.name}
+                    logo={client.logo}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
+          </Reveal>
+        </div>
+      </section>
+      {isHome ? (
+        <WaveEdge
+          position="bottom"
+          className="relative z-[1] -mt-px -mb-px bg-background text-card"
+        />
+      ) : null}
+    </>
   )
 }

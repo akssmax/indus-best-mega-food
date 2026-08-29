@@ -1,5 +1,3 @@
-import { motion, useReducedMotion } from "framer-motion"
-
 import { landing } from "@/content/landing"
 import { landings } from "@/content/landings"
 import { site } from "@/content/site"
@@ -7,29 +5,31 @@ import { pickFeaturedProducts, type NouryaProduct } from "@/lib/nourya"
 import { OverlayNav } from "@/components/layout/headers/overlay-nav"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SkinFrame } from "@/components/landings/skin-frame"
+import { AtelierHeroGallery } from "@/components/landings/atelier/hero-gallery"
 import { LandingEnquireForm } from "@/components/landings/enquire-form"
 import { Button } from "@/components/ui/button"
 import { SnapCarousel, SnapSlide } from "@/components/ui/snap-carousel"
 import { SpecTable } from "@/components/ui/spec-table"
 import { StickyEnquireBar } from "@/components/ui/sticky-enquire-bar"
+import { ContactPhoneLink } from "@/components/ui/contact-link"
 import { ProcessFlow } from "@/components/ui/process-flow"
 import { UtilityMeters } from "@/components/ui/utility-meters"
 import { PatternBand } from "@/components/ui/brand-pattern"
+import { LogoStrip } from "@/components/landing/logo-strip"
 import { Reveal, Stagger, MotionItem } from "@/components/landing/motion"
 import { Eyebrow } from "@/components/landing/section"
 
 export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
   const copy = landings.atelier
   const featured = pickFeaturedProducts(products)
-  const reduce = useReducedMotion()
 
   return (
     <SkinFrame skin="atelier" className="pb-24 lg:pb-0">
       <OverlayNav />
       <main>
         <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-          <div className="mx-auto grid w-full max-w-6xl lg:min-h-[calc(100svh-8rem)] lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-            <div className="flex flex-col justify-center lg:pr-12">
+          <div className="mx-auto grid w-full max-w-6xl lg:h-[80vh] lg:max-h-[80vh] lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-stretch">
+            <div className="flex min-h-0 flex-col justify-center lg:overflow-y-auto lg:pr-12">
               <Reveal>
                 <Eyebrow>{copy.hero.eyebrow}</Eyebrow>
                 <h1 className="mt-5 max-w-xl text-4xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-6xl">
@@ -42,7 +42,7 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
                   <Button variant="cta" className="h-12 touch-manipulation px-6 text-base" asChild>
                     <a href={copy.hero.primaryCta.href}>{copy.hero.primaryCta.label}</a>
                   </Button>
-                  <Button variant="outline" className="h-12 touch-manipulation px-6 text-base" asChild>
+                  <Button variant="outline" className="h-12 touch-manipulation border-foreground/20 px-6 text-base" asChild>
                     <a href={copy.hero.secondaryCta.href}>{copy.hero.secondaryCta.label}</a>
                   </Button>
                 </div>
@@ -55,18 +55,11 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
                 }))}
               />
             </div>
-            <div className="relative mt-10 min-h-[52vw] overflow-hidden bg-forest lg:mt-0 lg:min-h-full">
-              <motion.img
-                src={landing.hero.image.src}
-                alt={landing.hero.image.alt}
-                className="size-full object-cover"
-                initial={reduce ? false : { scale: 1.08 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 10, ease: [0.22, 1, 0.36, 1] }}
-              />
-            </div>
+            <AtelierHeroGallery className="mt-10 h-[min(52vw,50vh)] min-h-0 lg:mt-0 lg:h-full lg:max-h-full" />
           </div>
         </section>
+
+        <LogoStrip variant="plain" />
 
         <PatternBand
           variant="hatch"
@@ -85,7 +78,7 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
               {landing.why.advantages.map((item, index) => (
                 <MotionItem key={item.title}>
                   <div className="h-full bg-background p-6">
-                    <p className="font-heading text-3xl font-semibold text-cta/70">
+                    <p className="font-heading text-3xl font-semibold text-primary/80">
                       {String(index + 1).padStart(2, "0")}
                     </p>
                     <h3 className="mt-4 font-heading text-lg font-semibold">{item.title}</h3>
@@ -124,7 +117,7 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
                         <h3 className="font-heading text-base font-semibold">
                           {facility.title}
                         </h3>
-                        <span className="text-xs font-medium tracking-[0.14em] text-cta uppercase">
+                        <span className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
                           {facility.spec}
                         </span>
                       </div>
@@ -142,14 +135,15 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
         <section className="border-y border-border bg-forest px-4 py-16 text-forest-foreground sm:px-6 lg:px-8 lg:py-24">
           <div className="mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-2">
             <Reveal>
-              <Eyebrow className="text-cta">{copy.readout.eyebrow}</Eyebrow>
+              <Eyebrow className="text-forest-foreground/90">{copy.readout.eyebrow}</Eyebrow>
               <h2 className="mt-4 text-3xl sm:text-4xl">{copy.readout.title}</h2>
-              <p className="mt-4 text-sm leading-relaxed text-forest-foreground/75">
+              <p className="mt-4 text-sm leading-relaxed text-forest-foreground/85">
                 {copy.readout.body}
               </p>
               <div className="mt-8">
                 <ProcessFlow
                   size="lg"
+                  surface="dark"
                   steps={landing.location.steps.map((step) => ({
                     title: step.title,
                     detail: step.detail,
@@ -161,6 +155,7 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
             <Reveal delay={0.08}>
               <UtilityMeters
                 className="mt-2"
+                surface="dark"
                 items={[
                   { label: "Process water", value: "2.7 MLD", fill: 86, tone: "aqua" },
                   { label: "ETP & STP", value: "Centralised", fill: 72, tone: "primary" },
@@ -268,9 +263,7 @@ export function AtelierLanding({ products }: { products: NouryaProduct[] }) {
                   <div key={phone.href}>
                     <dt className="text-muted-foreground">{phone.label}</dt>
                     <dd>
-                      <a className="inline-flex min-h-11 items-center font-medium" href={phone.href}>
-                        {phone.number}
-                      </a>
+                      <ContactPhoneLink href={phone.href}>{phone.number}</ContactPhoneLink>
                     </dd>
                   </div>
                 ))}

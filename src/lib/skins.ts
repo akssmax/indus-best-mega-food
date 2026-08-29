@@ -17,6 +17,12 @@ export const landingSkins = [
     label: "Broadsheet",
     note: "Paper, ink, chili. Editorial journal.",
   },
+  {
+    id: "mint",
+    href: "/landing-5",
+    label: "Mint",
+    note: "Teal-green gradients. Fintech growth.",
+  },
 ] as const
 
 export type LandingSkinId = (typeof landingSkins)[number]["id"]

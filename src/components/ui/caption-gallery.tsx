@@ -24,27 +24,27 @@ export function CaptionGallery({
     <>
       <ul
         className={cn(
-          "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4",
+          "grid grid-cols-2 gap-3 auto-rows-[min(42vw,10.5rem)] sm:grid-cols-3 sm:auto-rows-[min(28vw,10rem)] lg:grid-cols-4",
           className
         )}
       >
         {items.map((item, index) => (
           <li
             key={item.caption}
-            className={cn(index === 0 && "col-span-2 sm:row-span-2")}
+            className={cn("min-h-0", index === 0 && "col-span-2 sm:row-span-2")}
           >
             <button
               type="button"
               onClick={() => setActive(index)}
-              className="group relative block w-full overflow-hidden text-left outline-none touch-manipulation focus-visible:ring-3 focus-visible:ring-ring/50"
+              className={cn(
+                "group relative block w-full overflow-hidden text-left outline-none touch-manipulation focus-visible:ring-3 focus-visible:ring-ring/50",
+                index === 0 ? "h-full min-h-0" : "aspect-[4/3]"
+              )}
             >
               <img
                 src={item.src}
                 alt={item.alt}
-                className={cn(
-                  "w-full object-cover",
-                  index === 0 ? "aspect-[4/3] sm:h-full sm:aspect-auto" : "aspect-[4/3]"
-                )}
+                className="absolute inset-0 size-full object-cover"
                 loading={index > 2 ? "lazy" : "eager"}
               />
               <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 to-transparent px-3 py-3">

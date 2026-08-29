@@ -14,6 +14,7 @@ import { LandingSwitcher } from "@/components/layout/landing-switcher"
 import { AppError, AppNotFound } from "@/components/layout/app-error"
 import { Toaster } from "@/components/ui/sonner"
 import { isLandingExperiment } from "@/lib/skins"
+import { isDashboardRoute } from "@/app/lib/routes"
 import { themeBootScript } from "@/lib/theme"
 import appCss from "../styles.css?url"
 
@@ -78,13 +79,14 @@ function PageChrome({ children }: { children: ReactNode }) {
     select: (state) => state.location.pathname,
   })
   const experiment = isLandingExperiment(pathname)
+  const dashboard = isDashboardRoute(pathname)
 
   return (
     <>
-      {experiment ? null : <SiteHeader />}
+      {experiment || dashboard ? null : <SiteHeader />}
       {children}
-      {experiment ? null : <SiteFooter tone="light" />}
-      <LandingSwitcher />
+      {experiment || dashboard ? null : <SiteFooter tone="light" />}
+      {dashboard ? null : <LandingSwitcher />}
     </>
   )
 }

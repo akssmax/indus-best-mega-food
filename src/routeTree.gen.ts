@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as CampusRouteImport } from './routes/campus'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
@@ -19,8 +20,13 @@ import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as Landing2RouteImport } from './routes/landing-2'
 import { Route as Landing3RouteImport } from './routes/landing-3'
 import { Route as Landing4RouteImport } from './routes/landing-4'
+import { Route as Landing5RouteImport } from './routes/landing-5'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as WhyRouteImport } from './routes/why'
+import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as AppAuthenticatedRouteRouteImport } from './routes/app/_authenticated/route'
+import { Route as AppLoginRouteImport } from './routes/app/login'
+import { Route as AppAuthenticatedEnquiriesRouteImport } from './routes/app/_authenticated/enquiries'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRouteRoute = AppRouteRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampusRoute = CampusRouteImport.update({
@@ -72,6 +83,11 @@ const Landing4Route = Landing4RouteImport.update({
   path: '/landing-4',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Landing5Route = Landing5RouteImport.update({
+  id: '/landing-5',
+  path: '/landing-5',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
@@ -82,9 +98,30 @@ const WhyRoute = WhyRouteImport.update({
   path: '/why',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppAuthenticatedRouteRoute = AppAuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppLoginRoute = AppLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppAuthenticatedEnquiriesRoute =
+  AppAuthenticatedEnquiriesRouteImport.update({
+    id: '/enquiries',
+    path: '/enquiries',
+    getParentRoute: () => AppAuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/campus': typeof CampusRoute
   '/contact': typeof ContactRoute
@@ -94,8 +131,12 @@ export interface FileRoutesByFullPath {
   '/landing-2': typeof Landing2Route
   '/landing-3': typeof Landing3Route
   '/landing-4': typeof Landing4Route
+  '/landing-5': typeof Landing5Route
   '/opportunities': typeof OpportunitiesRoute
   '/why': typeof WhyRoute
+  '/app/login': typeof AppLoginRoute
+  '/app/': typeof AppIndexRoute
+  '/app/enquiries': typeof AppAuthenticatedEnquiriesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -108,12 +149,17 @@ export interface FileRoutesByTo {
   '/landing-2': typeof Landing2Route
   '/landing-3': typeof Landing3Route
   '/landing-4': typeof Landing4Route
+  '/landing-5': typeof Landing5Route
   '/opportunities': typeof OpportunitiesRoute
   '/why': typeof WhyRoute
+  '/app': typeof AppIndexRoute
+  '/app/login': typeof AppLoginRoute
+  '/app/enquiries': typeof AppAuthenticatedEnquiriesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/campus': typeof CampusRoute
   '/contact': typeof ContactRoute
@@ -123,13 +169,19 @@ export interface FileRoutesById {
   '/landing-2': typeof Landing2Route
   '/landing-3': typeof Landing3Route
   '/landing-4': typeof Landing4Route
+  '/landing-5': typeof Landing5Route
   '/opportunities': typeof OpportunitiesRoute
   '/why': typeof WhyRoute
+  '/app/_authenticated': typeof AppAuthenticatedRouteRouteWithChildren
+  '/app/login': typeof AppLoginRoute
+  '/app/': typeof AppIndexRoute
+  '/app/_authenticated/enquiries': typeof AppAuthenticatedEnquiriesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/app'
     | '/about'
     | '/campus'
     | '/contact'
@@ -139,8 +191,12 @@ export interface FileRouteTypes {
     | '/landing-2'
     | '/landing-3'
     | '/landing-4'
+    | '/landing-5'
     | '/opportunities'
     | '/why'
+    | '/app/login'
+    | '/app/'
+    | '/app/enquiries'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -153,11 +209,16 @@ export interface FileRouteTypes {
     | '/landing-2'
     | '/landing-3'
     | '/landing-4'
+    | '/landing-5'
     | '/opportunities'
     | '/why'
+    | '/app'
+    | '/app/login'
+    | '/app/enquiries'
   id:
     | '__root__'
     | '/'
+    | '/app'
     | '/about'
     | '/campus'
     | '/contact'
@@ -167,12 +228,18 @@ export interface FileRouteTypes {
     | '/landing-2'
     | '/landing-3'
     | '/landing-4'
+    | '/landing-5'
     | '/opportunities'
     | '/why'
+    | '/app/_authenticated'
+    | '/app/login'
+    | '/app/'
+    | '/app/_authenticated/enquiries'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   CampusRoute: typeof CampusRoute
   ContactRoute: typeof ContactRoute
@@ -182,6 +249,7 @@ export interface RootRouteChildren {
   Landing2Route: typeof Landing2Route
   Landing3Route: typeof Landing3Route
   Landing4Route: typeof Landing4Route
+  Landing5Route: typeof Landing5Route
   OpportunitiesRoute: typeof OpportunitiesRoute
   WhyRoute: typeof WhyRoute
 }
@@ -200,6 +268,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campus': {
@@ -258,6 +333,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Landing4RouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/landing-5': {
+      id: '/landing-5'
+      path: '/landing-5'
+      fullPath: '/landing-5'
+      preLoaderRoute: typeof Landing5RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/opportunities': {
       id: '/opportunities'
       path: '/opportunities'
@@ -272,11 +354,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WhyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/_authenticated': {
+      id: '/app/_authenticated'
+      path: ''
+      fullPath: '/app'
+      preLoaderRoute: typeof AppAuthenticatedRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/login': {
+      id: '/app/login'
+      path: '/login'
+      fullPath: '/app/login'
+      preLoaderRoute: typeof AppLoginRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/_authenticated/enquiries': {
+      id: '/app/_authenticated/enquiries'
+      path: '/enquiries'
+      fullPath: '/app/enquiries'
+      preLoaderRoute: typeof AppAuthenticatedEnquiriesRouteImport
+      parentRoute: typeof AppAuthenticatedRouteRoute
+    }
   }
 }
 
+interface AppAuthenticatedRouteRouteChildren {
+  AppAuthenticatedEnquiriesRoute: typeof AppAuthenticatedEnquiriesRoute
+}
+
+const AppAuthenticatedRouteRouteChildren: AppAuthenticatedRouteRouteChildren = {
+  AppAuthenticatedEnquiriesRoute: AppAuthenticatedEnquiriesRoute,
+}
+
+const AppAuthenticatedRouteRouteWithChildren =
+  AppAuthenticatedRouteRoute._addFileChildren(
+    AppAuthenticatedRouteRouteChildren,
+  )
+
+interface AppRouteRouteChildren {
+  AppAuthenticatedRouteRoute: typeof AppAuthenticatedRouteRouteWithChildren
+  AppLoginRoute: typeof AppLoginRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppAuthenticatedRouteRoute: AppAuthenticatedRouteRouteWithChildren,
+  AppLoginRoute: AppLoginRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
+  AppRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   CampusRoute: CampusRoute,
   ContactRoute: ContactRoute,
@@ -286,6 +426,7 @@ const rootRouteChildren: RootRouteChildren = {
   Landing2Route: Landing2Route,
   Landing3Route: Landing3Route,
   Landing4Route: Landing4Route,
+  Landing5Route: Landing5Route,
   OpportunitiesRoute: OpportunitiesRoute,
   WhyRoute: WhyRoute,
 }

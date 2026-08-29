@@ -44,6 +44,13 @@ export const submitEnquiry = createServerFn({ method: "POST" })
     } satisfies EnquiryInput
   })
   .handler(async ({ data }) => {
-    console.info("[ibmfp-enquiry]", data)
-    return { ok: true as const }
+    const enquiry = {
+      ...data,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+      status: "new" as const,
+      source: "contact" as const,
+    }
+    console.info("[ibmfp-enquiry]", enquiry)
+    return { ok: true as const, enquiry }
   })

@@ -8,7 +8,7 @@ import { landing } from "@/content/landing"
 import { Eyebrow } from "@/components/landing/section"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { BrandPattern, DropFlourish, WaveEdge } from "@/components/ui/brand-pattern"
+import { BrandPattern, DropFlourish } from "@/components/ui/brand-pattern"
 import { cn } from "@/lib/utils"
 
 export const footerVariants = ["directory", "editorial", "split"] as const
@@ -28,7 +28,6 @@ type FooterStyles = {
   separator: string
   legal: string
   splitBorder: string
-  waveEdge: string
 }
 
 const footerToneStyles: Record<FooterTone, FooterStyles> = {
@@ -38,11 +37,10 @@ const footerToneStyles: Record<FooterTone, FooterStyles> = {
     social:
       "inline-flex size-11 touch-target items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-3 focus-visible:ring-forest-foreground/30 text-forest-foreground/80 hover:bg-forest-foreground/10 hover:text-forest-foreground active:bg-forest-foreground/15",
     body: "text-sm text-forest-foreground/80",
-    label: "text-xs font-medium text-forest-foreground/50",
+    label: "text-xs font-medium text-forest-foreground/70",
     separator: "bg-forest-foreground/15",
     legal: "text-sm text-forest-foreground/75",
     splitBorder: "border-forest-foreground/15",
-    waveEdge: "text-background",
   },
   light: {
     shell: "bg-card text-foreground",
@@ -54,7 +52,6 @@ const footerToneStyles: Record<FooterTone, FooterStyles> = {
     separator: "bg-border",
     legal: "text-sm text-muted-foreground",
     splitBorder: "border-border",
-    waveEdge: "text-card",
   },
 }
 
@@ -93,7 +90,7 @@ function BrandMark({
   className?: string
 }) {
   return (
-    <Link to="/" className={cn("flex items-center gap-3", className)}>
+    <Link to="/" className={cn("flex min-w-0 items-center gap-3", className)}>
       <img
         src={site.logo.src}
         alt=""
@@ -108,7 +105,7 @@ function BrandMark({
       />
       <span
         className={cn(
-          "font-heading leading-tight font-semibold",
+          "min-w-0 font-heading leading-tight font-semibold",
           size === "sm" && "text-base",
           size === "md" && "text-xl",
           size === "lg" && "text-2xl"
@@ -124,15 +121,26 @@ function FooterLink({
   href,
   children,
   className,
+  wrap,
 }: {
   href: string
   children: ReactNode
   className?: string
+  /** Allow long mailto/tel strings to wrap instead of overflowing. */
+  wrap?: boolean
 }) {
   const styles = useFooterStyles()
 
   return (
-    <a href={href} className={cn(styles.nav, className)}>
+    <a
+      href={href}
+      className={cn(
+        styles.nav,
+        wrap &&
+          "inline-block max-w-full whitespace-normal break-all [overflow-wrap:anywhere] sm:break-words",
+        className
+      )}
+    >
       {children}
     </a>
   )
@@ -146,7 +154,7 @@ function LinkColumn({
   items: readonly { label: string; href: string }[]
 }) {
   return (
-    <div>
+    <div className="min-w-0">
       <Eyebrow className="tracking-[0.18em] text-cta">{title}</Eyebrow>
       <ul className="mt-3 space-y-1">
         {items.map((item) => (
@@ -195,7 +203,7 @@ function LegalBar({ className }: { className?: string }) {
         <p>
           &copy; {year} {site.legalName}. All rights reserved.
         </p>
-        <p>{landing.infrastructure.mofpi}</p>
+        <p className="max-w-full break-words">{landing.infrastructure.mofpi}</p>
       </div>
     </div>
   )
@@ -289,8 +297,8 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
 
   return (
     <FooterShell variant="directory" tone={tone}>
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
-        <div className="lg:col-span-1">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 xl:grid-cols-4 xl:px-8">
+        <div className="min-w-0 sm:col-span-2 xl:col-span-1">
           <DropFlourish
             className={cn(
               "mb-4",
@@ -313,13 +321,13 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
           ]}
         />
         <LinkColumn title="Explore" items={site.explore} />
-        <div>
+        <div className="min-w-0 sm:col-span-2 xl:col-span-1">
           <Eyebrow className="tracking-[0.18em] text-cta">Contact</Eyebrow>
           <div className={cn("mt-3 space-y-3", styles.body)}>
             {Object.values(site.addresses).map((address) => (
               <div key={address.label}>
                 <p className={styles.label}>{address.label}</p>
-                <p className="mt-1 leading-relaxed">
+                <p className="mt-1 leading-relaxed break-words">
                   {address.lines.map((line) => (
                     <span key={line} className="block">
                       {line}
@@ -331,14 +339,16 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
             <div className="pt-2">
               {site.phones.map((phone) => (
                 <p key={phone.href}>
-                  <FooterLink href={phone.href}>
+                  <FooterLink href={phone.href} wrap>
                     {phone.label}: {phone.number}
                   </FooterLink>
                 </p>
               ))}
               {site.emails.map((email) => (
                 <p key={email.href}>
-                  <FooterLink href={email.href}>{email.address}</FooterLink>
+                  <FooterLink href={email.href} wrap>
+                    {email.address}
+                  </FooterLink>
                 </p>
               ))}
             </div>
@@ -356,7 +366,6 @@ function EditorialFooter({ tone }: { tone: FooterTone }) {
 
   return (
     <FooterShell variant="editorial" tone={tone}>
-      <WaveEdge className={cn("-mb-px", styles.waveEdge)} />
       <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-16 text-center sm:px-6 lg:py-20">
         <BrandMark size="lg" className="justify-center" />
         <p className={cn("mt-5 max-w-md leading-relaxed sm:text-base", styles.body)}>
@@ -381,7 +390,7 @@ function EditorialFooter({ tone }: { tone: FooterTone }) {
             {site.phones.map((phone, index) => (
               <span key={phone.href}>
                 {index > 0 ? " · " : null}
-                <FooterLink href={phone.href}>
+                <FooterLink href={phone.href} wrap>
                   {phone.label} {phone.number}
                 </FooterLink>
               </span>
@@ -401,8 +410,8 @@ function SplitFooter({ tone }: { tone: FooterTone }) {
 
   return (
     <FooterShell variant="split" tone={tone}>
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:py-20 xl:px-8">
-        <div>
+      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[1.2fr_0.8fr] md:items-end lg:py-20 xl:px-8">
+        <div className="min-w-0">
           <Eyebrow className="text-cta">{site.name}</Eyebrow>
           <p className="mt-4 max-w-lg font-heading text-4xl leading-[1.1] font-semibold sm:text-5xl">
             A ready campus for food processing.
@@ -418,7 +427,7 @@ function SplitFooter({ tone }: { tone: FooterTone }) {
             <Socials />
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-8">
+        <div className="min-w-0 grid grid-cols-2 gap-8">
           <LinkColumn title="Navigation" items={site.nav} />
           <LinkColumn
             title="Explore"

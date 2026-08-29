@@ -28,6 +28,108 @@ export const landing = {
       { value: "5,000 MT", label: "Cold" },
       { value: "12,000 MT", label: "Dry" },
     ],
+    slides: [
+      {
+        image: {
+          src: "/images/warehouse.jpg",
+          alt: "Warehouse and MSME sheds at Indus Best Mega Food Park",
+        },
+        cards: [
+          {
+            value: "16",
+            label: "Plug-and-play sheds",
+            detail: "Install equipment, not the building",
+            side: "left" as const,
+          },
+          {
+            value: "5,000 MT",
+            label: "Cold on campus",
+            detail: "Frozen and chilled, ready to book",
+            side: "right" as const,
+          },
+        ],
+      },
+      {
+        image: {
+          src: "/images/aseptic-line.jpg",
+          alt: "Aseptic processing line on campus",
+        },
+        cards: [
+          {
+            value: "12 MTPH",
+            label: "Tomato concentrate",
+            detail: "Aseptic line already packing",
+            side: "left" as const,
+          },
+          {
+            value: "2 MT/H",
+            label: "IQF capacity",
+            detail: "Book throughput without the capex",
+            side: "right" as const,
+          },
+        ],
+      },
+      {
+        image: {
+          src: "/images/cpc-building.jpg",
+          alt: "Central processing campus at Bemta–Sarora",
+        },
+        cards: [
+          {
+            value: "50+",
+            label: "Acres on site",
+            detail: "Developed land with utilities in place",
+            side: "left" as const,
+          },
+          {
+            value: "30–35",
+            label: "Industrial plots",
+            detail: "Roads, water, power, and ETP ready",
+            side: "right" as const,
+          },
+        ],
+      },
+      {
+        image: {
+          src: "/images/weigh-bridge.jpg",
+          alt: "Entry gate and 100 MT weighbridge",
+        },
+        cards: [
+          {
+            value: "100 MT",
+            label: "Weighbridge",
+            detail: "Logistics at the campus gate",
+            side: "left" as const,
+          },
+          {
+            value: "2.7 MLD",
+            label: "Process water",
+            detail: "Shared utilities you do not duplicate",
+            side: "right" as const,
+          },
+        ],
+      },
+      {
+        image: {
+          src: "/images/admin-lab.jpg",
+          alt: "Quality control laboratory on campus",
+        },
+        cards: [
+          {
+            value: "12,000 MT",
+            label: "Dry warehouse",
+            detail: "Hold inventory beside the line",
+            side: "left" as const,
+          },
+          {
+            value: "3",
+            label: "Primary processing centres",
+            detail: "Collection across the growing belt",
+            side: "right" as const,
+          },
+        ],
+      },
+    ],
   },
   clients: {
     label: "Our clients",
@@ -242,7 +344,7 @@ export const landing = {
   },
   opportunities: {
     id: "opportunities",
-    eyebrow: "Ways in",
+    eyebrow: "Why invest",
     title: "Set up on a campus that's already running.",
     body: "You are not funding a greenfield. Plots, sheds, shared lines, and cold rooms are live at Bemta–Sarora. Tell us the unit — we reply with availability and a current rate card.",
     quote: "Skip the greenfield. Book the campus.",

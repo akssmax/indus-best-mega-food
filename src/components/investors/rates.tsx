@@ -34,7 +34,7 @@ export function InvestorRates() {
 
         <Reveal delay={0.08}>
           <Card id={facilityRates.id} className="gap-0 overflow-hidden p-0">
-            <CardHeader className="border-b border-border/60">
+            <CardHeader className="border-b border-border/60 px-6 pt-6">
               <Eyebrow>{facilityRates.eyebrow}</Eyebrow>
               <CardTitle className="mt-2 text-2xl font-semibold sm:text-3xl">
                 {facilityRates.title}

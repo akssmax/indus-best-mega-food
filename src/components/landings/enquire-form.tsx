@@ -6,6 +6,7 @@ import { useServerFn } from "@tanstack/react-start"
 import { landing, enquiryInterests } from "@/content/landing"
 import type { EnquiryInterest } from "@/content/landing"
 import { submitEnquiry } from "@/lib/enquiry"
+import { saveEnquiry } from "@/app/lib/enquiry-store"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -32,7 +33,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
 
     setPending(true)
     try {
-      await submit({
+      const result = await submit({
         data: {
           name: String(formData.get("name") ?? ""),
           company: String(formData.get("company") ?? ""),
@@ -42,6 +43,12 @@ export function LandingEnquireForm({ className }: { className?: string }) {
           message: String(formData.get("message") ?? ""),
         },
       })
+      if (result.enquiry) {
+        await saveEnquiry({
+          ...result.enquiry,
+          source: "landing",
+        })
+      }
       form.reset()
       setInterest("plot")
       toast.success(enquire.success)
