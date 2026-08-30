@@ -32,7 +32,7 @@ export function Faq({ embedded = false }: { embedded?: boolean }) {
           >
             {faq.items.map((item, index) => (
               <AccordionItem key={item.question} value={`faq-${index}`}>
-                <AccordionTrigger className="py-4 text-base font-medium hover:no-underline">
+                <AccordionTrigger className="py-4 text-base font-medium">
                   {item.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">

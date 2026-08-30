@@ -19,7 +19,17 @@ function initials(name: string) {
     .toUpperCase()
 }
 
-function ClientMark({ name, logo }: { name: string; logo?: string }) {
+function ClientMark({
+  name,
+  logo,
+  tone = "default",
+  compact = false,
+}: {
+  name: string
+  logo?: string
+  tone?: "default" | "forest"
+  compact?: boolean
+}) {
   const reduce = useReducedMotion()
 
   const content = logo ? (
@@ -31,7 +41,15 @@ function ClientMark({ name, logo }: { name: string; logo?: string }) {
       sizes={landingImageSizes.logo}
       loading="lazy"
       decoding="async"
-      className="h-9 w-auto max-w-[10.5rem] object-contain object-left sm:h-10 sm:max-w-[11.5rem] dark:brightness-[1.14] dark:contrast-[1.06]"
+      className={cn(
+        "w-auto object-contain object-left",
+        compact
+          ? "h-7 max-w-[8.5rem] sm:h-8 sm:max-w-[9.5rem]"
+          : "h-9 max-w-[10.5rem] sm:h-10 sm:max-w-[11.5rem]",
+        tone === "forest"
+          ? "brightness-0 invert opacity-80"
+          : "dark:brightness-[1.14] dark:contrast-[1.06]"
+      )}
     />
   ) : (
     <>
@@ -46,7 +64,12 @@ function ClientMark({ name, logo }: { name: string; logo?: string }) {
 
   if (reduce) {
     return (
-      <span className="flex h-14 shrink-0 items-center gap-3 px-2">
+      <span
+        className={cn(
+          "flex shrink-0 items-center gap-3 px-2",
+          compact ? "h-10" : "h-14"
+        )}
+      >
         {content}
       </span>
     )
@@ -54,7 +77,10 @@ function ClientMark({ name, logo }: { name: string; logo?: string }) {
 
   return (
     <motion.span
-      className="flex h-14 shrink-0 cursor-default items-center gap-3 px-2"
+      className={cn(
+        "flex shrink-0 cursor-default items-center gap-3 px-2",
+        compact ? "h-10" : "h-14"
+      )}
       whileHover={{ scale: 1.06, y: -3 }}
       transition={{ duration: 0.28, ease: markEase }}
     >
@@ -65,18 +91,27 @@ function ClientMark({ name, logo }: { name: string; logo?: string }) {
 
 export function ClientMarquee({
   label,
+  items,
   showPattern = false,
+  showLabel = true,
+  tone = "default",
+  compact = false,
   className,
 }: {
   label: string
+  items?: readonly { name: string; logo?: string }[]
   showPattern?: boolean
+  showLabel?: boolean
+  tone?: "default" | "forest"
+  compact?: boolean
   className?: string
 }) {
   const { clients } = landing
+  const marks = items ?? clients.items
 
-  if (clients.items.length === 0) return null
+  if (marks.length === 0) return null
 
-  const loop = [...clients.items, ...clients.items]
+  const loop = [...marks, ...marks]
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
@@ -87,12 +122,22 @@ export function ClientMarquee({
           patternClassName="opacity-[0.06]"
         />
       ) : null}
-      <div className="relative z-10 w-full py-5">
-        <Reveal when="mount" delay={0.42}>
-          <p className="mb-4 text-center text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">
-            {label}
-          </p>
-        </Reveal>
+      <div className={cn("relative z-10 w-full", compact ? "py-2" : "py-5")}>
+        {showLabel ? (
+          <Reveal when="mount" delay={0.42}>
+            <p
+              className={cn(
+                "text-center text-xs font-medium tracking-[0.22em] uppercase",
+                compact ? "mb-3" : "mb-4",
+                tone === "forest"
+                  ? "text-forest-foreground/50"
+                  : "text-muted-foreground"
+              )}
+            >
+              {label}
+            </p>
+          </Reveal>
+        ) : null}
         <Reveal when="mount" delay={0.5}>
           <div
             className={cn(
@@ -100,12 +145,19 @@ export function ClientMarquee({
               "[mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]"
             )}
           >
-            <div className="flex w-max items-center gap-10 py-1 motion-safe:animate-logo-marquee motion-safe:hover-fine:[animation-play-state:paused] sm:gap-12 lg:gap-16">
+            <div
+              className={cn(
+                "flex w-max items-center py-1 motion-safe:animate-logo-marquee motion-safe:hover-fine:[animation-play-state:paused]",
+                compact ? "gap-8 sm:gap-10 lg:gap-12" : "gap-10 sm:gap-12 lg:gap-16"
+              )}
+            >
               {loop.map((client, index) => (
                 <ClientMark
                   key={`${client.name}-${index}`}
                   name={client.name}
                   logo={client.logo}
+                  tone={tone}
+                  compact={compact}
                 />
               ))}
             </div>
@@ -116,11 +168,33 @@ export function ClientMarquee({
   )
 }
 
-export function LogoStrip({ variant = "home" }: { variant?: "home" | "plain" }) {
+export function LogoStrip({
+  variant = "home",
+  tone = "default",
+}: {
+  variant?: "home" | "plain" | "minimal"
+  tone?: "default" | "forest"
+}) {
   const { clients } = landing
   const isHome = variant === "home"
+  const isMinimal = variant === "minimal"
 
   if (clients.items.length === 0) return null
+
+  if (isMinimal) {
+    const marks = tone === "forest" ? clients.forestItems : clients.items
+
+    return (
+      <section aria-label={clients.label} className="relative overflow-hidden">
+        <ClientMarquee
+          label={clients.label}
+          items={marks}
+          tone={tone}
+          compact
+        />
+      </section>
+    )
+  }
 
   if (isHome) {
     return (

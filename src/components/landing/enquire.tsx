@@ -6,10 +6,12 @@ import { useServerFn } from "@tanstack/react-start"
 import { landing, enquiryInterests } from "@/content/landing"
 import type { EnquiryInterest } from "@/content/landing"
 import { submitEnquiry } from "@/lib/enquiry"
+import { isValidPhone, sanitizePhoneInput } from "@/lib/phone"
 import { saveEnquiry } from "@/app/lib/enquiry-store"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { PhoneInput } from "@/components/ui/phone-input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -20,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Eyebrow, Section } from "@/components/landing/section"
+import { LogoStrip } from "@/components/landing/logo-strip"
 import { OceanBackground } from "@/components/landing/ocean-background"
 import { Reveal } from "@/components/landing/motion"
 import { PatternBand } from "@/components/ui/brand-pattern"
@@ -51,6 +54,12 @@ export function Enquire({
     event.preventDefault()
     const form = event.currentTarget
     const formData = new FormData(form)
+    const phone = sanitizePhoneInput(String(formData.get("phone") ?? ""))
+
+    if (!isValidPhone(phone)) {
+      toast.error(enquire.phoneInvalid)
+      return
+    }
 
     setPending(true)
     try {
@@ -58,7 +67,7 @@ export function Enquire({
         data: {
           name: String(formData.get("name") ?? ""),
           company: String(formData.get("company") ?? ""),
-          phone: String(formData.get("phone") ?? ""),
+          phone,
           email: String(formData.get("email") ?? ""),
           interest,
           message: String(formData.get("message") ?? ""),
@@ -130,7 +139,7 @@ export function Enquire({
   )
 
   const grid = (
-    <div className="relative z-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+    <div className="relative z-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
       {copy}
       {form}
     </div>
@@ -141,7 +150,7 @@ export function Enquire({
       <section
         id={enquire.id}
         data-hero
-        className="relative z-10 -mt-14 overflow-hidden bg-forest pt-28 text-forest-foreground sm:-mt-16 sm:pt-[7.5rem] lg:pt-36"
+        className="relative z-10 -mt-14 flex min-h-dvh flex-col overflow-hidden bg-forest pt-28 text-forest-foreground sm:-mt-16 sm:pt-[7.5rem] lg:pt-36"
       >
         <OceanBackground
           tone="forest"
@@ -154,8 +163,11 @@ export function Enquire({
           aria-hidden
           className="pointer-events-none absolute bottom-0 left-[-6%] size-72 rounded-full bg-cta/15 blur-3xl"
         />
-        <div className="relative z-10 mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:pb-24 xl:px-8">
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-4 py-16 sm:px-6 lg:py-24 xl:px-8">
           {grid}
+          <Reveal className="mt-14 lg:mt-20" delay={0.12}>
+            <LogoStrip variant="minimal" tone="forest" />
+          </Reveal>
         </div>
       </section>
     )
@@ -251,12 +263,10 @@ function EnquireForm({
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Phone" htmlFor="phone">
-          <Input
+          <PhoneInput
             id="phone"
             name="phone"
-            type="tel"
             required
-            autoComplete="tel"
             placeholder={enquire.phonePlaceholder}
             className="h-11"
           />

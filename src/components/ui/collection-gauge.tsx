@@ -117,7 +117,7 @@ export function CollectionGauge({
               d={ARC_PATH}
               fill="none"
               stroke="currentColor"
-              className="text-primary drop-shadow-[0_0_10px_color-mix(in_oklch,var(--primary)_28%,transparent)]"
+              className="text-primary drop-shadow-[0_0_10px_color-mix(in_oklch,var(--primary)_28%,transparent)] dark:drop-shadow-none"
               strokeWidth="14"
               strokeLinecap="round"
               strokeDasharray={ARC_LENGTH}

@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start"
 
 import { enquiryInterests } from "@/content/landing"
 import type { EnquiryInterest } from "@/content/landing"
+import { isValidPhone, sanitizePhoneInput } from "@/lib/phone"
 
 export type EnquiryInput = {
   name: string
@@ -21,13 +22,17 @@ function isInterest(value: string): value is EnquiryInterest {
 export const submitEnquiry = createServerFn({ method: "POST" })
   .validator((input: EnquiryInput) => {
     const name = input.name.trim()
-    const phone = input.phone.trim()
+    const phone = sanitizePhoneInput(input.phone.trim())
     const email = input.email.trim()
     const company = input.company.trim()
     const message = input.message.trim()
 
     if (!name || !phone || !email) {
       throw new Error("Name, phone, and email are required.")
+    }
+
+    if (!isValidPhone(phone)) {
+      throw new Error("Enter a valid phone number.")
     }
 
     if (!isInterest(input.interest)) {

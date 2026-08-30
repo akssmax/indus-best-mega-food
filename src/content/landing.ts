@@ -167,6 +167,17 @@ export const landing = {
       },
       { name: "DeHaat", logo: "/images/clients/dehaat.png" },
     ] as { name: string; logo?: string }[],
+    /** Logos that stay legible when inverted on the forest contact hero. */
+    forestItems: [
+      { name: "Nestlé", logo: "/images/clients/nestle.svg" },
+      { name: "Safal", logo: "/images/clients/safal.png" },
+      { name: "HUL", logo: "/images/clients/hul.svg" },
+      { name: "Dabur", logo: "/images/clients/dabur.svg" },
+      {
+        name: "Everest Beverages & Food",
+        logo: "/images/clients/everest-beverages.png",
+      },
+    ] as { name: string; logo?: string }[],
   },
   audience: {
     id: "who-is-it-for",
@@ -916,6 +927,7 @@ export const landing = {
     namePlaceholder: "Your full name",
     companyPlaceholder: "Company or organisation",
     phonePlaceholder: "+91 98765 43210",
+    phoneInvalid: "Enter a valid phone number (at least 10 digits).",
     emailPlaceholder: "you@company.com",
   },
 } as const

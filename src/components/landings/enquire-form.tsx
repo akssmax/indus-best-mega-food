@@ -6,9 +6,11 @@ import { useServerFn } from "@tanstack/react-start"
 import { landing, enquiryInterests } from "@/content/landing"
 import type { EnquiryInterest } from "@/content/landing"
 import { submitEnquiry } from "@/lib/enquiry"
+import { isValidPhone, sanitizePhoneInput } from "@/lib/phone"
 import { saveEnquiry } from "@/app/lib/enquiry-store"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PhoneInput } from "@/components/ui/phone-input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -30,6 +32,12 @@ export function LandingEnquireForm({ className }: { className?: string }) {
     event.preventDefault()
     const form = event.currentTarget
     const formData = new FormData(form)
+    const phone = sanitizePhoneInput(String(formData.get("phone") ?? ""))
+
+    if (!isValidPhone(phone)) {
+      toast.error(enquire.phoneInvalid)
+      return
+    }
 
     setPending(true)
     try {
@@ -37,7 +45,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
         data: {
           name: String(formData.get("name") ?? ""),
           company: String(formData.get("company") ?? ""),
-          phone: String(formData.get("phone") ?? ""),
+          phone,
           email: String(formData.get("email") ?? ""),
           interest,
           message: String(formData.get("message") ?? ""),
@@ -86,12 +94,10 @@ export function LandingEnquireForm({ className }: { className?: string }) {
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Phone" htmlFor="landing-phone">
-          <Input
+          <PhoneInput
             id="landing-phone"
             name="phone"
-            type="tel"
             required
-            autoComplete="tel"
             placeholder={enquire.phonePlaceholder}
             className="h-12 text-base"
           />

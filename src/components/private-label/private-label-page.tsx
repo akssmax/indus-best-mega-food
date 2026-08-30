@@ -12,7 +12,7 @@ import {
 
 import { privateLabel as data } from "@/content/private-label"
 import { SectionIntro, featureGridClass } from "@/components/landing/feature-card"
-import { LogoStrip } from "@/components/landing/logo-strip"
+import { TrustBrandsSection } from "@/components/landing/trust-brands-section"
 import { ForestOceanCta } from "@/components/landing/forest-ocean-cta"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
@@ -219,7 +219,7 @@ export function PrivateLabelPageContent() {
           >
             {data.categories.items.map((category, index) => (
               <AccordionItem key={category.title} value={`category-${index}`}>
-                <AccordionTrigger className="py-4 text-base font-medium hover:no-underline">
+                <AccordionTrigger className="py-4 text-base font-medium">
                   {category.title}
                 </AccordionTrigger>
                 <AccordionContent>
@@ -355,18 +355,7 @@ export function PrivateLabelPageContent() {
         </div>
       </Section>
 
-      <Section className="bg-secondary/25">
-        <Reveal className="max-w-2xl">
-          <SectionIntro
-            eyebrow={data.trust.eyebrow}
-            title={data.trust.title}
-            body={data.trust.body}
-          />
-        </Reveal>
-        <Reveal className="mt-10" delay={0.06}>
-          <LogoStrip variant="plain" />
-        </Reveal>
-      </Section>
+      <TrustBrandsSection {...data.trust} />
 
       <ForestOceanCta
         eyebrow={<Eyebrow className="text-cta">{data.hero.eyebrow}</Eyebrow>}
