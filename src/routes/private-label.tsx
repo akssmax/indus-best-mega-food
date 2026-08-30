@@ -4,14 +4,15 @@ import { privateLabel } from "@/content/private-label"
 import { site } from "@/content/site"
 import { PageHero } from "@/components/layout/page-hero"
 import { PrivateLabelPageContent } from "@/components/private-label/private-label-page"
+import { seoHead } from "@/lib/seo"
 
 export const Route = createFileRoute("/private-label")({
-  head: () => ({
-    meta: [
-      { title: `Private label | ${site.name}` },
-      { name: "description", content: privateLabel.meta.description },
-    ],
-  }),
+  head: () =>
+    seoHead({
+      title: `Private label | ${site.name}`,
+      description: privateLabel.meta.description,
+      path: "/private-label",
+    }),
   component: PrivateLabelRoute,
 })
 

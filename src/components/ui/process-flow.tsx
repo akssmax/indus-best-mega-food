@@ -41,11 +41,11 @@ const lightTones = {
     dotIdle: "bg-foreground/15 group-hover/step:bg-cta/40",
   },
   aqua: {
-    well: "bg-aqua/20 text-forest ring-aqua/35",
+    well: "bg-aqua/20 text-forest ring-aqua/35 dark:bg-aqua/35 dark:text-aqua dark:ring-aqua/50",
     wash: "bg-card",
-    selected: "ring-aqua/40 bg-card",
+    selected: "ring-aqua/40 bg-card dark:ring-aqua/45",
     dot: "bg-aqua",
-    dotIdle: "bg-foreground/15 group-hover/step:bg-aqua/40",
+    dotIdle: "bg-foreground/15 group-hover/step:bg-aqua/40 dark:group-hover/step:bg-aqua/50",
   },
 } as const
 

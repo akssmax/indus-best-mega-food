@@ -100,6 +100,26 @@ export const OCEAN_TUNING = {
     highlightColor: [0.52, 0.58, 0.48, 0] as const,
     rimColor: [0.28, 0.56, 0.62, 0] as const,
   },
+  /** Partnership handshake for the private-label hero — warm CTA highlights. */
+  handshakeCamera: {
+    eye: [42, 30, 54] as const,
+    target: [0, 11, 0] as const,
+    pitchDegrees: -14,
+    fovDegrees: 50,
+    near: 0.1,
+    far: 2000,
+    yawRange: 7,
+    pitchRange: 5,
+  },
+  handshakeMorph: {
+    scale: 1.42,
+    specular: 1.05,
+    lookStrengthX: 0.1,
+    lookStrengthY: 0.08,
+    bodyColor: [0.07, 0.2, 0.18, 0] as const,
+    highlightColor: [0.72, 0.58, 0.28, 0] as const,
+    rimColor: [0.42, 0.62, 0.52, 0] as const,
+  },
   bloom: {
     threshold: 0.52,
     smoothWidth: 0.012,

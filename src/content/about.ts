@@ -117,7 +117,7 @@ export const aboutPage = {
     title: "Capacities on the ground.",
     body: "The numbers sit on this campus. Facilities and infrastructure carry the spec sheet.",
     items: [
-      { value: "50+", label: "Acres", href: "/facilities" },
+      { value: "67", label: "Acres", href: "/facilities" },
       { value: "16", label: "Plug-and-play sheds", href: "/facilities" },
       { value: "30–35", label: "Developed plots", href: "/facilities" },
       { value: "5,000 MT", label: "Cold storage", href: "/facilities" },
@@ -140,7 +140,7 @@ export const aboutPage = {
     ],
     primaryCta: {
       label: "See products from this campus",
-      href: "/#products",
+      href: "/products",
     },
     shopCta: {
       label: "Shop Nourya",

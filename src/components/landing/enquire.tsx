@@ -234,6 +234,7 @@ function EnquireForm({
             type="text"
             required
             autoComplete="name"
+            placeholder={enquire.namePlaceholder}
             className="h-11"
           />
         </Field>
@@ -243,6 +244,7 @@ function EnquireForm({
             name="company"
             type="text"
             autoComplete="organization"
+            placeholder={enquire.companyPlaceholder}
             className="h-11"
           />
         </Field>
@@ -252,9 +254,10 @@ function EnquireForm({
           <Input
             id="phone"
             name="phone"
-            type="text"
+            type="tel"
             required
             autoComplete="tel"
+            placeholder={enquire.phonePlaceholder}
             className="h-11"
           />
         </Field>
@@ -265,6 +268,7 @@ function EnquireForm({
             type="email"
             required
             autoComplete="email"
+            placeholder={enquire.emailPlaceholder}
             className="h-11"
           />
         </Field>
@@ -276,7 +280,7 @@ function EnquireForm({
             if (value) setInterest(value as EnquiryInterest)
           }}
         >
-          <SelectTrigger id="interest" className="h-11 w-full">
+          <SelectTrigger id="interest" size="lg" className="w-full">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

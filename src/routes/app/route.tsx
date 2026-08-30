@@ -10,5 +10,8 @@ export const Route = createFileRoute("/app")({
       throw redirect({ to: "/app/login" })
     }
   },
+  head: () => ({
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  }),
   component: () => <Outlet />,
 })

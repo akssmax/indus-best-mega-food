@@ -6,7 +6,13 @@ export interface OceanLook {
   readonly y: number;
 }
 
-export type OceanInteraction = "camera" | "morph" | "drop" | "factory" | "static";
+export type OceanInteraction =
+  | "camera"
+  | "morph"
+  | "drop"
+  | "factory"
+  | "handshake"
+  | "static";
 
 export type OceanCameraProfile = "default" | "drop";
 

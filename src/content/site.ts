@@ -2,9 +2,19 @@ export const site = {
   name: "Indus Best Mega Food Park",
   shortName: "IBMFP",
   legalName: "Indus Best Mega Food Park Private Limited",
+  url: "https://www.indusbestmegafoodpark.com",
   tagline: "A ready campus for food processing in Chhattisgarh.",
   location: "Village Bemta–Sarora, near Raipur, Chhattisgarh",
   pincode: "493101",
+  home: {
+    title: "Indus Best Mega Food Park | Set up in Raipur, Chhattisgarh",
+    description:
+      "Developed plots, 16 MSME sheds, aseptic and IQF lines, 5,000 MT cold storage and 12,000 MT dry warehouse at Bemta–Sarora, near Raipur.",
+  },
+  about: {
+    description:
+      "An operational MOFPI Mega Food Park at Village Bemta–Sarora near Raipur, with collection, processing, and cold chain on one campus.",
+  },
   logo: {
     src: "/images/logo.png",
     alt: "Indus Best Mega Food Park",
@@ -72,7 +82,8 @@ export const site = {
     { label: "Campus", href: "/campus" },
     { label: "Why invest", href: "/opportunities" },
     { label: "Private label", href: "/private-label" },
-    { label: "Products", href: "/#products" },
+    { label: "Products", href: "/products" },
+    { label: "Careers", href: "/careers" },
   ],
   innerPages: {
     facilities: {
@@ -88,7 +99,7 @@ export const site = {
       title: "JV and investment on an operating MOFPI campus.",
       body: "Master plan, state policies, brochure, plot terms, and shared-facility tariffs — plus co-processing and campus-level partnership on enquiry.",
       description:
-        "Investor Corner for Indus Best Mega Food Park: master plan, Chhattisgarh policies, brochure, plot rates, facility tariffs, and JV on an operational MOFPI campus near Raipur.",
+        "Master plan, Chhattisgarh policies, brochure, plot rates, and JV at Indus Best Mega Food Park — an operational MOFPI campus near Raipur.",
       cta: { label: "Talk to the project team", href: "/contact" },
     },
     contact: {
@@ -121,7 +132,7 @@ export const site = {
       title: "Set up on a campus that's already running.",
       body: "Plots, sheds, shared lines, and cold rooms are live at Bemta–Sarora. Enquire for availability and a current rate card — allocation is a conversation, not a walk-up tariff.",
       description:
-        "Set up at Indus Best Mega Food Park: serviced plots, 16 plug-and-play sheds, shared processing, cold chain, and joint venture on an operational MOFPI campus near Raipur.",
+        "Serviced plots, 16 plug-and-play sheds, shared processing, and cold chain at Indus Best Mega Food Park — an operational MOFPI campus near Raipur.",
       cta: { label: "Request a rate card", href: "/contact" },
     },
     privateLabel: {
@@ -131,6 +142,13 @@ export const site = {
       description:
         "Private label and co-pack at Indus Best Mega Food Park: tomato puree, dairy, jaggery, IQF, and custom packaging on an operational MOFPI campus near Raipur.",
       cta: { label: "Start a partnership enquiry", href: "/contact" },
+    },
+    products: {
+      eyebrow: "Made at the park",
+      title: "Nourya — packed on these lines.",
+      body: "Tomato puree, desi ghee, and chemical-free jaggery leave Bemta–Sarora under the Nourya brand. Browse the range made on campus.",
+      description:
+        "Nourya products packed at Indus Best Mega Food Park: tomato puree, dairy, jaggery, and more from the Bemta–Sarora campus near Raipur.",
     },
   },
 } as const

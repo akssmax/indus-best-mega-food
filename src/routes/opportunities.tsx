@@ -4,16 +4,17 @@ import { site } from "@/content/site"
 import { PageHero } from "@/components/layout/page-hero"
 import { Opportunities } from "@/components/landing/opportunities"
 import { FinalCta } from "@/components/landing/final-cta"
+import { seoHead } from "@/lib/seo"
 
 const page = site.innerPages.opportunities
 
 export const Route = createFileRoute("/opportunities")({
-  head: () => ({
-    meta: [
-      { title: `Why invest | ${site.name}` },
-      { name: "description", content: page.description },
-    ],
-  }),
+  head: () =>
+    seoHead({
+      title: `Why invest | ${site.name}`,
+      description: page.description,
+      path: "/opportunities",
+    }),
   component: OpportunitiesPage,
 })
 

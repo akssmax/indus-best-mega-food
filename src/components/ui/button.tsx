@@ -22,7 +22,7 @@ const buttonVariants = cva(
           buttonInteractiveMotion
         ),
         outline: cn(
-          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-border dark:bg-input dark:hover:bg-secondary/60",
           buttonInteractiveMotion
         ),
         secondary: cn(

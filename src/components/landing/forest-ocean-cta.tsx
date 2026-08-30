@@ -10,10 +10,15 @@ import { cn } from "@/lib/utils"
 
 type CtaMorph = "idle" | "factory" | "campus"
 
+/** Static buttons — ocean morph handles the hover motion, not the controls. */
+const ctaButtonClass =
+  "h-12 px-6 text-base motion-safe:hover:translate-y-0 motion-safe:hover:scale-100 motion-safe:active:translate-y-0 motion-safe:active:scale-100"
+
 export type ForestOceanCtaLink = {
   label: string
   href: string
   morph?: "factory" | "campus"
+  external?: boolean
 }
 
 export function ForestOceanCta({
@@ -23,6 +28,7 @@ export function ForestOceanCta({
   body,
   primary,
   secondary,
+  footnote,
   className,
 }: {
   id?: string
@@ -31,6 +37,7 @@ export function ForestOceanCta({
   body: string
   primary: ForestOceanCtaLink
   secondary: ForestOceanCtaLink
+  footnote?: string
   className?: string
 }) {
   const [ctaMorph, setCtaMorph] = useState<CtaMorph>("idle")
@@ -81,20 +88,26 @@ export function ForestOceanCta({
           {body}
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button variant="cta" className="h-12 px-6 text-base" asChild>
+          <Button variant="cta" className={ctaButtonClass} asChild>
             <a
               href={primary.href}
               data-cta-morph={primary.morph ?? "factory"}
               onPointerEnter={() => setCtaMorph(primary.morph ?? "factory")}
               onFocus={() => setCtaMorph(primary.morph ?? "factory")}
               onBlur={onCtaBlur}
+              {...(primary.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
             >
               {primary.label}
             </a>
           </Button>
           <Button
             variant="outline"
-            className="h-12 border-forest-foreground/30 bg-transparent px-6 text-base text-forest-foreground hover:bg-forest-foreground/10 hover:text-forest-foreground focus-visible:ring-forest-foreground/30"
+            className={cn(
+              ctaButtonClass,
+              "border-forest-foreground/30 bg-transparent text-forest-foreground hover:bg-forest-foreground/10 hover:text-forest-foreground focus-visible:ring-forest-foreground/30"
+            )}
             asChild
           >
             <a
@@ -108,6 +121,11 @@ export function ForestOceanCta({
             </a>
           </Button>
         </div>
+        {footnote ? (
+          <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-forest-foreground/75">
+            {footnote}
+          </p>
+        ) : null}
       </Reveal>
     </Section>
   )

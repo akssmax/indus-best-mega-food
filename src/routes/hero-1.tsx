@@ -3,24 +3,31 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Hero } from "@/components/landing/hero"
 import { HeroBgControls } from "@/components/design-system/hero-bg-controls"
 import { landing } from "@/content/landing"
+import { seoHead } from "@/lib/seo"
 
 const lcpHeroImage = landing.hero.slides[0]?.image.src ?? landing.hero.image.src
 
 export const Route = createFileRoute("/hero-1")({
-  head: () => ({
-    meta: [
-      { title: "Hero BG tuner" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
-    links: [
-      {
-        rel: "preload",
-        href: lcpHeroImage,
-        as: "image",
-        fetchPriority: "high",
-      },
-    ],
-  }),
+  head: () => {
+    const seo = seoHead({
+      title: "Hero BG tuner",
+      description: "Internal hero background tuner.",
+      path: "/hero-1",
+      noindex: true,
+    })
+    return {
+      ...seo,
+      links: [
+        ...seo.links,
+        {
+          rel: "preload",
+          href: lcpHeroImage,
+          as: "image",
+          fetchPriority: "high",
+        },
+      ],
+    }
+  },
   component: HeroTunerPage,
 })
 

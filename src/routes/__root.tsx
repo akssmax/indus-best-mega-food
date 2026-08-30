@@ -17,6 +17,7 @@ import { AppError, AppNotFound } from "@/components/layout/app-error"
 import { Toaster } from "@/components/ui/sonner"
 import { hideSiteChrome, showLandingSwitcher } from "@/lib/skins"
 import { isDashboardRoute } from "@/app/lib/routes"
+import { organizationJsonLd, THEME_COLOR } from "@/lib/seo"
 import { themeBootScript } from "@/lib/theme"
 import appCss from "../styles.css?url"
 
@@ -28,18 +29,15 @@ export const Route = createRootRoute({
         name: "viewport",
         content: "width=device-width, initial-scale=1, viewport-fit=cover",
       },
-      {
-        title: `${site.name} | Set up in Raipur, Chhattisgarh`,
-      },
-      {
-        name: "description",
-        content:
-          "Developed plots, 16 MSME sheds, aseptic and IQF lines, 5,000 MT cold storage and 12,000 MT dry warehouse at Bemta–Sarora, near Raipur.",
-      },
+      { name: "theme-color", content: THEME_COLOR },
+      { title: site.home.title },
+      { name: "description", content: site.home.description },
+      organizationJsonLd(),
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
     ],
   }),
   errorComponent: AppError,

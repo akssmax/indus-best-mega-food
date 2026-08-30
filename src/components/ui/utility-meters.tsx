@@ -36,7 +36,7 @@ const lightTones = {
     fill: "bg-cta",
   },
   aqua: {
-    well: "bg-aqua/20 text-forest ring-aqua/35",
+    well: "bg-aqua/20 text-forest ring-aqua/35 dark:bg-aqua/35 dark:text-aqua dark:ring-aqua/50",
     wash: "bg-aqua/[0.08]",
     fill: "bg-aqua",
   },

@@ -8,16 +8,17 @@ import { InvestorResources } from "@/components/investors/resources"
 import { InvestorRates } from "@/components/investors/rates"
 import { Stats } from "@/components/landing/stats"
 import { FinalCta } from "@/components/landing/final-cta"
+import { seoHead } from "@/lib/seo"
 
 const page = site.innerPages.investors
 
 export const Route = createFileRoute("/investors")({
-  head: () => ({
-    meta: [
-      { title: `Investor Corner | ${site.name}` },
-      { name: "description", content: page.description },
-    ],
-  }),
+  head: () =>
+    seoHead({
+      title: `Investor Corner | ${site.name}`,
+      description: page.description,
+      path: "/investors",
+    }),
   component: InvestorsPage,
 })
 

@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router"
 import { site } from "@/content/site"
 import { fontPairings } from "@/lib/fonts"
 import { useTheme } from "@/lib/theme"
+import { seoHead } from "@/lib/seo"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { ThemeSelector } from "@/components/theme/theme-selector"
 import { Button } from "@/components/ui/button"
@@ -63,7 +64,6 @@ import {
   footerVariantMeta,
   footerVariants,
 } from "@/components/layout/site-footer"
-import { OverlayNav } from "@/components/layout/headers/overlay-nav"
 import { IslandNav } from "@/components/layout/headers/island-nav"
 import { SnapCarousel, SnapSlide } from "@/components/ui/snap-carousel"
 import { SpecTable } from "@/components/ui/spec-table"
@@ -75,16 +75,14 @@ import { landingSkins } from "@/lib/skins"
 import { cn } from "@/lib/utils"
 
 export const Route = createFileRoute("/design-system")({
-  head: () => ({
-    meta: [
-      { title: `Design system | ${site.name}` },
-      {
-        name: "description",
-        content:
-          "Colour, type, and component tokens for Indus Best Mega Food Park.",
-      },
-    ],
-  }),
+  head: () =>
+    seoHead({
+      title: `Design system | ${site.name}`,
+      description:
+        "Colour, type, and component tokens for Indus Best Mega Food Park.",
+      path: "/design-system",
+      noindex: true,
+    }),
   component: DesignSystemPage,
 })
 
@@ -611,19 +609,16 @@ function DesignSystemPage() {
 
       <Section id="headers">
         <Eyebrow>Headers</Eyebrow>
-        <h2 className="mt-3 text-3xl">Two navs, all touch-first.</h2>
+        <h2 className="mt-3 text-3xl">Island nav, touch-first.</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Overlay (Platform) and island (Night). Open the landing pages to see
-          them over real content — the frames below are structural demos on the
-          live theme.
+          Used on the Night landing experiment. Open{" "}
+          <Link to="/landing-3" className="font-medium text-foreground underline-offset-4 hover:underline">
+            /landing-3
+          </Link>{" "}
+          to see it over real content — the frame below is a structural demo on
+          the live theme.
         </p>
-        <div className="mt-10 space-y-10 overflow-hidden rounded-xl ring-1 ring-border">
-          <div>
-            <p className="px-4 pt-4 text-xs font-medium tracking-[0.18em] text-primary uppercase">
-              Overlay
-            </p>
-            <OverlayNav />
-          </div>
+        <div className="mt-10 overflow-hidden rounded-xl ring-1 ring-border">
           <div className="bg-forest pb-6">
             <p className="px-4 pt-4 text-xs font-medium tracking-[0.18em] text-cta uppercase">
               Island
@@ -636,7 +631,7 @@ function DesignSystemPage() {
         <div className="mt-6 grid gap-8 lg:grid-cols-2">
           <SpecTable
             rows={[
-              { label: "Acres", value: "50+" },
+              { label: "Acres", value: "67" },
               { label: "MSME sheds", value: "16" },
               { label: "Cold", value: "5,000 MT" },
             ]}

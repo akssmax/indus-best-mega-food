@@ -4,16 +4,17 @@ import { site } from "@/content/site"
 import { PageHero } from "@/components/layout/page-hero"
 import { Campus } from "@/components/landing/campus"
 import { Location } from "@/components/landing/location"
+import { seoHead } from "@/lib/seo"
 
 const page = site.innerPages.campus
 
 export const Route = createFileRoute("/campus")({
-  head: () => ({
-    meta: [
-      { title: `Campus | ${site.name}` },
-      { name: "description", content: page.description },
-    ],
-  }),
+  head: () =>
+    seoHead({
+      title: `Campus | ${site.name}`,
+      description: page.description,
+      path: "/campus",
+    }),
   component: CampusPage,
 })
 

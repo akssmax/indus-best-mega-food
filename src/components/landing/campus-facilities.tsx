@@ -11,6 +11,12 @@ import {
 } from "@/lib/facility-categories"
 import { cn } from "@/lib/utils"
 
+/** Alternate white (primary) and gold (aqua) icon wells across facility cards. */
+const facilityCardPalettes = [
+  facilityCategoryStyles.processing,
+  facilityCategoryStyles.cold,
+] as const
+
 export function CampusFacilities({ flat = false }: { flat?: boolean }) {
   const { campusOverview, facilityCategories: facilityCopy, processingCapabilities } =
     landing
@@ -39,9 +45,9 @@ export function CampusFacilities({ flat = false }: { flat?: boolean }) {
           </Reveal>
 
           <Stagger className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {facilityCategories.map((category) => {
+            {facilityCategories.map((category, index) => {
               const CategoryIcon = category.icon
-              const palette = facilityCategoryStyles[category.style]
+              const palette = facilityCardPalettes[index % facilityCardPalettes.length]
 
               return (
                 <MotionItem key={category.title}>
@@ -64,16 +70,16 @@ export function CampusFacilities({ flat = false }: { flat?: boolean }) {
                         const ItemIcon = item.icon
 
                         return (
-                          <li key={item.label} className="flex gap-3">
+                          <li key={item.label} className="flex items-center gap-3">
                             <span
                               className={cn(
-                                "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg",
+                                "flex size-7 shrink-0 items-center justify-center rounded-lg",
                                 palette.item
                               )}
                             >
                               <ItemIcon className="size-3.5" aria-hidden />
                             </span>
-                            <span className="min-w-0 pt-0.5">{item.label}</span>
+                            <span className="min-w-0">{item.label}</span>
                           </li>
                         )
                       })}

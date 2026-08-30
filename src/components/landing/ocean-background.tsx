@@ -7,7 +7,7 @@ import { getHeroDropAnchor } from "@/lib/vgpu/fft-ocean/tuning-runtime"
 
 type OceanTone = "paper" | "forest"
 type OceanPlacement = "fill" | "right"
-type OceanInteraction = "camera" | "morph" | "drop" | "factory" | "static"
+type OceanInteraction = "camera" | "morph" | "drop" | "factory" | "handshake" | "static"
 
 interface OceanBackgroundProps {
   className?: string
@@ -161,7 +161,8 @@ export function OceanBackground({
       void import("@/lib/vgpu/fft-ocean/renderer").then(({ createRenderer }) => {
         if (token !== generation || !canvas.isConnected) return
         const startEngaged =
-          (interaction === "factory" && dropEngagedRef.current) ||
+          ((interaction === "factory" || interaction === "handshake") &&
+            dropEngagedRef.current) ||
           (interaction === "drop" &&
             dropTriggerRef.current === "click" &&
             dropEngagedRef.current)
@@ -189,6 +190,7 @@ export function OceanBackground({
               if (
                 dropEngagedRef.current &&
                 (interaction === "factory" ||
+                  interaction === "handshake" ||
                   dropTriggerRef.current === "click")
               ) {
                 setPointer?.(0, 0, 1)
@@ -331,7 +333,7 @@ export function OceanBackground({
 
   useEffect(() => {
     if (!ready) return
-    if (interaction === "factory") {
+    if (interaction === "factory" || interaction === "handshake") {
       setPointerRef.current?.(0, 0, dropEngaged ? 1 : 0)
       setMorphTargetRef.current?.(morphTarget)
       return

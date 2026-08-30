@@ -70,48 +70,149 @@ export const investorsPage = {
   },
   plotRates: {
     id: "plot-rates",
-    eyebrow: "Plot rates",
-    title: "Developed plot terms.",
-    body: "Indicative terms for developed plots. Confirm current availability on enquiry.",
-    summary:
-      "₹3 lakh per acre upfront, plus ₹20 lakh per acre from year 1 for up to 3 years.",
-  },
-  facilityRates: {
-    id: "facility-rates",
-    eyebrow: "Facility rates",
-    title: "Shared capacity and utilities.",
-    body: "Indicative monthly and per-use tariffs for shared capacity and utilities. Allocation and current rate card on enquiry.",
-    rows: [
-      { label: "Dry warehouse", value: "₹1,000 / MT / month" },
-      { label: "Deep freezer", value: "₹2,000 / MT / month" },
-      { label: "Cold storage", value: "₹1,000 / MT / month" },
-      { label: "CA / MA storage", value: "₹1,000 / MT / month" },
-      { label: "IQF", value: "₹15,000 / MT / month" },
-      { label: "Steam", value: "₹4,000 / MT" },
-      { label: "Grading, sorting & packaging", value: "₹1,000 / MT" },
-      { label: "Weighbridge (< 9 MT)", value: "₹70 / vehicle" },
-      { label: "Weighbridge (> 9 MT)", value: "₹100 / vehicle" },
-      {
-        label: "Lab analysis — physical test",
-        value: "₹200 / sample",
-      },
-      {
-        label: "Lab analysis — microbiological test",
-        value: "₹300–350 / test",
-      },
-      { label: "Lab analysis — chemical", value: "₹350 / test" },
-      { label: "Potable water", value: "₹60 / KL" },
-      { label: "ETP & STP", value: "₹200 / KL" },
-      {
-        label: "Management & maintenance (leased land)",
-        value: "₹5 / sq.m / month",
-      },
-      {
-        label: "Aseptic processing",
-        value: "₹20,000 / MT finished product",
-      },
+    eyebrow: "Plot & shed terms",
+    title: "Space on campus.",
+    body: "Indicative terms for free-hold plots and MSME sheds. Confirm current availability on enquiry.",
+    summary: "₹66 lakh per acre — ₹3 lakh upfront, ₹63 lakh at registration.",
+    highlights: [
+      "15 acres currently available for free-hold sale",
+      "Stamp duty exemption under Chhattisgarh Industrial Policy",
+      "16 sheds × 160 sqm (9 × 18 m) at ₹1,500 / sqm / annum on lease",
     ],
   },
+  rateSections: [
+    {
+      id: "space-storage-rates",
+      eyebrow: "Space & storage",
+      title: "Land, sheds, and warehousing.",
+      rows: [
+        {
+          label: "Free-hold plot",
+          value: "₹66 lakh / acre",
+          hint: "₹3 lakh upfront; ₹63 lakh at registration. 15 acres available.",
+        },
+        {
+          label: "SDF shed (9 × 18 m)",
+          value: "₹1,500 / sqm / annum",
+          hint: "16 sheds of 160 sqm on lease; plug-and-play.",
+        },
+        {
+          label: "Warehouse",
+          value: "₹18 / sq ft / month",
+          hint: "Or ₹1,000 / MT / month, whichever is higher; min one month.",
+        },
+        {
+          label: "Dry warehouse",
+          value: "₹0.20 / kg / month",
+          hint: "12,000 MT capacity available.",
+        },
+        {
+          label: "Multi-commodity store (0–10°C)",
+          value: "₹2.00 / kg / month",
+          hint: "Min 500 MT; min charge for one month.",
+        },
+        {
+          label: "Deep freeze (−18°C)",
+          value: "₹2.00 / kg / month",
+          hint: "Min 500 MT; min charge for one month.",
+        },
+        {
+          label: "Management & maintenance",
+          value: "₹2.50 / sqm / month",
+          hint: "Applies after plot sale; incremental 10% per annum.",
+        },
+      ],
+    },
+    {
+      id: "processing-rates",
+      eyebrow: "Processing & handling",
+      title: "Job-work on shared lines.",
+      rows: [
+        {
+          label: "Aseptic processing",
+          value: "₹19 / kg finished",
+          hint: "Pulping, sterilisation, pasteurisation & filling. Min 80 MT / day.",
+        },
+        {
+          label: "IQF",
+          value: "₹18 / kg",
+          hint: "Min 30 MT per batch.",
+        },
+        {
+          label: "Blast freezing",
+          value: "₹8 / kg",
+          hint: "Min 10 MT per batch.",
+        },
+        {
+          label: "Ripening chambers",
+          value: "₹2 / kg / batch",
+          hint: "Min 50 MT; 8 chambers, 400 MT total.",
+        },
+        {
+          label: "Grading, sorting & packaging",
+          value: "₹1,000 / MT",
+          hint: "Min 20 MT; 10 MT / hour capacity.",
+        },
+        {
+          label: "Steam",
+          value: "₹5,000 / MT",
+          hint: "17.5 kg pressure; husk-linked pricing.",
+        },
+        {
+          label: "Lab analysis",
+          value: "₹300 / sample",
+          hint: "Physical, chemical, and microbiological testing.",
+        },
+      ],
+    },
+    {
+      id: "utility-rates",
+      eyebrow: "Utilities & site access",
+      title: "Metered utilities and gate charges.",
+      rows: [
+        {
+          label: "Electricity",
+          value: "₹9.50 / KWH",
+          hint: "At CSEB tariff; ₹1 / KWH additional for SDF units.",
+        },
+        {
+          label: "Water",
+          value: "₹60 / KL",
+          hint: "Connected metered supply.",
+        },
+        {
+          label: "Effluent treatment (ETP)",
+          value: "₹200 / KL",
+          hint: "1.2 MLD capacity, expandable to 2.5 MLD.",
+        },
+        {
+          label: "Sewage treatment (STP)",
+          value: "₹60 / KL",
+          hint: "70 KLD capacity.",
+        },
+        {
+          label: "Weighbridge — large vehicle",
+          value: "₹100 / vehicle",
+          hint: "100 MT electronic modular weighbridge.",
+        },
+        {
+          label: "Weighbridge — small vehicle",
+          value: "₹70 / vehicle",
+          hint: "Below 9 MT.",
+        },
+        {
+          label: "Entry fee (24 h) — large vehicle",
+          value: "₹100 / vehicle",
+          hint: "9 MT and above.",
+        },
+        {
+          label: "Entry fee (24 h) — small vehicle",
+          value: "₹70 / vehicle",
+          hint: "Below 9 MT.",
+        },
+      ],
+    },
+  ],
   disclaimer:
-    "Terms and tariffs are indicative. The project team confirms the current rate card on enquiry.",
+    "All rates are indicative and subject to confirmation at the time of agreement. The project team confirms the current rate card on enquiry.",
 } as const

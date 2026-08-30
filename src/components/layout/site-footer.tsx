@@ -10,7 +10,6 @@ import { landing } from "@/content/landing"
 import { ColorModeToggle } from "@/components/theme/color-mode-toggle"
 import { Eyebrow } from "@/components/landing/section"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { BrandPattern, DropFlourish } from "@/components/ui/brand-pattern"
 import { cn } from "@/lib/utils"
 
@@ -46,7 +45,7 @@ const footerToneStyles: Record<FooterTone, FooterStyles> = {
     splitBorder: "border-forest-foreground/15",
   },
   light: {
-    shell: "bg-card text-foreground dark:border-t dark:border-border/70 dark:bg-background",
+    shell: "bg-card text-foreground dark:bg-background",
     nav: "inline-flex min-h-11 items-center rounded-md px-3 py-2 text-sm font-medium touch-target outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 text-muted-foreground hover:bg-muted hover:text-foreground active:bg-muted/80",
     social:
       "inline-flex size-11 touch-target items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 text-muted-foreground hover:bg-muted hover:text-foreground active:bg-muted/80",
@@ -175,7 +174,7 @@ function LegalBar({ className }: { className?: string }) {
   const tone = useContext(FooterToneContext)
 
   return (
-    <div className={cn("relative overflow-hidden", className)}>
+    <div className={cn("relative overflow-hidden border-t border-border", className)}>
       <BrandPattern
         variant="hatch"
         className={cn(
@@ -185,21 +184,23 @@ function LegalBar({ className }: { className?: string }) {
       />
       <div
         className={cn(
-          "relative z-10 mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8",
+          "relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-4 px-4 py-6 sm:grid-cols-[1fr_auto_1fr] sm:px-6 lg:px-8",
           styles.legal
         )}
       >
         <p>
           &copy; {year} {site.legalName}. All rights reserved.
         </p>
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <div className="justify-self-center">
           <ColorModeToggle
             compact
             showLabel={false}
             surface={tone === "dark" ? "forest" : "default"}
           />
-          <p className="max-w-full break-words">{landing.infrastructure.mofpi}</p>
         </div>
+        <p className="max-w-full break-words sm:justify-self-end sm:text-right">
+          {landing.infrastructure.mofpi}
+        </p>
       </div>
     </div>
   )
@@ -334,7 +335,6 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
           </div>
         </div>
       </div>
-      <Separator className={styles.separator} />
       <LegalBar />
     </FooterShell>
   )
@@ -368,7 +368,6 @@ function EditorialFooter({ tone }: { tone: FooterTone }) {
         </div>
         <Socials className="mt-6 justify-center" />
       </div>
-      <Separator className={styles.separator} />
       <LegalBar className="sm:flex-col sm:text-center lg:flex-row lg:text-left" />
     </FooterShell>
   )
@@ -425,7 +424,6 @@ function SplitFooter({ tone }: { tone: FooterTone }) {
           ))}
         </div>
       </div>
-      <Separator className={styles.separator} />
       <LegalBar />
     </FooterShell>
   )

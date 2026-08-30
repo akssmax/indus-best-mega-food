@@ -214,7 +214,7 @@ const flowStages = [
     stats: [
       { value: "30–35", label: "Serviced industrial plots" },
       { value: "16", label: "MSME plug-and-play sheds" },
-      { value: "50+", label: "Acres on campus" },
+      { value: "67", label: "Acres on campus" },
     ],
   },
   {

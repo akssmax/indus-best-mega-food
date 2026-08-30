@@ -59,18 +59,7 @@ export function AboutPlaces() {
         </div>
       </Reveal>
 
-      <Reveal className="mt-8 flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:gap-x-8" delay={0.08}>
-        {site.phones.map((phone) => (
-          <p key={phone.href}>
-            <span className="text-muted-foreground">{phone.label}: </span>
-            <a
-              href={phone.href}
-              className="font-medium text-foreground underline-offset-4 hover:underline"
-            >
-              {phone.number}
-            </a>
-          </p>
-        ))}
+      <Reveal className="mt-8 text-sm" delay={0.08}>
         <p>
           <span className="text-muted-foreground">{site.emails[0].label}: </span>
           <a

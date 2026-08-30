@@ -1,11 +1,5 @@
 export const landingSkins = [
   {
-    id: "platform",
-    href: "/landing-5",
-    label: "Platform",
-    note: "Live palette. ElevenLabs-style hero, flat joins.",
-  },
-  {
     id: "night",
     href: "/landing-3",
     label: "Night",

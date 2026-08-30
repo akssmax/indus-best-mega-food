@@ -33,6 +33,7 @@ import {
   FACTORY_CLOUD_SIZE,
   getFactoryCloud,
 } from "./factory-cloud";
+import { getHandshakeCloud } from "./handshake-cloud";
 import ifftStageWgsl from "./ifft-stage.wgsl";
 import initialSpectrumWgsl from "./initial-spectrum.wgsl";
 import noiseWgsl from "./noise.wgsl";
@@ -211,7 +212,8 @@ export function createRenderer({
       try {
         pointer.x += (pointerTarget.x - pointer.x) * 0.12;
         pointer.y += (pointerTarget.y - pointer.y) * 0.12;
-        const engageLerp = interaction === "factory" ? 0.06 : 0.09;
+        const engageLerp =
+          interaction === "factory" || interaction === "handshake" ? 0.06 : 0.09;
         pointer.engage += (pointerTarget.engage - pointer.engage) * engageLerp;
         pointer.morphTarget +=
           (pointerTarget.morphTarget - pointer.morphTarget) * 0.08;
@@ -224,7 +226,7 @@ export function createRenderer({
           setDropDynamics(graph, timeSeconds, pointer);
           syncBloomUniforms(graph, blend.bloom);
           setDropParticles(graph.particles, output, pointer, morphStrength, blend);
-        } else if (interaction === "factory") {
+        } else if (interaction === "factory" || interaction === "handshake") {
           const morphStrength = Math.max(0, Math.min(1, pointer.engage));
           setFactoryDynamics(graph, timeSeconds, morphStrength);
           syncBloomUniforms(graph, factoryBloom(morphStrength));
@@ -233,7 +235,8 @@ export function createRenderer({
             output,
             pointer,
             morphStrength,
-            pointer.morphTarget
+            pointer.morphTarget,
+            interaction === "handshake" ? "handshake" : "cta"
           );
         } else if (interaction === "morph") {
           const magnitude = morphPointerMagnitude(pointer);
@@ -595,7 +598,10 @@ function uploadFactoryTextures(
   gpu: Gpu,
   interaction: OceanInteraction
 ): FactoryTextures {
-  const size = interaction === "factory" ? FACTORY_CLOUD_SIZE : 1
+  const size =
+    interaction === "factory" || interaction === "handshake"
+      ? FACTORY_CLOUD_SIZE
+      : 1
   const pos = makeCloudTexture(gpu, size, "factory-pos")
   const nml = makeCloudTexture(gpu, size, "factory-nml")
   const campusPos = makeCloudTexture(gpu, size, "campus-pos")
@@ -607,6 +613,12 @@ function uploadFactoryTextures(
     writeRgba32Texture(gpu, nml, factory.normals, size)
     writeRgba32Texture(gpu, campusPos, campus.positions, size)
     writeRgba32Texture(gpu, campusNml, campus.normals, size)
+  } else if (interaction === "handshake") {
+    const handshake = getHandshakeCloud()
+    writeRgba32Texture(gpu, pos, handshake.positions, size)
+    writeRgba32Texture(gpu, nml, handshake.normals, size)
+    writeRgba32Texture(gpu, campusPos, handshake.positions, size)
+    writeRgba32Texture(gpu, campusNml, handshake.normals, size)
   } else {
     const dummy = new Float32Array(4)
     writeRgba32Texture(gpu, pos, dummy, 1)
@@ -689,23 +701,29 @@ function setFactoryParticles(
   output: Output,
   state: OceanLook & { engage: number },
   morphStrength: number,
-  targetBlend = 0
+  targetBlend = 0,
+  shape: "cta" | "handshake" = "cta"
 ): void {
   const tuning = getOceanTuning()
-  const factory = OCEAN_TUNING.factoryMorph
+  const factory =
+    shape === "handshake" ? OCEAN_TUNING.handshakeMorph : OCEAN_TUNING.factoryMorph
   const campus = OCEAN_TUNING.campusMorph
-  const blend = Math.max(0, Math.min(1, targetBlend))
+  const blend =
+    shape === "handshake" ? 0 : Math.max(0, Math.min(1, targetBlend))
   const eased = morphStrength * morphStrength * (3 - 2 * morphStrength)
   const idleCamera: OceanCameraParams = {
     ...OCEAN_TUNING.camera,
     yawRange: 22,
     pitchRange: 12,
   }
-  const shapeCamera = lerpCamera(
-    OCEAN_TUNING.factoryCamera,
-    OCEAN_TUNING.campusCamera,
-    blend
-  )
+  const shapeCamera =
+    shape === "handshake"
+      ? OCEAN_TUNING.handshakeCamera
+      : lerpCamera(
+          OCEAN_TUNING.factoryCamera,
+          OCEAN_TUNING.campusCamera,
+          blend
+        )
   const lookX = lerp(factory.lookStrengthX, campus.lookStrengthX, blend)
   const lookY = lerp(factory.lookStrengthY, campus.lookStrengthY, blend)
   const camera = oceanCameraFromConfig(

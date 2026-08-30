@@ -136,8 +136,7 @@ export function LogoStrip({ variant = "home" }: { variant?: "home" | "plain" }) 
           className={cn(
             "relative z-[1] -mt-px block",
             bandBg.background,
-            bandWave.card,
-            "dark:text-card"
+            bandWave.card
           )}
         />
       </>
@@ -147,7 +146,7 @@ export function LogoStrip({ variant = "home" }: { variant?: "home" | "plain" }) 
   return (
     <section
       aria-label={clients.label}
-      className="relative overflow-hidden border-y border-border bg-card dark:bg-background"
+      className="relative overflow-hidden rounded-full border border-border bg-card dark:bg-background"
     >
       <ClientMarquee label={clients.label} />
     </section>

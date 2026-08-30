@@ -1,3 +1,10 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /app
+Disallow: /app/
+Disallow: /design-system
+Disallow: /landing-3
+Disallow: /landing-5
+Disallow: /hero-1
+
+Sitemap: https://www.indusbestmegafoodpark.com/sitemap.xml

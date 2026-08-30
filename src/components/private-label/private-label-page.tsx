@@ -3,6 +3,11 @@ import {
   AdjustmentsHorizontalIcon,
   BanknotesIcon,
   ShieldCheckIcon,
+  ArchiveBoxIcon,
+  BeakerIcon,
+  CircleStackIcon,
+  ShoppingBagIcon,
+  SwatchIcon,
 } from "@heroicons/react/24/outline"
 
 import { privateLabel as data } from "@/content/private-label"
@@ -26,6 +31,14 @@ const advantageIcons = [
   BanknotesIcon,
   LockClosedIcon,
   AdjustmentsHorizontalIcon,
+] as const
+
+const packagingIcons = [
+  ArchiveBoxIcon,
+  BeakerIcon,
+  CircleStackIcon,
+  ShoppingBagIcon,
+  SwatchIcon,
 ] as const
 
 function MockupImage({
@@ -262,16 +275,24 @@ export function PrivateLabelPageContent() {
           </figure>
         </Reveal>
         <Stagger className={cn(featureGridClass, "mt-10")}>
-          {data.packaging.options.map((option) => (
-            <MotionItem key={option.label}>
-              <article className="h-full rounded-2xl bg-card p-6 ring-1 ring-foreground/8">
-                <h3 className="font-heading text-lg font-semibold">{option.label}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {option.detail}
-                </p>
-              </article>
-            </MotionItem>
-          ))}
+          {data.packaging.options.map((option, index) => {
+            const Icon = packagingIcons[index] ?? ArchiveBoxIcon
+            return (
+              <MotionItem key={option.label}>
+                <article className="h-full rounded-2xl bg-card p-6 ring-1 ring-foreground/8">
+                  <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Icon className="size-5" aria-hidden />
+                  </div>
+                  <h3 className="mt-5 font-heading text-lg font-semibold">
+                    {option.label}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {option.detail}
+                  </p>
+                </article>
+              </MotionItem>
+            )
+          })}
         </Stagger>
       </Section>
 

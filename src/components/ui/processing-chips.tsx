@@ -24,8 +24,8 @@ const tones = {
     wash: "bg-cta/10",
   },
   aqua: {
-    well: "bg-aqua/20 text-forest",
-    ring: "ring-aqua/40",
+    well: "bg-aqua/20 text-forest dark:bg-aqua/35 dark:text-aqua",
+    ring: "ring-aqua/40 dark:ring-aqua/50",
     wash: "bg-secondary",
   },
 } as const

@@ -13,15 +13,16 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as CampusRouteImport } from './routes/campus'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as FacilitiesRouteImport } from './routes/facilities'
 import { Route as Hero1RouteImport } from './routes/hero-1'
 import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as Landing3RouteImport } from './routes/landing-3'
-import { Route as Landing5RouteImport } from './routes/landing-5'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PrivateLabelRouteImport } from './routes/private-label'
+import { Route as ProductsRouteImport } from './routes/products'
 import { Route as WhyRouteImport } from './routes/why'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppAuthenticatedRouteRouteImport } from './routes/app/_authenticated/route'
@@ -46,6 +47,11 @@ const AppRouteRoute = AppRouteRouteImport.update({
 const CampusRoute = CampusRouteImport.update({
   id: '/campus',
   path: '/campus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -78,11 +84,6 @@ const Landing3Route = Landing3RouteImport.update({
   path: '/landing-3',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Landing5Route = Landing5RouteImport.update({
-  id: '/landing-5',
-  path: '/landing-5',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
@@ -91,6 +92,11 @@ const OpportunitiesRoute = OpportunitiesRouteImport.update({
 const PrivateLabelRoute = PrivateLabelRouteImport.update({
   id: '/private-label',
   path: '/private-label',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsRoute = ProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WhyRoute = WhyRouteImport.update({
@@ -124,15 +130,16 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/campus': typeof CampusRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
   '/landing-3': typeof Landing3Route
-  '/landing-5': typeof Landing5Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
+  '/products': typeof ProductsRoute
   '/why': typeof WhyRoute
   '/app/login': typeof AppLoginRoute
   '/app/': typeof AppIndexRoute
@@ -142,15 +149,16 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/campus': typeof CampusRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
   '/landing-3': typeof Landing3Route
-  '/landing-5': typeof Landing5Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
+  '/products': typeof ProductsRoute
   '/why': typeof WhyRoute
   '/app': typeof AppIndexRoute
   '/app/login': typeof AppLoginRoute
@@ -162,15 +170,16 @@ export interface FileRoutesById {
   '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/campus': typeof CampusRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/design-system': typeof DesignSystemRoute
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
   '/landing-3': typeof Landing3Route
-  '/landing-5': typeof Landing5Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
+  '/products': typeof ProductsRoute
   '/why': typeof WhyRoute
   '/app/_authenticated': typeof AppAuthenticatedRouteRouteWithChildren
   '/app/login': typeof AppLoginRoute
@@ -184,15 +193,16 @@ export interface FileRouteTypes {
     | '/app'
     | '/about'
     | '/campus'
+    | '/careers'
     | '/contact'
     | '/design-system'
     | '/facilities'
     | '/hero-1'
     | '/investors'
     | '/landing-3'
-    | '/landing-5'
     | '/opportunities'
     | '/private-label'
+    | '/products'
     | '/why'
     | '/app/login'
     | '/app/'
@@ -202,15 +212,16 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/campus'
+    | '/careers'
     | '/contact'
     | '/design-system'
     | '/facilities'
     | '/hero-1'
     | '/investors'
     | '/landing-3'
-    | '/landing-5'
     | '/opportunities'
     | '/private-label'
+    | '/products'
     | '/why'
     | '/app'
     | '/app/login'
@@ -221,15 +232,16 @@ export interface FileRouteTypes {
     | '/app'
     | '/about'
     | '/campus'
+    | '/careers'
     | '/contact'
     | '/design-system'
     | '/facilities'
     | '/hero-1'
     | '/investors'
     | '/landing-3'
-    | '/landing-5'
     | '/opportunities'
     | '/private-label'
+    | '/products'
     | '/why'
     | '/app/_authenticated'
     | '/app/login'
@@ -242,15 +254,16 @@ export interface RootRouteChildren {
   AppRouteRoute: typeof AppRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   CampusRoute: typeof CampusRoute
+  CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   DesignSystemRoute: typeof DesignSystemRoute
   FacilitiesRoute: typeof FacilitiesRoute
   Hero1Route: typeof Hero1Route
   InvestorsRoute: typeof InvestorsRoute
   Landing3Route: typeof Landing3Route
-  Landing5Route: typeof Landing5Route
   OpportunitiesRoute: typeof OpportunitiesRoute
   PrivateLabelRoute: typeof PrivateLabelRoute
+  ProductsRoute: typeof ProductsRoute
   WhyRoute: typeof WhyRoute
 }
 
@@ -282,6 +295,13 @@ declare module '@tanstack/react-router' {
       path: '/campus'
       fullPath: '/campus'
       preLoaderRoute: typeof CampusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -326,13 +346,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Landing3RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/landing-5': {
-      id: '/landing-5'
-      path: '/landing-5'
-      fullPath: '/landing-5'
-      preLoaderRoute: typeof Landing5RouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/opportunities': {
       id: '/opportunities'
       path: '/opportunities'
@@ -345,6 +358,13 @@ declare module '@tanstack/react-router' {
       path: '/private-label'
       fullPath: '/private-label'
       preLoaderRoute: typeof PrivateLabelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/why': {
@@ -419,15 +439,16 @@ const rootRouteChildren: RootRouteChildren = {
   AppRouteRoute: AppRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   CampusRoute: CampusRoute,
+  CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   DesignSystemRoute: DesignSystemRoute,
   FacilitiesRoute: FacilitiesRoute,
   Hero1Route: Hero1Route,
   InvestorsRoute: InvestorsRoute,
   Landing3Route: Landing3Route,
-  Landing5Route: Landing5Route,
   OpportunitiesRoute: OpportunitiesRoute,
   PrivateLabelRoute: PrivateLabelRoute,
+  ProductsRoute: ProductsRoute,
   WhyRoute: WhyRoute,
 }
 export const routeTree = rootRouteImport

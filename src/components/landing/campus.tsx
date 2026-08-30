@@ -4,13 +4,14 @@ import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 import { SectionBand } from "@/lib/section-band"
 import { CampusOverview } from "@/components/landing/campus-overview"
+import { CampusDetail } from "@/components/landing/campus-detail"
 import { ProcessingCapacityTable } from "@/components/landing/processing-capabilities"
 
 function FacilitiesDetail() {
   const { facilities: data } = landing
 
   return (
-    <SectionBand tone="secondary-30" from="background" to="background">
+    <SectionBand tone="secondary-30" from="background">
       <Section id={data.id} className="bg-transparent">
         <Reveal className="max-w-2xl">
           <Eyebrow>{data.eyebrow}</Eyebrow>
@@ -63,6 +64,7 @@ export function Campus() {
   return (
     <>
       <CampusOverview />
+      <CampusDetail />
       <FacilitiesDetail />
     </>
   )

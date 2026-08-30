@@ -20,7 +20,7 @@ export const landing = {
     primaryCta: { label: "Enquire Now", href: "/contact" },
     secondaryCta: { label: "Explore the Campus", href: "/campus" },
     stats: [
-      { value: "50+", label: "Acres" },
+      { value: "67", label: "Acres" },
       { value: "16", label: "MSME sheds" },
       { value: "5,000 MT", label: "Cold" },
       { value: "12,000 MT", label: "Dry" },
@@ -79,7 +79,7 @@ export const landing = {
         },
         cards: [
           {
-            value: "50+",
+            value: "67",
             label: "Acres on site",
             detail: "Capital into an operating park",
             side: "left" as const,
@@ -143,7 +143,7 @@ export const landing = {
     eyebrow: "At a glance",
     title: "Scheme-backed and operational.",
     body: "Mega Food Park status, project scale, and location — verified against MOFPI scheme listings.",
-    // TODO: align acreage claims — hero slides use "50+" developed acres; MOFPI/PIB cite 63.8-acre project area.
+    // Acreage: 67-acre integrated park per client pitch deck (32 acres plotted).
     credibility: [
       { value: "63.8 acres", label: "Project area" },
       { value: "2021", label: "Operational since" },
@@ -645,7 +645,7 @@ export const landing = {
     eyebrow: "At a glance",
     title: "Capacities on the ground.",
     items: [
-      { value: "50+", label: "Acres" },
+      { value: "67", label: "Acres" },
       { value: "16", label: "Plug-and-play sheds" },
       { value: "30–35", label: "Developed plots" },
       { value: "5,000 MT", label: "Cold storage" },
@@ -913,6 +913,10 @@ export const landing = {
     error: "Something went wrong. Please call or email us directly.",
     messagePlaceholder:
       "Plot size, product, throughput, or the partnership you have in mind",
+    namePlaceholder: "Your full name",
+    companyPlaceholder: "Company or organisation",
+    phonePlaceholder: "+91 98765 43210",
+    emailPlaceholder: "you@company.com",
   },
 } as const
 

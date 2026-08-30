@@ -69,6 +69,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
             type="text"
             required
             autoComplete="name"
+            placeholder={enquire.namePlaceholder}
             className="h-12 text-base"
           />
         </Field>
@@ -78,6 +79,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
             name="company"
             type="text"
             autoComplete="organization"
+            placeholder={enquire.companyPlaceholder}
             className="h-12 text-base"
           />
         </Field>
@@ -87,9 +89,10 @@ export function LandingEnquireForm({ className }: { className?: string }) {
           <Input
             id="landing-phone"
             name="phone"
-            type="text"
+            type="tel"
             required
             autoComplete="tel"
+            placeholder={enquire.phonePlaceholder}
             className="h-12 text-base"
           />
         </Field>
@@ -100,6 +103,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
             type="email"
             required
             autoComplete="email"
+            placeholder={enquire.emailPlaceholder}
             className="h-12 text-base"
           />
         </Field>
@@ -111,7 +115,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
             if (value) setInterest(value as EnquiryInterest)
           }}
         >
-          <SelectTrigger id="landing-interest" className="h-12 w-full text-base">
+          <SelectTrigger id="landing-interest" size="xl" className="w-full">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

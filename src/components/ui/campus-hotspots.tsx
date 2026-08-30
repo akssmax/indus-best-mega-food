@@ -17,7 +17,7 @@ export type CampusPin = {
 const toneWell = {
   primary: "bg-primary/12 text-primary",
   cta: "bg-cta/15 text-cta",
-  aqua: "bg-aqua/20 text-forest",
+  aqua: "bg-aqua/20 text-forest dark:bg-aqua/35 dark:text-aqua",
 } as const
 
 const toneDot = {

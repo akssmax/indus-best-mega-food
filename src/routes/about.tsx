@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 
 import { site } from "@/content/site"
 import { getNouryaProducts } from "@/lib/nourya"
+import { seoHead } from "@/lib/seo"
 import { AboutHero } from "@/components/about/hero"
 import { AboutWho } from "@/components/about/who"
 import { AboutTeam } from "@/components/about/team"
@@ -15,16 +16,12 @@ import { FinalCta } from "@/components/landing/final-cta"
 
 export const Route = createFileRoute("/about")({
   loader: () => getNouryaProducts(),
-  head: () => ({
-    meta: [
-      { title: `About us | ${site.name}` },
-      {
-        name: "description",
-        content:
-          "Indus Best Mega Food Park Private Limited — an operational MOFPI Mega Food Park at Village Bemta–Sarora, near Raipur, with collection, processing, and cold chain on one campus.",
-      },
-    ],
-  }),
+  head: () =>
+    seoHead({
+      title: `About us | ${site.name}`,
+      description: site.about.description,
+      path: "/about",
+    }),
   component: AboutPage,
 })
 
