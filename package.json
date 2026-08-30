@@ -10,7 +10,9 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx}\"",
     "check": "prettier --check \"**/*.{ts,tsx,js,jsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:push": "drizzle-kit push",
+    "db:seed": "tsx --env-file=.env src/server/seed.ts"
   },
   "dependencies": {
     "@fontsource-variable/figtree": "^5.3.0",
@@ -24,6 +26,7 @@
     "@fontsource/libre-baskerville": "^5.3.0",
     "@fontsource/playfair-display": "^5.3.0",
     "@heroicons/react": "^2.2.0",
+    "@neondatabase/serverless": "^1.1.0",
     "@paper-design/shaders-react": "^0.0.80",
     "@tailwindcss/vite": "^4",
     "@tanstack/react-devtools": "latest",
@@ -33,10 +36,15 @@
     "@tanstack/react-start": "latest",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/router-plugin": "latest",
+    "@tiptap/extension-image": "^3.30.5",
+    "@tiptap/pm": "^3.30.5",
+    "@tiptap/react": "^3.30.5",
+    "@tiptap/starter-kit": "^3.30.5",
+    "@vercel/blob": "^2.8.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.2",
     "framer-motion": "^13.1.1",
-    "idb": "^8.0.3",
     "lucide-react": "^1.33.0",
     "motion": "^13.1.1",
     "next-themes": "^0.4.6",
@@ -52,6 +60,7 @@
     "vgpu": "^0.3.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
     "@tanstack/devtools-vite": "latest",
     "@tanstack/eslint-config": "latest",
     "@testing-library/dom": "^10.4.1",
@@ -61,10 +70,12 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6",
     "@webgpu/types": "^0.1.72",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "jsdom": "^28",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "tsx": "^4.23.13",
     "typescript": "^6",
     "vite": "^8",
     "vitest": "^4"

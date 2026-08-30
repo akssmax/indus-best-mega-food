@@ -35,7 +35,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-1">
               {appNav.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton

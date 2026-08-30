@@ -4,13 +4,15 @@ import type { ReactNode } from "react"
 import { createContext, useContext } from "react"
 import { Link } from "@tanstack/react-router"
 import { ArrowRightIcon } from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
 
 import { site } from "@/content/site"
 import { landing } from "@/content/landing"
+import { motionEase } from "@/components/landing/motion"
 import { ColorModeToggle } from "@/components/theme/color-mode-toggle"
 import { Eyebrow } from "@/components/landing/section"
 import { Button } from "@/components/ui/button"
-import { BrandPattern, DropFlourish } from "@/components/ui/brand-pattern"
+import { BrandPattern, DropFlourish, brandDropPath } from "@/components/ui/brand-pattern"
 import { cn } from "@/lib/utils"
 
 export const footerVariants = ["directory", "editorial", "split"] as const
@@ -26,6 +28,7 @@ type FooterStyles = {
   nav: string
   social: string
   body: string
+  eyebrow: string
   label: string
   separator: string
   legal: string
@@ -39,7 +42,8 @@ const footerToneStyles: Record<FooterTone, FooterStyles> = {
     social:
       "inline-flex size-11 touch-target items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-3 focus-visible:ring-forest-foreground/30 text-forest-foreground/80 hover:bg-forest-foreground/10 hover:text-forest-foreground active:bg-forest-foreground/15",
     body: "text-sm text-forest-foreground/80",
-    label: "text-xs font-medium text-forest-foreground/70",
+    eyebrow: "tracking-[0.18em] text-cta",
+    label: "text-xs font-medium text-forest-foreground/80",
     separator: "bg-forest-foreground/15",
     legal: "text-sm text-forest-foreground/75",
     splitBorder: "border-forest-foreground/15",
@@ -50,7 +54,8 @@ const footerToneStyles: Record<FooterTone, FooterStyles> = {
     social:
       "inline-flex size-11 touch-target items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 text-muted-foreground hover:bg-muted hover:text-foreground active:bg-muted/80",
     body: "text-sm text-muted-foreground",
-    label: "text-xs font-medium text-muted-foreground/80",
+    eyebrow: "tracking-[0.18em] text-primary",
+    label: "text-xs font-medium text-muted-foreground",
     separator: "bg-border",
     legal: "text-sm text-muted-foreground",
     splitBorder: "border-border",
@@ -82,7 +87,8 @@ export const footerVariantMeta: Record<
 }
 
 const year = new Date().getFullYear()
-const allLinks = [...site.nav, ...site.explore]
+const blogLink = { label: "Blog", href: "/blog" }
+const allLinks = [...site.nav, blogLink, ...site.explore]
 
 function BrandMark({
   size = "md",
@@ -119,6 +125,92 @@ function BrandMark({
   )
 }
 
+const footerFlourishDrops = [
+  { transform: "translate(4 2) scale(0.42) rotate(-28 12 16)" },
+  { transform: "translate(24 0) scale(0.52)" },
+  { transform: "translate(46 3) scale(0.4) rotate(26 12 16)" },
+] as const
+
+const footerBrandHover = {
+  idle: {},
+  hover: {
+    transition: { staggerChildren: 0.05, delayChildren: 0.02 },
+  },
+}
+
+const footerDropHover = {
+  idle: { y: 0, scale: 1 },
+  hover: {
+    y: -2.5,
+    scale: 1.1,
+    transition: { duration: 0.38, ease: motionEase },
+  },
+}
+
+const footerLogoHover = {
+  idle: { scale: 1, x: 0 },
+  hover: {
+    scale: 1.015,
+    x: 2,
+    transition: { duration: 0.38, ease: motionEase },
+  },
+}
+
+function FooterBrandCluster({ tone }: { tone: FooterTone }) {
+  const reduce = useReducedMotion()
+  const flourishTone =
+    tone === "dark"
+      ? "text-forest-foreground/25 group-hover/brand:text-forest-foreground/45"
+      : "text-primary/30 group-hover/brand:text-primary/50"
+
+  if (reduce) {
+    return (
+      <>
+        <DropFlourish
+          className={cn(
+            "mb-4",
+            tone === "dark" ? "text-forest-foreground/25" : "text-primary/30"
+          )}
+        />
+        <BrandMark />
+      </>
+    )
+  }
+
+  return (
+    <motion.div
+      className="group/brand w-fit"
+      initial="idle"
+      whileHover="hover"
+    >
+      <motion.svg
+        aria-hidden
+        viewBox="0 0 72 28"
+        variants={footerBrandHover}
+        className={cn(
+          "mb-4 h-7 w-[4.5rem] text-current transition-colors duration-300",
+          flourishTone
+        )}
+      >
+        <g fill="currentColor">
+          {footerFlourishDrops.map((drop) => (
+            <motion.g
+              key={drop.transform}
+              transform={drop.transform}
+              variants={footerDropHover}
+            >
+              <path d={brandDropPath} />
+            </motion.g>
+          ))}
+        </g>
+      </motion.svg>
+      <motion.div variants={footerLogoHover}>
+        <BrandMark />
+      </motion.div>
+    </motion.div>
+  )
+}
+
 function FooterLink({
   href,
   children,
@@ -148,6 +240,17 @@ function FooterLink({
   )
 }
 
+function FooterEyebrow({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+}) {
+  const styles = useFooterStyles()
+  return <Eyebrow className={cn(styles.eyebrow, className)}>{children}</Eyebrow>
+}
+
 function LinkColumn({
   title,
   items,
@@ -157,7 +260,7 @@ function LinkColumn({
 }) {
   return (
     <div className="min-w-0">
-      <Eyebrow className="tracking-[0.18em] text-cta">{title}</Eyebrow>
+      <FooterEyebrow>{title}</FooterEyebrow>
       <ul className="mt-3 space-y-1">
         {items.map((item) => (
           <li key={item.href}>
@@ -295,30 +398,16 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
     <FooterShell variant="directory" tone={tone}>
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 xl:grid-cols-4 xl:px-8">
         <div className="min-w-0 sm:col-span-2 xl:col-span-1">
-          <DropFlourish
-            className={cn(
-              "mb-4",
-              tone === "dark"
-                ? "text-forest-foreground/25"
-                : "text-primary/30"
-            )}
-          />
-          <BrandMark />
+          <FooterBrandCluster tone={tone} />
           <p className={cn("mt-4", styles.body)}>
             {site.tagline} Located at {site.location}.
           </p>
           <Socials className="mt-4" />
         </div>
-        <LinkColumn
-          title="Navigation"
-          items={[
-            ...site.nav,
-            { label: "Design System", href: "/design-system" },
-          ]}
-        />
+        <LinkColumn title="Navigation" items={[...site.nav, blogLink]} />
         <LinkColumn title="Explore" items={site.explore} />
         <div className="min-w-0 sm:col-span-2 xl:col-span-1">
-          <Eyebrow className="tracking-[0.18em] text-cta">Contact</Eyebrow>
+          <FooterEyebrow>Contact</FooterEyebrow>
           <div className={cn("mt-3 space-y-3", styles.body)}>
             {Object.values(site.addresses).map((address) => (
               <div key={address.label}>
@@ -380,7 +469,7 @@ function SplitFooter({ tone }: { tone: FooterTone }) {
     <FooterShell variant="split" tone={tone}>
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[1.2fr_0.8fr] md:items-end lg:py-20 xl:px-8">
         <div className="min-w-0">
-          <Eyebrow className="text-cta">{site.name}</Eyebrow>
+          <FooterEyebrow>{site.name}</FooterEyebrow>
           <p className="mt-4 max-w-lg font-heading text-4xl leading-[1.1] font-semibold sm:text-5xl">
             A ready campus for food processing.
           </p>
@@ -396,14 +485,8 @@ function SplitFooter({ tone }: { tone: FooterTone }) {
           </div>
         </div>
         <div className="min-w-0 grid grid-cols-2 gap-8">
-          <LinkColumn title="Navigation" items={site.nav} />
-          <LinkColumn
-            title="Explore"
-            items={[
-              ...site.explore,
-              { label: "Design System", href: "/design-system" },
-            ]}
-          />
+          <LinkColumn title="Navigation" items={[...site.nav, blogLink]} />
+          <LinkColumn title="Explore" items={site.explore} />
         </div>
       </div>
       <div className={cn("border-t", styles.splitBorder)}>

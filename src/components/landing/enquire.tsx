@@ -7,7 +7,6 @@ import { landing, enquiryInterests } from "@/content/landing"
 import type { EnquiryInterest } from "@/content/landing"
 import { submitEnquiry } from "@/lib/enquiry"
 import { isValidPhone, sanitizePhoneInput } from "@/lib/phone"
-import { saveEnquiry } from "@/app/lib/enquiry-store"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -71,13 +70,11 @@ export function Enquire({
           email: String(formData.get("email") ?? ""),
           interest,
           message: String(formData.get("message") ?? ""),
+          source: "contact",
         },
       })
-      if (result.enquiry) {
-        await saveEnquiry({
-          ...result.enquiry,
-          source: "contact",
-        })
+      if (!result.ok) {
+        throw new Error("Enquiry was not saved.")
       }
       form.reset()
       setInterest("plot")

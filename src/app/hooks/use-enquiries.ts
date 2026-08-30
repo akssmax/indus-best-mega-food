@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
 
-import { enquiryStore } from "@/app/lib/enquiry-store"
 import type { EnquiryRecord, EnquiryStatus } from "@/app/lib/types"
+import {
+  listEnquiries,
+  updateEnquiryNotes,
+  updateEnquiryStatus,
+} from "@/server/enquiries"
 
 export function useEnquiries() {
   const [enquiries, setEnquiries] = useState<EnquiryRecord[]>([])
@@ -12,9 +16,13 @@ export function useEnquiries() {
     setLoading(true)
     setError(null)
     try {
-      await enquiryStore.seedIfEmpty()
-      const records = await enquiryStore.list()
-      setEnquiries(records)
+      const records = await listEnquiries()
+      setEnquiries(
+        records.map((record) => ({
+          ...record,
+          notes: record.notes ?? undefined,
+        })),
+      )
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load enquiries.")
     } finally {
@@ -28,10 +36,12 @@ export function useEnquiries() {
 
   const updateStatus = useCallback(
     async (id: string, status: EnquiryStatus) => {
-      const updated = await enquiryStore.update(id, { status })
+      const updated = await updateEnquiryStatus({ data: { id, status } })
       if (updated) {
         setEnquiries((prev) =>
-          prev.map((item) => (item.id === id ? updated : item)),
+          prev.map((item) =>
+            item.id === id ? { ...updated, notes: updated.notes ?? undefined } : item,
+          ),
         )
       }
       return updated
@@ -40,10 +50,12 @@ export function useEnquiries() {
   )
 
   const updateNotes = useCallback(async (id: string, notes: string) => {
-    const updated = await enquiryStore.update(id, { notes })
+    const updated = await updateEnquiryNotes({ data: { id, notes } })
     if (updated) {
       setEnquiries((prev) =>
-        prev.map((item) => (item.id === id ? updated : item)),
+        prev.map((item) =>
+          item.id === id ? { ...updated, notes: updated.notes ?? undefined } : item,
+        ),
       )
     }
     return updated

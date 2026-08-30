@@ -50,7 +50,7 @@ export function Faq({ embedded = false }: { embedded?: boolean }) {
           </Accordion>
 
           <div className="mt-8">
-            <Button variant="cta" asChild>
+            <Button variant="secondary" className="w-full" asChild>
               <a href={faq.cta.href}>{faq.cta.label}</a>
             </Button>
           </div>

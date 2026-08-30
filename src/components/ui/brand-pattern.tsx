@@ -18,6 +18,8 @@ export type PatternVariant = (typeof patternVariants)[number]
 const DROP =
   "M12 1.6C12 1.6 4.2 12.4 4.2 18.8c0 4.4 3.5 8 7.8 8s7.8-3.6 7.8-8C19.8 12.4 12 1.6 12 1.6Z"
 
+export const brandDropPath = DROP
+
 function VeinLines() {
   return (
     <g

@@ -1,53 +1,48 @@
-import { useCallback, useSyncExternalStore } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useRouter } from "@tanstack/react-router"
 
 import {
   getSession,
-  isAuthenticated,
   signIn as authSignIn,
   signOut as authSignOut,
-  type DashboardSession,
 } from "@/app/lib/auth"
-
-function subscribe(callback: () => void) {
-  window.addEventListener("storage", callback)
-  window.addEventListener("ibmfp-auth-change", callback)
-  return () => {
-    window.removeEventListener("storage", callback)
-    window.removeEventListener("ibmfp-auth-change", callback)
-  }
-}
-
-function getSnapshot() {
-  return isAuthenticated()
-}
-
-function getServerSnapshot() {
-  return false
-}
-
-function notifyAuthChange() {
-  window.dispatchEvent(new Event("ibmfp-auth-change"))
-}
+import type { DashboardSession } from "@/app/lib/auth"
 
 export function useAuth() {
-  const authenticated = useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    getServerSnapshot,
+  const router = useRouter()
+  const [session, setSession] = useState<DashboardSession | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+    void getSession().then((current) => {
+      if (!cancelled) {
+        setSession(current)
+        setLoading(false)
+      }
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const signIn = useCallback(
+    async (username: string, password: string) => {
+      const ok = await authSignIn(username, password)
+      if (ok) {
+        setSession(await getSession())
+        await router.invalidate()
+      }
+      return ok
+    },
+    [router],
   )
 
-  const session: DashboardSession | null = authenticated ? getSession() : null
+  const signOut = useCallback(async () => {
+    await authSignOut()
+    setSession(null)
+    await router.invalidate()
+  }, [router])
 
-  const signIn = useCallback((username: string, password: string) => {
-    const ok = authSignIn(username, password)
-    if (ok) notifyAuthChange()
-    return ok
-  }, [])
-
-  const signOut = useCallback(() => {
-    authSignOut()
-    notifyAuthChange()
-  }, [])
-
-  return { authenticated, session, signIn, signOut }
+  return { authenticated: session !== null, loading, session, signIn, signOut }
 }

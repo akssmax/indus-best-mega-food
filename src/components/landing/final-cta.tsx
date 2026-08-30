@@ -23,11 +23,14 @@ type CtaMorph = "idle" | "factory" | "campus"
 export function FinalCta({
   bridge = "both",
   bridgeFrom = "secondary-25",
+  showSecondary = true,
 }: {
   /** Forest waves at the joins. Pass `"top"`, `"bottom"`, or `"both"`. */
   bridge?: CtaBridge
   /** Surface colour of the section above the forest band. */
   bridgeFrom?: BandSurface
+  /** Hide the secondary link — e.g. on /campus, where it would point here. */
+  showSecondary?: boolean
 }) {
   const { finalCta: data } = landing
   const showTop = bridge === true || bridge === "both" || bridge === "top"
@@ -70,8 +73,12 @@ export function FinalCta({
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-forest-foreground/90 sm:text-lg">
             {data.body}
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button variant="cta" className="h-12 px-6 text-base" asChild>
+          <div className="mt-8 flex w-full flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center">
+            <Button
+              variant="cta"
+              className="h-12 w-full px-6 text-base sm:w-auto"
+              asChild
+            >
               <a
                 href={data.primaryCta.href}
                 data-cta-morph="factory"
@@ -82,21 +89,23 @@ export function FinalCta({
                 {data.primaryCta.label}
               </a>
             </Button>
-            <Button
-              variant="outline"
-              className="h-12 border-forest-foreground/30 bg-transparent px-6 text-base text-forest-foreground hover:bg-forest-foreground/10 hover:text-forest-foreground focus-visible:ring-forest-foreground/30"
-              asChild
-            >
-              <a
-                href={data.secondaryCta.href}
-                data-cta-morph="campus"
-                onPointerEnter={() => setCtaMorph("campus")}
-                onFocus={() => setCtaMorph("campus")}
-                onBlur={onCtaBlur}
+            {showSecondary ? (
+              <Button
+                variant="outline"
+                className="h-12 w-full border-forest-foreground/30 bg-transparent px-6 text-base text-forest-foreground hover:bg-forest-foreground/10 hover:text-forest-foreground focus-visible:ring-forest-foreground/30 sm:w-auto"
+                asChild
               >
-                {data.secondaryCta.label}
-              </a>
-            </Button>
+                <a
+                  href={data.secondaryCta.href}
+                  data-cta-morph="campus"
+                  onPointerEnter={() => setCtaMorph("campus")}
+                  onFocus={() => setCtaMorph("campus")}
+                  onBlur={onCtaBlur}
+                >
+                  {data.secondaryCta.label}
+                </a>
+              </Button>
+            ) : null}
           </div>
         </Reveal>
       </Section>

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { MapPinIcon, ShieldCheckIcon } from "lucide-react"
+import { EyeIcon, EyeOffIcon, MapPinIcon, ShieldCheckIcon } from "lucide-react"
 import { toast } from "sonner"
 
 import { useAuth } from "@/app/hooks/use-auth"
@@ -8,6 +8,12 @@ import { BrandPattern, DropFlourish } from "@/components/ui/brand-pattern"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
 import { Label } from "@/components/ui/label"
 import { site } from "@/content/site"
 import { cn } from "@/lib/utils"
@@ -50,21 +56,26 @@ export function LoginForm() {
   const { signIn } = useAuth()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [pending, setPending] = useState(false)
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setPending(true)
 
-    const ok = signIn(username.trim(), password)
-    if (ok) {
-      toast.success("Signed in.")
-      await navigate({ to: "/app/enquiries" })
-    } else {
-      toast.error("Invalid username or password.")
+    try {
+      const ok = await signIn(username.trim(), password)
+      if (ok) {
+        toast.success("Signed in.")
+        await navigate({ to: "/app/enquiries" })
+      } else {
+        toast.error("Invalid username or password.")
+      }
+    } catch {
+      toast.error("Sign in failed. Please try again.")
+    } finally {
+      setPending(false)
     }
-
-    setPending(false)
   }
 
   return (
@@ -143,17 +154,31 @@ export function LoginForm() {
               </div>
               <div className="grid gap-1.5">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  required
-                  className="h-11 bg-background"
-                />
+                <InputGroup className="h-11 bg-background">
+                  <InputGroupInput
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    required
+                    className="h-11"
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      size="icon-xs"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                      aria-pressed={showPassword}
+                      onClick={() => setShowPassword((visible) => !visible)}
+                    >
+                      {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
               </div>
               <Button
                 type="submit"
@@ -166,8 +191,8 @@ export function LoginForm() {
             </div>
 
             <p className="text-center text-xs text-muted-foreground md:text-left">
-              Mock credentials: <span className="font-medium">admin</span> /{" "}
-              <span className="font-medium">1234</span>
+              Internal access only. Contact the project team if you need
+              credentials.
             </p>
           </form>
         </CardContent>

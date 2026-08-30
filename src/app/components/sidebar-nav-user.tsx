@@ -1,4 +1,6 @@
-import { ChevronsUpDownIcon, LogOutIcon } from "lucide-react"
+"use client"
+
+import { ChevronsUpDownIcon, LogOutIcon, MonitorIcon, MoonIcon, SunIcon } from "lucide-react"
 
 import { useAuth } from "@/app/hooks/use-auth"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -7,6 +9,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -16,10 +20,23 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import {
+  applyTheme,
+  colorModes,
+  isColorMode,
+  useTheme,
+} from "@/lib/theme"
+
+const modeIcons = {
+  light: SunIcon,
+  dark: MoonIcon,
+  system: MonitorIcon,
+} as const
 
 export function SidebarNavUser() {
   const { session, signOut } = useAuth()
   const { isMobile } = useSidebar()
+  const { theme } = useTheme()
   const username = session?.username ?? "admin"
   const initials = username.slice(0, 2).toUpperCase()
 
@@ -66,10 +83,30 @@ export function SidebarNavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+            <DropdownMenuRadioGroup
+              value={theme.mode}
+              onValueChange={(next) => {
+                if (!isColorMode(next)) return
+                applyTheme({ mode: next })
+              }}
+            >
+              {colorModes.map((mode) => {
+                const Icon = modeIcons[mode.id]
+                return (
+                  <DropdownMenuRadioItem key={mode.id} value={mode.id}>
+                    <Icon />
+                    {mode.label}
+                  </DropdownMenuRadioItem>
+                )
+              })}
+            </DropdownMenuRadioGroup>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
-                signOut()
-                window.location.href = "/app/login"
+                void signOut().then(() => {
+                  window.location.href = "/app/login"
+                })
               }}
             >
               <LogOutIcon />

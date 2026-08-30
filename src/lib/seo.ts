@@ -17,6 +17,7 @@ export const marketingPaths = [
   "/private-label",
   "/products",
   "/careers",
+  "/blog",
 ] as const
 
 export function absoluteUrl(path = "/") {

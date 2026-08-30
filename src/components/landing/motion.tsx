@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import type { ElementType, ReactNode } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 
 export const motionEase = [0.22, 1, 0.36, 1] as const
@@ -194,5 +194,76 @@ export function AnimatedCharacters({
         </span>
       ))}
     </span>
+  )
+}
+
+const revealWordContainer = (stagger: number, startDelay: number) => ({
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: stagger,
+      delayChildren: startDelay,
+    },
+  },
+})
+
+const revealWordItem = (duration: number) => ({
+  hidden: { y: "110%", opacity: 0 },
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: { duration, ease },
+  },
+})
+
+/** Word-by-word clip reveal — remount or change `text` to replay. */
+export function RevealText<T extends ElementType = "span">({
+  text,
+  as,
+  className,
+  startDelay = 0,
+  stagger = 0.055,
+  duration = 0.52,
+}: {
+  text: string
+  as?: T
+  className?: string
+  startDelay?: number
+  stagger?: number
+  duration?: number
+}) {
+  const reduce = useReducedMotion()
+  const Component = (as ?? "span") as ElementType
+  const words = text.split(" ")
+
+  if (reduce) {
+    return <Component className={className}>{text}</Component>
+  }
+
+  return (
+    <Component className={className} aria-label={text}>
+      <motion.span
+        className="inline"
+        variants={revealWordContainer(stagger, startDelay)}
+        initial="hidden"
+        animate="show"
+        aria-hidden
+      >
+        {words.map((word, index) => (
+          <span
+            key={`${index}-${word}`}
+            className="inline-block overflow-hidden align-top pb-[0.14em] -mb-[0.14em]"
+          >
+            <motion.span
+              className="inline-block"
+              variants={revealWordItem(duration)}
+            >
+              {word}
+            </motion.span>
+            {index < words.length - 1 ? "\u00A0" : null}
+          </span>
+        ))}
+      </motion.span>
+    </Component>
   )
 }

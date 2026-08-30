@@ -96,9 +96,9 @@ export function EnquiriesOverview({
     {
       label: "This week",
       value: stats.thisWeek,
-      accent: "text-cta-foreground",
+      accent: "text-cta",
       icon: CalendarDaysIcon,
-      iconClassName: "text-cta-foreground",
+      iconClassName: "text-cta",
     },
   ]
 

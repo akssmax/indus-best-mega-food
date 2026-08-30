@@ -3,6 +3,8 @@ import { createServerFn } from "@tanstack/react-start"
 import { enquiryInterests } from "@/content/landing"
 import type { EnquiryInterest } from "@/content/landing"
 import { isValidPhone, sanitizePhoneInput } from "@/lib/phone"
+import { db } from "@/server/db"
+import { enquiries } from "@/server/schema"
 
 export type EnquiryInput = {
   name: string
@@ -11,6 +13,7 @@ export type EnquiryInput = {
   email: string
   interest: EnquiryInterest
   message: string
+  source?: "contact" | "landing"
 }
 
 const interestValues = enquiryInterests.map((item) => item.value)
@@ -46,16 +49,25 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       email,
       interest: input.interest,
       message,
+      source: input.source,
     } satisfies EnquiryInput
   })
   .handler(async ({ data }) => {
-    const enquiry = {
-      ...data,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      status: "new" as const,
-      source: "contact" as const,
+    const [enquiry] = await db
+      .insert(enquiries)
+      .values({
+        name: data.name,
+        company: data.company,
+        phone: data.phone,
+        email: data.email,
+        interest: data.interest,
+        message: data.message,
+        source: data.source === "landing" ? "landing" : "contact",
+      })
+      .returning()
+
+    return {
+      ok: true as const,
+      enquiry: { ...enquiry, createdAt: enquiry.createdAt.toISOString() },
     }
-    console.info("[ibmfp-enquiry]", enquiry)
-    return { ok: true as const, enquiry }
   })

@@ -12,7 +12,10 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 
 function usePageTitle() {
   const pathname = useRouterState({ select: (state) => state.location.pathname })
-  return appNav.find((item) => item.href === pathname)?.title ?? "Dashboard"
+  const exact = appNav.find((item) => item.href === pathname)?.title
+  if (exact) return exact
+  if (pathname.startsWith("/app/posts")) return "Posts"
+  return "Dashboard"
 }
 
 export function AppShell() {

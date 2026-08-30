@@ -126,6 +126,7 @@ export const site = {
       body: "Works at Village Bemta–Sarora, near Raipur, Chhattisgarh 493101 — plots, lines, cold chain, and utilities on one site, next to NH-53 and the growing belt.",
       description:
         "The Indus Best Mega Food Park campus at Village Bemta–Sarora near Raipur: plots, processing lines, cold storage, utilities, and how to reach the site.",
+      cta: { label: "Enquire now", href: "/contact" },
     },
     opportunities: {
       eyebrow: "Why invest",

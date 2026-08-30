@@ -1,6 +1,12 @@
-import type { CSSProperties, ReactNode } from "react"
+import type {
+  CSSProperties,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  TouchEvent,
+} from "react"
 import { useEffect, useRef, useState } from "react"
-import { ArrowRightIcon } from "lucide-react"
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion"
 
 import { landing } from "@/content/landing"
@@ -10,6 +16,7 @@ import { Eyebrow } from "@/components/landing/section"
 import {
   MotionItem,
   Reveal,
+  RevealText,
   Stagger,
   motionEase,
 } from "@/components/landing/motion"
@@ -91,7 +98,6 @@ export const heroShellClass =
 
 const HERO_SLIDE_MS = 6000
 const CAMPUS_HERO_SLIDE_COUNT = 3
-const heroCopyTransition = { duration: 0.78, ease: motionEase }
 const heroImageTransition = { duration: 0.92, delay: 0.1, ease: motionEase }
 
 type HeroSlide = (typeof landing.hero.slides)[number]
@@ -170,6 +176,40 @@ function useHeroCarousel(
     paused,
     setPaused,
     reduce,
+  }
+}
+
+function useHorizontalSwipe(
+  onSwipeLeft: () => void,
+  onSwipeRight: () => void,
+  enabled = true,
+  threshold = 48,
+) {
+  const start = useRef<{ x: number; y: number } | null>(null)
+
+  function resetStart() {
+    start.current = null
+  }
+
+  return {
+    onTouchStart(event: TouchEvent) {
+      if (!enabled || event.touches.length !== 1) return
+      start.current = {
+        x: event.touches[0].clientX,
+        y: event.touches[0].clientY,
+      }
+    },
+    onTouchEnd(event: TouchEvent) {
+      if (!enabled || !start.current) return
+      const touch = event.changedTouches[0]
+      const dx = touch.clientX - start.current.x
+      const dy = touch.clientY - start.current.y
+      resetStart()
+      if (Math.abs(dx) < threshold || Math.abs(dx) <= Math.abs(dy)) return
+      if (dx < 0) onSwipeLeft()
+      else onSwipeRight()
+    },
+    onTouchCancel: resetStart,
   }
 }
 
@@ -476,22 +516,46 @@ function HeroCopySlide({
           const isActive = index === activeIndex
 
           return (
-            <motion.div
+            <div
               key={slide.image.src}
               className="col-start-1 row-start-1 flex flex-col items-center gap-6 sm:gap-7 lg:gap-8"
-              initial={false}
-              animate={{ opacity: isActive ? 1 : 0 }}
-              transition={reduce ? { duration: 0 } : heroCopyTransition}
-              style={{ pointerEvents: isActive ? "auto" : "none" }}
+              style={{
+                visibility: isActive ? "visible" : "hidden",
+                pointerEvents: isActive ? "auto" : "none",
+              }}
               aria-hidden={!isActive}
             >
-              <h1 className="max-w-3xl text-4xl leading-[1.08] font-semibold sm:text-5xl lg:text-[3.35rem]">
-                {copy.headline}
-              </h1>
-              <p className="max-w-2xl text-base leading-relaxed text-forest-foreground/85 sm:text-lg">
-                {copy.body}
-              </p>
-            </motion.div>
+              {reduce || !isActive ? (
+                <>
+                  <h1 className="max-w-3xl text-4xl leading-[1.08] font-semibold sm:text-5xl lg:text-[3.35rem]">
+                    {copy.headline}
+                  </h1>
+                  <p className="max-w-2xl text-base leading-relaxed text-forest-foreground/85 sm:text-lg">
+                    {copy.body}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <RevealText
+                    key={`headline-${activeIndex}`}
+                    as="h1"
+                    text={copy.headline}
+                    className="max-w-3xl text-4xl leading-[1.08] font-semibold sm:text-5xl lg:text-[3.35rem]"
+                    stagger={0.065}
+                    duration={0.58}
+                  />
+                  <RevealText
+                    key={`body-${activeIndex}`}
+                    as="p"
+                    text={copy.body}
+                    className="max-w-2xl text-base leading-relaxed text-forest-foreground/85 sm:text-lg"
+                    stagger={0.032}
+                    duration={0.46}
+                    startDelay={0.12}
+                  />
+                </>
+              )}
+            </div>
           )
         })}
       </div>
@@ -575,28 +639,52 @@ function CampusHeroVisual({
   activeIndex,
   reduce,
   setPaused,
+  setActiveIndex,
 }: {
   slides: readonly HeroSlide[]
   activeIndex: number
   reduce: boolean | null
   setPaused: (paused: boolean) => void
+  setActiveIndex: Dispatch<SetStateAction<number>>
 }) {
   const slide = slides[activeIndex] ?? slides[0]
+  const slideCount = slides.length
 
+  function goToPrev() {
+    setActiveIndex((current) => (current - 1 + slideCount) % slideCount)
+  }
+
+  function goToNext() {
+    setActiveIndex((current) => (current + 1) % slideCount)
+  }
+
+  const swipeHandlers = useHorizontalSwipe(goToNext, goToPrev, slideCount > 1)
+
+  const navButtonClass = cn(
+    "absolute top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-full",
+    "bg-background/92 text-foreground shadow-md ring-1 ring-foreground/10 backdrop-blur-sm",
+    "pointer-events-none opacity-0 transition-[opacity,transform,background-color] duration-200",
+    "group-hover:pointer-events-auto group-hover:opacity-100",
+    "hover:bg-background hover:scale-105",
+    "focus-visible:pointer-events-auto focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  )
   return (
-    <div
-      className="group relative mt-10 w-full lg:mt-12"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
-          setPaused(false)
-        }
-      }}
-    >
-      <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_56px_rgba(15,43,29,0.28)] ring-1 ring-forest-foreground/15">
-        <div className="relative aspect-[16/10] sm:aspect-[16/9] lg:aspect-[2/1]">
+    <div className="relative mt-10 w-full lg:mt-12">
+      <div
+        className="group relative overflow-hidden rounded-3xl shadow-[0_24px_56px_rgba(15,43,29,0.28)] ring-1 ring-forest-foreground/15"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocusCapture={() => setPaused(true)}
+        onBlurCapture={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+            setPaused(false)
+          }
+        }}
+      >
+        <div
+          className="relative aspect-[16/10] touch-pan-y sm:aspect-[16/9] lg:aspect-[2/1]"
+          {...swipeHandlers}
+        >
           {slides.map((item, index) => {
             const isActive = index === activeIndex
 
@@ -620,7 +708,34 @@ function CampusHeroVisual({
               />
             )
           })}
-          <div className="absolute inset-0 bg-linear-to-t from-forest/55 via-forest/10 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-forest/55 via-forest/10 to-transparent" />
+
+          {slideCount > 1 ? (
+            <>
+              <button
+                type="button"
+                className={cn(navButtonClass, "left-3 sm:left-4")}
+                onClick={(event) => {
+                  goToPrev()
+                  event.currentTarget.blur()
+                }}
+                aria-label="Previous slide"
+              >
+                <ChevronLeftIcon className="size-5" aria-hidden />
+              </button>
+              <button
+                type="button"
+                className={cn(navButtonClass, "right-3 sm:right-4")}
+                onClick={(event) => {
+                  goToNext()
+                  event.currentTarget.blur()
+                }}
+                aria-label="Next slide"
+              >
+                <ChevronRightIcon className="size-5" aria-hidden />
+              </button>
+            </>
+          ) : null}
 
           {slide.cards.map((card) => (
             <div
@@ -636,16 +751,22 @@ function CampusHeroVisual({
             </div>
           ))}
 
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5 px-4 py-3 sm:px-5 sm:py-4">
+          <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-center gap-1.5 px-4 py-3 sm:px-5 sm:py-4">
             {slides.map((item, index) => (
-              <span
+              <button
                 key={item.image.src}
-                aria-hidden
+                type="button"
+                onClick={(event) => {
+                  setActiveIndex(index)
+                  event.currentTarget.blur()
+                }}
+                aria-label={`Show slide ${index + 1} of ${slideCount}`}
+                aria-current={index === activeIndex ? "true" : undefined}
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-300",
                   index === activeIndex
                     ? "w-5 bg-cta"
-                    : "w-1.5 bg-forest-foreground/35"
+                    : "w-1.5 bg-forest-foreground/35 hover:bg-forest-foreground/55"
                 )}
               />
             ))}
@@ -660,7 +781,7 @@ export function CampusHero({ markHero = true }: { markHero?: boolean }) {
   const slides = landing.hero.slides.slice(0, CAMPUS_HERO_SLIDE_COUNT)
   const rootRef = useRef<HTMLDivElement>(null)
   const inView = useInView(rootRef, { margin: "0px 0px -12% 0px" })
-  const { activeIndex, setPaused, reduce } = useHeroCarousel(slides, inView)
+  const { activeIndex, setActiveIndex, setPaused, reduce } = useHeroCarousel(slides, inView)
 
   return (
     <HeroShell markHero={markHero}>
@@ -675,6 +796,7 @@ export function CampusHero({ markHero = true }: { markHero?: boolean }) {
           activeIndex={activeIndex}
           reduce={reduce}
           setPaused={setPaused}
+          setActiveIndex={setActiveIndex}
         />
       </div>
     </HeroShell>

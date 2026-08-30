@@ -43,6 +43,7 @@ function QuickLink({ label, href }: { label: string; href: string }) {
 const quickLinks = [
   { label: "Home", href: "/" },
   ...site.nav,
+  { label: "Blog", href: "/blog" },
   ...site.explore.filter(
     (item) => !site.nav.some((navItem) => navItem.href === item.href)
   ),
