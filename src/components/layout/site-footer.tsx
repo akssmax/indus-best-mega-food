@@ -4,15 +4,13 @@ import type { ReactNode } from "react"
 import { createContext, useContext } from "react"
 import { Link } from "@tanstack/react-router"
 import { ArrowRightIcon } from "lucide-react"
-import { motion, useReducedMotion } from "framer-motion"
 
 import { site } from "@/content/site"
 import { landing } from "@/content/landing"
-import { motionEase } from "@/components/landing/motion"
 import { ColorModeToggle } from "@/components/theme/color-mode-toggle"
 import { Eyebrow } from "@/components/landing/section"
 import { Button } from "@/components/ui/button"
-import { BrandPattern, DropFlourish, brandDropPath } from "@/components/ui/brand-pattern"
+import { BrandPattern, DropFlourish } from "@/components/ui/brand-pattern"
 import { cn } from "@/lib/utils"
 
 export const footerVariants = ["directory", "editorial", "split"] as const
@@ -122,92 +120,6 @@ function BrandMark({
         {site.name}
       </span>
     </Link>
-  )
-}
-
-const footerFlourishDrops = [
-  { transform: "translate(4 2) scale(0.42) rotate(-28 12 16)" },
-  { transform: "translate(24 0) scale(0.52)" },
-  { transform: "translate(46 3) scale(0.4) rotate(26 12 16)" },
-] as const
-
-const footerBrandHover = {
-  idle: {},
-  hover: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.02 },
-  },
-}
-
-const footerDropHover = {
-  idle: { y: 0, scale: 1 },
-  hover: {
-    y: -2.5,
-    scale: 1.1,
-    transition: { duration: 0.38, ease: motionEase },
-  },
-}
-
-const footerLogoHover = {
-  idle: { scale: 1, x: 0 },
-  hover: {
-    scale: 1.015,
-    x: 2,
-    transition: { duration: 0.38, ease: motionEase },
-  },
-}
-
-function FooterBrandCluster({ tone }: { tone: FooterTone }) {
-  const reduce = useReducedMotion()
-  const flourishTone =
-    tone === "dark"
-      ? "text-forest-foreground/25 group-hover/brand:text-forest-foreground/45"
-      : "text-primary/30 group-hover/brand:text-primary/50"
-
-  if (reduce) {
-    return (
-      <>
-        <DropFlourish
-          className={cn(
-            "mb-4",
-            tone === "dark" ? "text-forest-foreground/25" : "text-primary/30"
-          )}
-        />
-        <BrandMark />
-      </>
-    )
-  }
-
-  return (
-    <motion.div
-      className="group/brand w-fit"
-      initial="idle"
-      whileHover="hover"
-    >
-      <motion.svg
-        aria-hidden
-        viewBox="0 0 72 28"
-        variants={footerBrandHover}
-        className={cn(
-          "mb-4 h-7 w-[4.5rem] text-current transition-colors duration-300",
-          flourishTone
-        )}
-      >
-        <g fill="currentColor">
-          {footerFlourishDrops.map((drop) => (
-            <motion.g
-              key={drop.transform}
-              transform={drop.transform}
-              variants={footerDropHover}
-            >
-              <path d={brandDropPath} />
-            </motion.g>
-          ))}
-        </g>
-      </motion.svg>
-      <motion.div variants={footerLogoHover}>
-        <BrandMark />
-      </motion.div>
-    </motion.div>
   )
 }
 
@@ -398,7 +310,15 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
     <FooterShell variant="directory" tone={tone}>
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 xl:grid-cols-4 xl:px-8">
         <div className="min-w-0 sm:col-span-2 xl:col-span-1">
-          <FooterBrandCluster tone={tone} />
+          <DropFlourish
+            className={cn(
+              "mb-4",
+              tone === "dark"
+                ? "text-forest-foreground/25"
+                : "text-primary/30"
+            )}
+          />
+          <BrandMark />
           <p className={cn("mt-4", styles.body)}>
             {site.tagline} Located at {site.location}.
           </p>
