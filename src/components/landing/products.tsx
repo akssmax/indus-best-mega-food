@@ -11,7 +11,7 @@ export function Products({ products }: { products: NouryaProduct[] }) {
   const { products: data } = landing
 
   return (
-    <Section id={data.id} deferPaint className="relative overflow-hidden">
+    <Section id={data.id} className="relative overflow-hidden">
       <PatternBand
         variant="rain"
         className="pointer-events-none absolute inset-0 text-primary/20"

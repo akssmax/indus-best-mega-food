@@ -19,11 +19,10 @@ const ease = motionEase
 export type MotionWhen = "view" | "mount"
 
 export const fadeUp = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease },
+    transition: { duration: 0.45, ease },
   },
 }
 
@@ -55,8 +54,8 @@ export function Reveal({
     return <div className={className}>{children}</div>
   }
 
-  const transition = { duration: 0.6, delay, ease }
-  const hidden = { opacity: 0, y: 24 }
+  const transition = { duration: when === "mount" ? 0.6 : 0.45, delay, ease }
+  const hidden = when === "mount" ? { opacity: 0, y: 24 } : { opacity: 0 }
 
   if (when === "mount") {
     return (
@@ -75,8 +74,8 @@ export function Reveal({
     <motion.div
       className={className}
       initial={hidden}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.16, margin: "-40px" }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, amount: 0.08, margin: "0px 0px -5% 0px" }}
       transition={transition}
     >
       {children}
@@ -122,7 +121,7 @@ export function Stagger({
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.12, margin: "-40px" }}
+      viewport={{ once: true, amount: 0.08, margin: "0px 0px -5% 0px" }}
       variants={variants}
     >
       {children}

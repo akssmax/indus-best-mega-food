@@ -1,11 +1,5 @@
 export const landingSkins = [
   {
-    id: "atelier",
-    href: "/landing-2",
-    label: "Atelier",
-    note: "Stone, charcoal, terracotta. Procurement-first.",
-  },
-  {
     id: "platform",
     href: "/landing-5",
     label: "Platform",
@@ -16,12 +10,6 @@ export const landingSkins = [
     href: "/landing-3",
     label: "Night",
     note: "Near-black, cream type, brass. Place-led.",
-  },
-  {
-    id: "broadsheet",
-    href: "/landing-4",
-    label: "Broadsheet",
-    note: "Paper, ink, chili. Editorial journal.",
   },
 ] as const
 

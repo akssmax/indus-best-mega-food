@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ArrowRightIcon } from "lucide-react"
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion"
 
 import { landing } from "@/content/landing"
 import { Button } from "@/components/ui/button"
@@ -103,24 +103,27 @@ type HeroSlideCard = {
   side: "left" | "right"
 }
 
-function useHeroCarousel(slides: readonly HeroSlide[]) {
+function useHeroCarousel(
+  slides: readonly HeroSlide[],
+  inView = true
+) {
   const reduce = useReducedMotion()
   const [activeIndex, setActiveIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const slideCount = slides.length
 
   useEffect(() => {
-    if (reduce || slideCount < 2 || paused) return
+    if (reduce || slideCount < 2 || paused || !inView) return
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % slideCount)
     }, HERO_SLIDE_MS)
 
     return () => window.clearInterval(timer)
-  }, [paused, reduce, slideCount])
+  }, [paused, reduce, slideCount, inView])
 
   useEffect(() => {
-    if (reduce || slideCount < 2) return
+    if (reduce || slideCount < 2 || !inView) return
 
     const nextIndex = (activeIndex + 1) % slideCount
     const nextSrc = slides[nextIndex]?.image.src
@@ -159,7 +162,7 @@ function useHeroCarousel(slides: readonly HeroSlide[]) {
       }
       if (link?.isConnected) document.head.removeChild(link)
     }
-  }, [activeIndex, reduce, slideCount, slides])
+  }, [activeIndex, inView, reduce, slideCount, slides])
 
   return {
     activeIndex,
@@ -209,21 +212,23 @@ function MaskedRotatingHeroVisual({
   const { hero } = landing
   const slides = hero.slides
   const reduce = useReducedMotion()
+  const rootRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(rootRef, { margin: "0px 0px -12% 0px" })
   const [activeIndex, setActiveIndex] = useState(0)
   const slide = slides[activeIndex] ?? slides[0]
 
   useEffect(() => {
-    if (reduce || slides.length < 2) return
+    if (reduce || slides.length < 2 || !inView) return
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % slides.length)
     }, HERO_SLIDE_MS)
 
     return () => window.clearInterval(timer)
-  }, [reduce, slides.length])
+  }, [inView, reduce, slides.length])
 
   useEffect(() => {
-    if (reduce || slides.length < 2) return
+    if (reduce || slides.length < 2 || !inView) return
 
     const nextIndex = (activeIndex + 1) % slides.length
     const nextSrc = slides[nextIndex]?.image.src
@@ -238,7 +243,7 @@ function MaskedRotatingHeroVisual({
     return () => {
       document.head.removeChild(link)
     }
-  }, [activeIndex, reduce, slides])
+  }, [activeIndex, inView, reduce, slides])
 
   const imageFetchPriority = activeIndex === 0 ? "high" : "auto"
 
@@ -320,7 +325,7 @@ function MaskedRotatingHeroVisual({
 
   if (reduce) {
     return (
-      <div className={cn("relative mx-auto w-full", frameClassName)}>
+      <div ref={rootRef} className={cn("relative mx-auto w-full", frameClassName)}>
         {imageLayer}
         {cardLayer}
       </div>
@@ -329,6 +334,7 @@ function MaskedRotatingHeroVisual({
 
   return (
     <motion.div
+      ref={rootRef}
       className={cn("relative mx-auto w-full", frameClassName)}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -380,15 +386,11 @@ function HeroShell({
         className={cn(heroShellClass, contentGutterClass)}
       >
         <OceanBackground tone="forest" interaction="static" />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute bottom-0 left-[-6%] z-0 size-72 rounded-full bg-cta/15 blur-3xl"
-        />
         <div className="relative z-10">{children}</div>
       </section>
       <WaveEdge
         position="bottom"
-        className="relative z-[1] -mt-px block bg-card text-forest"
+        className="relative z-[1] -mt-px block bg-card text-forest dark:bg-background dark:text-forest"
       />
     </>
   )
@@ -656,11 +658,13 @@ function CampusHeroVisual({
 
 export function CampusHero({ markHero = true }: { markHero?: boolean }) {
   const slides = landing.hero.slides.slice(0, CAMPUS_HERO_SLIDE_COUNT)
-  const { activeIndex, setPaused, reduce } = useHeroCarousel(slides)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(rootRef, { margin: "0px 0px -12% 0px" })
+  const { activeIndex, setPaused, reduce } = useHeroCarousel(slides, inView)
 
   return (
     <HeroShell markHero={markHero}>
-      <div className={cn(contentContainerClass, "relative pb-12 lg:pb-16")}>
+      <div ref={rootRef} className={cn(contentContainerClass, "relative pb-12 lg:pb-16")}>
         <HeroCopySlide
           slides={slides}
           activeIndex={activeIndex}

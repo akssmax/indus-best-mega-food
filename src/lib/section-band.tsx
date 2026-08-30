@@ -13,17 +13,17 @@ export type BandSurface =
 
 export const bandBg: Record<BandSurface, string> = {
   background: "bg-background",
-  card: "bg-card",
-  "secondary-25": "bg-secondary/25",
-  "secondary-30": "bg-secondary/30",
+  card: "bg-card dark:bg-background",
+  "secondary-25": "bg-secondary/25 dark:bg-secondary/12",
+  "secondary-30": "bg-secondary/30 dark:bg-secondary/18",
   forest: "bg-forest",
 }
 
 export const bandWave: Record<BandSurface, string> = {
   background: "text-background",
-  card: "text-card",
-  "secondary-25": "text-secondary/25",
-  "secondary-30": "text-secondary/30",
+  card: "text-card dark:text-background",
+  "secondary-25": "text-secondary/25 dark:text-secondary/12",
+  "secondary-30": "text-secondary/30 dark:text-secondary/18",
   forest: "text-forest",
 }
 

@@ -29,21 +29,38 @@ interface OceanBackgroundProps {
   morphTarget?: number
 }
 
-const canvasOpacity: Record<OceanTone, string> = {
+const canvasReadyClass: Record<OceanTone, string> = {
   paper: "opacity-90",
-  forest: "opacity-75",
+  forest: "opacity-75 dark:opacity-90",
 }
 
-const overlayClass: Record<OceanTone, string> = {
-  paper: "bg-linear-to-b from-transparent from-40% to-background",
-  forest: "bg-linear-to-b from-forest/50 via-forest/30 to-forest/70",
+const overlayClass: Record<
+  OceanTone,
+  Record<OceanPlacement, string>
+> = {
+  paper: {
+    fill: "bg-linear-to-b from-transparent from-40% to-background",
+    right: "bg-linear-to-b from-transparent from-40% to-background",
+  },
+  forest: {
+    fill:
+      "bg-linear-to-b from-forest/50 via-forest/30 to-forest/70 dark:from-forest/20 dark:via-forest/10 dark:to-forest/35",
+    right:
+      "bg-linear-to-l from-forest from-15% via-forest/75 via-45% to-transparent dark:via-forest/55",
+  },
 }
 
-function overlayFor(tone: OceanTone, placement: OceanPlacement) {
-  if (placement === "right" && tone === "forest") {
-    return "bg-linear-to-l from-forest from-15% via-forest/75 via-45% to-transparent"
-  }
-  return overlayClass[tone]
+function needsPointerTracking(
+  interaction: OceanInteraction,
+  dropTrigger: "pointer" | "click",
+  hoverZoom: number
+) {
+  return (
+    interaction === "morph" ||
+    interaction === "camera" ||
+    (interaction === "drop" && dropTrigger === "pointer") ||
+    hoverZoom !== 1
+  )
 }
 
 export function OceanBackground({
@@ -77,6 +94,9 @@ export function OceanBackground({
   dropTriggerRef.current = dropTrigger
   morphTargetRef.current = morphTarget
 
+  const trackPointer = needsPointerTracking(interaction, dropTrigger, hoverZoom)
+  const trackDropAnchor = interaction === "drop"
+
   useEffect(() => {
     const wrap = wrapRef.current
     const canvas = canvasRef.current
@@ -85,12 +105,14 @@ export function OceanBackground({
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
     let generation = 0
+    let active = false
     let setPointer: ((x: number, y: number, engage?: number) => void) | undefined
     let setDropAnchor: ((nx: number, ny: number) => void) | undefined
     let disposeRenderer: (() => void) | undefined
 
     const stop = () => {
       generation += 1
+      active = false
       setPointer = undefined
       setPointerRef.current = undefined
       setMorphTargetRef.current = undefined
@@ -98,12 +120,13 @@ export function OceanBackground({
       disposeRenderer?.()
       disposeRenderer = undefined
       setReady(false)
+      if (trackPointer) setPointerInside(false)
     }
 
     const section = wrap.closest("section") ?? wrap
 
     const updateDropAnchor = () => {
-      if (interaction !== "drop" || !setDropAnchor) return
+      if (!trackDropAnchor || !setDropAnchor) return
       const anchor = dropAnchorRef?.current
       if (!anchor) return
 
@@ -120,7 +143,6 @@ export function OceanBackground({
         anchorRect.height * Math.max(0, Math.min(1, drop.anchorOffsetY))
       const visualNx = (px - sectionRect.left) / sectionRect.width
       const visualNy = (py - sectionRect.top) / sectionRect.height
-      // Canvas is CSS-scaled from center; map visible section UV back onto it.
       const nx = Math.max(
         0,
         Math.min(1, 0.5 + (visualNx - 0.5) / Math.max(scale, 0.01))
@@ -180,6 +202,8 @@ export function OceanBackground({
     }
 
     const onPointerMove = (event: PointerEvent) => {
+      if (!active || !setPointer) return
+
       const rect = section.getBoundingClientRect()
       if (rect.width < 1 || rect.height < 1) return
       const inside =
@@ -187,36 +211,23 @@ export function OceanBackground({
         event.clientX <= rect.right &&
         event.clientY >= rect.top &&
         event.clientY <= rect.bottom
-      setPointerInside(inside)
+
+      if (hoverZoom !== 1) setPointerInside(inside)
       if (interaction === "static") return
       if (!inside) {
-        if (
-          interaction === "factory" ||
-          (interaction === "drop" &&
-            dropTriggerRef.current === "click" &&
-            dropEngagedRef.current)
-        ) {
-          setPointer?.(0, 0, dropEngagedRef.current ? 1 : 0)
-          return
-        }
-        setPointer?.(0, 0, 0)
+        setPointer(0, 0, 0)
         return
       }
+
       const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2
       const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2
       const engage =
-        interaction === "factory"
+        interaction === "drop" && dropTriggerRef.current === "click"
           ? dropEngagedRef.current
             ? 1
             : 0
-          : interaction === "drop"
-            ? dropTriggerRef.current === "click"
-              ? dropEngagedRef.current
-                ? 1
-                : 0
-              : 1
-            : 0
-      setPointer?.(
+          : 1
+      setPointer(
         Math.max(-1, Math.min(1, x)),
         Math.max(-1, Math.min(1, y)),
         engage
@@ -224,22 +235,29 @@ export function OceanBackground({
       updateDropAnchor()
     }
 
-    if (interaction !== "static" || hoverZoom !== 1) {
+    if (trackPointer) {
       window.addEventListener("pointermove", onPointerMove, { passive: true })
     }
-    window.addEventListener("resize", updateDropAnchor)
-    window.addEventListener("scroll", updateDropAnchor, { passive: true })
 
-    const resizeObserver = new ResizeObserver(() => updateDropAnchor())
-    resizeObserver.observe(section)
+    if (trackDropAnchor) {
+      window.addEventListener("resize", updateDropAnchor)
+      window.addEventListener("scroll", updateDropAnchor, { passive: true })
+    }
 
-    const anchorWatch = window.setInterval(() => {
-      const anchor = dropAnchorRef?.current
-      if (!anchor) return
-      resizeObserver.observe(anchor)
-      updateDropAnchor()
-      window.clearInterval(anchorWatch)
-    }, 32)
+    const resizeObserver = trackDropAnchor
+      ? new ResizeObserver(() => updateDropAnchor())
+      : undefined
+    if (resizeObserver) resizeObserver.observe(section)
+
+    const anchorWatch = trackDropAnchor
+      ? window.setInterval(() => {
+          const anchor = dropAnchorRef?.current
+          if (!anchor) return
+          resizeObserver?.observe(anchor)
+          updateDropAnchor()
+          window.clearInterval(anchorWatch)
+        }, 32)
+      : undefined
 
     let idleId = 0
     let idleTimeout = 0
@@ -268,8 +286,11 @@ export function OceanBackground({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) scheduleStart()
-        else {
+        if (entry?.isIntersecting) {
+          active = true
+          scheduleStart()
+        } else {
+          active = false
           cancelIdleStart()
           stop()
         }
@@ -280,22 +301,33 @@ export function OceanBackground({
 
     const hostRect = section.getBoundingClientRect()
     if (hostRect.bottom > -48 && hostRect.top < window.innerHeight + 48) {
+      active = true
       scheduleStart()
     }
 
     return () => {
       cancelIdleStart()
-      window.clearInterval(anchorWatch)
-      if (interaction !== "static" || hoverZoom !== 1) {
+      if (anchorWatch) window.clearInterval(anchorWatch)
+      if (trackPointer) {
         window.removeEventListener("pointermove", onPointerMove)
       }
-      window.removeEventListener("resize", updateDropAnchor)
-      window.removeEventListener("scroll", updateDropAnchor)
-      resizeObserver.disconnect()
+      if (trackDropAnchor) {
+        window.removeEventListener("resize", updateDropAnchor)
+        window.removeEventListener("scroll", updateDropAnchor)
+      }
+      resizeObserver?.disconnect()
       observer.disconnect()
       stop()
     }
-  }, [interaction, dropAnchorRef, dropTrigger, scale, hoverZoom])
+  }, [
+    interaction,
+    dropAnchorRef,
+    dropTrigger,
+    scale,
+    hoverZoom,
+    trackPointer,
+    trackDropAnchor,
+  ])
 
   useEffect(() => {
     if (!ready) return
@@ -340,10 +372,10 @@ export function OceanBackground({
           ref={canvasRef}
           className={cn(
             "absolute inset-0 size-full transition-opacity duration-700",
-            ready ? canvasOpacity[tone] : "opacity-0"
+            ready ? canvasReadyClass[tone] : "opacity-0"
           )}
         />
-        <div className={cn("absolute inset-0", overlayFor(tone, placement))} />
+        <div className={cn("absolute inset-0", overlayClass[tone][placement])} />
       </div>
     </div>
   )

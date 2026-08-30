@@ -51,24 +51,24 @@ export function inferFacilityItemIcon(label: string): FacilityIcon {
 
 export const facilityCategoryStyles = {
   processing: {
-    well: "bg-primary/10 text-primary",
-    item: "bg-primary/8 text-primary",
+    well: "bg-primary/10 text-primary dark:bg-primary/15",
+    item: "bg-primary/8 text-primary dark:bg-primary/12",
   },
   cold: {
-    well: "bg-aqua/15 text-forest",
-    item: "bg-aqua/12 text-forest",
+    well: "bg-aqua/15 text-forest dark:bg-aqua/20 dark:text-aqua",
+    item: "bg-aqua/12 text-forest dark:bg-aqua/16 dark:text-aqua",
   },
   packaging: {
-    well: "bg-cta/12 text-cta",
-    item: "bg-cta/10 text-cta",
+    well: "bg-cta/12 text-cta dark:bg-cta/18",
+    item: "bg-cta/10 text-cta dark:bg-cta/14",
   },
   quality: {
-    well: "bg-secondary text-foreground",
-    item: "bg-secondary text-muted-foreground",
+    well: "bg-secondary text-foreground dark:bg-secondary/90",
+    item: "bg-secondary text-foreground/85 dark:bg-secondary/80 dark:text-foreground/90",
   },
   utilities: {
-    well: "bg-muted text-muted-foreground",
-    item: "bg-muted text-muted-foreground",
+    well: "bg-muted text-foreground/85 dark:text-foreground/90",
+    item: "bg-muted text-foreground/80 dark:text-foreground/85",
   },
 } as const
 

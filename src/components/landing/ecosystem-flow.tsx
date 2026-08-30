@@ -22,9 +22,10 @@ import { SectionBand } from "@/lib/section-band"
 import { cn } from "@/lib/utils"
 
 const STAGE_DURATION_MS = 4800
-const layoutTransition = { duration: 0.55, ease: motionEase }
 const PANEL_HEIGHT = "h-[32rem]"
 const DETAIL_SLOT_HEIGHT = "h-[13.5rem]"
+const panelFlexTransition =
+  "transition-[flex-grow,flex-basis,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
 
 function parseStageStatValue(value: string) {
   if (/[–-]/.test(value) || /[A-Za-z]/.test(value.replace(/MT|MT\/H|MTPH/g, ""))) {
@@ -469,122 +470,85 @@ function StageImageOverlays({
 
 function StageDetailCard({
   stage,
-  animated = false,
 }: {
   stage: (typeof flowStages)[number]
-  animated?: boolean
 }) {
   return (
-    <div className="flex h-full flex-col rounded-xl border border-white/12 bg-black/35 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.22)] backdrop-blur-md supports-backdrop-filter:bg-black/25 sm:backdrop-blur-lg">
-      <h3 className="font-heading text-xl font-semibold leading-snug text-white line-clamp-2">
-        {stage.title}
-      </h3>
-      <p className="mt-2 min-h-[4.25rem] text-sm leading-relaxed text-white/90 line-clamp-4">
-        {stage.summary}
-      </p>
-      <ul className="mt-auto space-y-2 pt-4">
-        {stage.highlights.map((item, itemIndex) => {
-          const content = (
-            <>
+    <div className="relative isolate flex h-full flex-col overflow-hidden rounded-xl border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.22)]">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <img
+          src={stage.image.src}
+          alt=""
+          className="size-full scale-125 object-cover blur-2xl"
+          style={{ objectPosition: stage.image.position }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
+      <div className="relative z-10 flex h-full min-h-0 flex-col p-4">
+        <h3 className="font-heading text-xl font-semibold leading-snug text-white line-clamp-2">
+          {stage.title}
+        </h3>
+        <p className="mt-2 min-h-[4.25rem] text-sm leading-relaxed text-white/90 line-clamp-4">
+          {stage.summary}
+        </p>
+        <ul className="mt-auto space-y-2 pt-4">
+          {stage.highlights.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-2 text-sm leading-relaxed text-white/85"
+            >
               <span
                 className="mt-1.5 size-1 shrink-0 rounded-full bg-cta"
                 aria-hidden
               />
               <span>{item}</span>
-            </>
-          )
-
-          if (!animated) {
-            return (
-              <li
-                key={item}
-                className="flex items-start gap-2 text-sm leading-relaxed text-white/85"
-              >
-                {content}
-              </li>
-            )
-          }
-
-          return (
-            <motion.li
-              key={item}
-              className="flex items-start gap-2 text-sm leading-relaxed text-white/85"
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                delay: itemIndex * 0.07,
-                duration: 0.3,
-                ease: motionEase,
-              }}
-            >
-              {content}
-            </motion.li>
-          )
-        })}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
 
 function StagePanel({
   stage,
-  index,
   active,
   onSelect,
+  panelIndex,
 }: {
   stage: (typeof flowStages)[number]
-  index: number
   active: number
   onSelect: (index: number) => void
+  panelIndex: number
 }) {
-  const reduce = useReducedMotion()
-  const isActive = active === index
+  const isActive = active === panelIndex
 
   return (
-    <motion.button
+    <button
       type="button"
-      layout
-      onClick={() => onSelect(index)}
+      onClick={() => onSelect(panelIndex)}
       aria-current={isActive ? "step" : undefined}
       aria-label={`${stage.label}: ${stage.title}`}
       className={cn(
         "relative overflow-hidden rounded-2xl text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+        panelFlexTransition,
         PANEL_HEIGHT,
         isActive
-          ? "flex-[4_1_0%] shadow-[0_20px_48px_rgba(15,43,29,0.14)]"
-          : "flex-[1_1_0%]"
+          ? "flex-[4_1_0%] opacity-100 shadow-[0_20px_48px_rgba(15,43,29,0.14)]"
+          : "flex-[1_1_0%] opacity-80"
       )}
-      transition={{ layout: layoutTransition }}
-      animate={{ opacity: isActive ? 1 : 0.82 }}
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <motion.img
-          layoutId={`ecosystem-stage-image-${index}`}
+        <img
           src={stage.image.src}
           alt=""
           className={cn(
-            "size-full object-cover",
+            "size-full scale-105 object-cover",
             !isActive && "brightness-[0.92] saturate-[0.95]"
           )}
           style={{ objectPosition: stage.image.position }}
           loading="lazy"
           decoding="async"
-          animate={
-            reduce || !isActive
-              ? { scale: 1.05 }
-              : { scale: [1.05, 1.12] }
-          }
-          transition={
-            reduce || !isActive
-              ? { layout: layoutTransition, duration: 0 }
-              : {
-                  layout: layoutTransition,
-                  scale: {
-                    duration: STAGE_DURATION_MS / 1000,
-                    ease: "linear",
-                  },
-                }
-          }
         />
         <StageImageOverlays stage={stage} compact={!isActive} />
       </div>
@@ -596,7 +560,7 @@ function StagePanel({
           </span>
           <span
             className={cn(
-              "rounded-full bg-black/45 px-2.5 py-1 text-[0.625rem] font-medium tracking-[0.18em] text-white uppercase backdrop-blur-sm",
+              "rounded-full bg-black/50 px-2.5 py-1 text-[0.625rem] font-medium tracking-[0.18em] text-white uppercase",
               !isActive && "invisible"
             )}
           >
@@ -605,69 +569,37 @@ function StagePanel({
         </div>
 
         <div className={cn("mt-auto shrink-0", DETAIL_SLOT_HEIGHT)}>
-          <AnimatePresence mode="wait">
-            {isActive ? (
-              <motion.div
-                key="detail"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 6 }}
-                transition={{ duration: 0.32, ease: motionEase }}
-                className="h-full"
-              >
-                <StageDetailCard stage={stage} animated />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="compact"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex h-full items-end pb-0.5"
-              >
-                <p className="truncate text-sm font-medium tracking-[0.12em] text-white uppercase drop-shadow-[0_1px_4px_rgba(0,0,0,0.45)]">
-                  {stage.label}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {isActive ? (
+            <StageDetailCard stage={stage} />
+          ) : (
+            <div className="flex h-full items-end pb-0.5">
+              <p className="truncate text-sm font-medium tracking-[0.12em] text-white uppercase drop-shadow-[0_1px_4px_rgba(0,0,0,0.45)]">
+                {stage.label}
+              </p>
+            </div>
+          )}
         </div>
       </div>
-    </motion.button>
+    </button>
   )
 }
 
 function MobileStageHero({ stage }: { stage: (typeof flowStages)[number] }) {
-  const reduce = useReducedMotion()
-
   return (
-    <motion.article
-      key={stage.step}
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ duration: 0.4, ease: motionEase }}
+    <article
       className={cn(
         "relative overflow-hidden rounded-2xl shadow-[0_20px_48px_rgba(15,43,29,0.14)]",
         PANEL_HEIGHT
       )}
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <motion.img
+        <img
           src={stage.image.src}
           alt=""
-          className="size-full object-cover"
+          className="size-full scale-105 object-cover"
           style={{ objectPosition: stage.image.position }}
           loading="lazy"
           decoding="async"
-          animate={
-            reduce ? { scale: 1.05 } : { scale: [1.05, 1.12] }
-          }
-          transition={
-            reduce
-              ? { duration: 0 }
-              : { duration: STAGE_DURATION_MS / 1000, ease: "linear" }
-          }
         />
         <StageImageOverlays stage={stage} />
       </div>
@@ -677,7 +609,7 @@ function MobileStageHero({ stage }: { stage: (typeof flowStages)[number] }) {
           <span className="font-mono text-[0.6875rem] font-medium tracking-[0.22em] text-white/75">
             {stage.step}
           </span>
-          <span className="rounded-full bg-black/45 px-2.5 py-1 text-[0.625rem] font-medium tracking-[0.18em] text-white uppercase backdrop-blur-sm">
+          <span className="rounded-full bg-black/50 px-2.5 py-1 text-[0.625rem] font-medium tracking-[0.18em] text-white uppercase">
             {stage.label}
           </span>
         </div>
@@ -686,7 +618,7 @@ function MobileStageHero({ stage }: { stage: (typeof flowStages)[number] }) {
           <StageDetailCard stage={stage} />
         </div>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
@@ -776,26 +708,22 @@ function AnimatedProcessFlow() {
     >
       <ProcessTrack active={active} onSelect={selectStage} />
 
-      <motion.div
-        layout
+      <div
         className={cn("hidden items-stretch gap-1.5 lg:flex xl:gap-2", PANEL_HEIGHT)}
-        transition={{ layout: layoutTransition }}
       >
         {flowStages.map((stage, index) => (
           <StagePanel
             key={stage.step}
             stage={stage}
-            index={index}
+            panelIndex={index}
             active={active}
             onSelect={selectStage}
           />
         ))}
-      </motion.div>
+      </div>
 
       <div className="lg:hidden">
-        <AnimatePresence mode="wait">
-          <MobileStageHero key={currentStage.step} stage={currentStage} />
-        </AnimatePresence>
+        <MobileStageHero stage={currentStage} />
         <div className="mt-4 flex justify-center gap-2">
           {flowStages.map((stage, index) => (
             <StageThumb
@@ -826,7 +754,7 @@ export function EcosystemFlow({ flat = false }: { flat?: boolean }) {
           patternClassName="opacity-[0.1]"
         />
 
-        <Section id={ecosystem.id} deferPaint className="relative z-10 bg-transparent">
+        <Section id={ecosystem.id} className="relative z-10 bg-transparent">
           <Reveal className="mx-auto max-w-2xl text-center lg:max-w-3xl">
             <div className="flex flex-col items-center gap-2">
               <DropFlourish className="hidden text-cta/45 sm:block" />

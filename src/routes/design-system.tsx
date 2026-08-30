@@ -65,7 +65,6 @@ import {
 } from "@/components/layout/site-footer"
 import { OverlayNav } from "@/components/layout/headers/overlay-nav"
 import { IslandNav } from "@/components/layout/headers/island-nav"
-import { MastheadNav } from "@/components/layout/headers/masthead-nav"
 import { SnapCarousel, SnapSlide } from "@/components/ui/snap-carousel"
 import { SpecTable } from "@/components/ui/spec-table"
 import { PullQuote } from "@/components/ui/pull-quote"
@@ -213,7 +212,7 @@ const patternDemos = [
   {
     variant: "hatch" as const,
     name: "Hatch",
-    note: "Diagonal construction lines. Industrial / atelier bands.",
+    note: "Diagonal construction lines. Industrial campus bands.",
     surface: "bg-muted text-foreground ring-1 ring-border",
     pattern: "text-foreground",
   },
@@ -612,11 +611,11 @@ function DesignSystemPage() {
 
       <Section id="headers">
         <Eyebrow>Headers</Eyebrow>
-        <h2 className="mt-3 text-3xl">Three navs, all touch-first.</h2>
+        <h2 className="mt-3 text-3xl">Two navs, all touch-first.</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Overlay (Atelier), island (Night), masthead (Broadsheet). Open the
-          landing pages to see them over real content — the frames below are
-          structural demos on the live theme.
+          Overlay (Platform) and island (Night). Open the landing pages to see
+          them over real content — the frames below are structural demos on the
+          live theme.
         </p>
         <div className="mt-10 space-y-10 overflow-hidden rounded-xl ring-1 ring-border">
           <div>
@@ -630,12 +629,6 @@ function DesignSystemPage() {
               Island
             </p>
             <IslandNav />
-          </div>
-          <div>
-            <p className="px-4 pt-4 text-xs font-medium tracking-[0.18em] text-primary uppercase">
-              Masthead
-            </p>
-            <MastheadNav />
           </div>
         </div>
         <Separator className="my-10" />

@@ -66,6 +66,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
           <Input
             id="landing-name"
             name="name"
+            type="text"
             required
             autoComplete="name"
             className="h-12 text-base"
@@ -75,6 +76,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
           <Input
             id="landing-company"
             name="company"
+            type="text"
             autoComplete="organization"
             className="h-12 text-base"
           />
@@ -85,7 +87,7 @@ export function LandingEnquireForm({ className }: { className?: string }) {
           <Input
             id="landing-phone"
             name="phone"
-            type="tel"
+            type="text"
             required
             autoComplete="tel"
             className="h-12 text-base"

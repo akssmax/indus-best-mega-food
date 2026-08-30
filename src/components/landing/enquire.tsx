@@ -228,12 +228,20 @@ function EnquireForm({
     <form className="grid gap-4" onSubmit={onSubmit}>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Name" htmlFor="name">
-          <Input id="name" name="name" required autoComplete="name" className="h-11" />
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autoComplete="name"
+            className="h-11"
+          />
         </Field>
         <Field label="Company" htmlFor="company">
           <Input
             id="company"
             name="company"
+            type="text"
             autoComplete="organization"
             className="h-11"
           />
@@ -244,7 +252,7 @@ function EnquireForm({
           <Input
             id="phone"
             name="phone"
-            type="tel"
+            type="text"
             required
             autoComplete="tel"
             className="h-11"

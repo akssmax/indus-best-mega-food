@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import { landing } from "@/content/landing"
 import { Reveal } from "@/components/landing/motion"
 import { PatternBand, WaveEdge } from "@/components/ui/brand-pattern"
+import { bandBg, bandWave } from "@/lib/section-band"
 import { landingImageSizes } from "@/lib/media"
 import { cn } from "@/lib/utils"
 
@@ -30,7 +31,7 @@ function ClientMark({ name, logo }: { name: string; logo?: string }) {
       sizes={landingImageSizes.logo}
       loading="lazy"
       decoding="async"
-      className="h-9 w-auto max-w-[10.5rem] object-contain object-left sm:h-10 sm:max-w-[11.5rem]"
+      className="h-9 w-auto max-w-[10.5rem] object-contain object-left sm:h-10 sm:max-w-[11.5rem] dark:brightness-[1.14] dark:contrast-[1.06]"
     />
   ) : (
     <>
@@ -126,13 +127,18 @@ export function LogoStrip({ variant = "home" }: { variant?: "home" | "plain" }) 
       <>
         <section
           aria-label={clients.label}
-          className="relative overflow-hidden bg-card"
+          className="relative overflow-hidden bg-card dark:bg-background"
         >
           <ClientMarquee label={clients.label} showPattern />
         </section>
         <WaveEdge
           position="bottom"
-          className="relative z-[1] -mt-px block bg-background text-card"
+          className={cn(
+            "relative z-[1] -mt-px block",
+            bandBg.background,
+            bandWave.card,
+            "dark:text-card"
+          )}
         />
       </>
     )
@@ -141,7 +147,7 @@ export function LogoStrip({ variant = "home" }: { variant?: "home" | "plain" }) 
   return (
     <section
       aria-label={clients.label}
-      className="relative overflow-hidden border-y border-border bg-card"
+      className="relative overflow-hidden border-y border-border bg-card dark:bg-background"
     >
       <ClientMarquee label={clients.label} />
     </section>

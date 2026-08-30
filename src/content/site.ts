@@ -71,6 +71,7 @@ export const site = {
     { label: "Why Us", href: "/why" },
     { label: "Campus", href: "/campus" },
     { label: "Why invest", href: "/opportunities" },
+    { label: "Private label", href: "/private-label" },
     { label: "Products", href: "/#products" },
   ],
   innerPages: {
@@ -122,6 +123,14 @@ export const site = {
       description:
         "Set up at Indus Best Mega Food Park: serviced plots, 16 plug-and-play sheds, shared processing, cold chain, and joint venture on an operational MOFPI campus near Raipur.",
       cta: { label: "Request a rate card", href: "/contact" },
+    },
+    privateLabel: {
+      eyebrow: "Private label",
+      title: "Your brand. Our campus.",
+      body: "Co-pack and private label on aseptic, dairy, IQF, and pack lines already running at Bemta–Sarora.",
+      description:
+        "Private label and co-pack at Indus Best Mega Food Park: tomato puree, dairy, jaggery, IQF, and custom packaging on an operational MOFPI campus near Raipur.",
+      cta: { label: "Start a partnership enquiry", href: "/contact" },
     },
   },
 } as const

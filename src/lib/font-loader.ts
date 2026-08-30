@@ -46,12 +46,8 @@ export async function ensureFontPairingLoaded(id: FontPairingId) {
 
 function skinFontPairing(skin: string | undefined): FontPairingId | null {
   switch (skin) {
-    case "atelier":
-      return "geist"
     case "night":
       return "premium"
-    case "broadsheet":
-      return "editorial"
     default:
       return null
   }

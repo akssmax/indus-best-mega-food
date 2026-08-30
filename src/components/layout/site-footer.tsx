@@ -1,3 +1,5 @@
+"use client"
+
 import type { ReactNode } from "react"
 import { createContext, useContext } from "react"
 import { Link } from "@tanstack/react-router"
@@ -5,6 +7,7 @@ import { ArrowRightIcon } from "lucide-react"
 
 import { site } from "@/content/site"
 import { landing } from "@/content/landing"
+import { ColorModeToggle } from "@/components/theme/color-mode-toggle"
 import { Eyebrow } from "@/components/landing/section"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -43,7 +46,7 @@ const footerToneStyles: Record<FooterTone, FooterStyles> = {
     splitBorder: "border-forest-foreground/15",
   },
   light: {
-    shell: "bg-card text-foreground",
+    shell: "bg-card text-foreground dark:border-t dark:border-border/70 dark:bg-background",
     nav: "inline-flex min-h-11 items-center rounded-md px-3 py-2 text-sm font-medium touch-target outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 text-muted-foreground hover:bg-muted hover:text-foreground active:bg-muted/80",
     social:
       "inline-flex size-11 touch-target items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 text-muted-foreground hover:bg-muted hover:text-foreground active:bg-muted/80",
@@ -67,7 +70,7 @@ export const footerVariantMeta: Record<
 > = {
   directory: {
     name: "Directory",
-    note: "Four columns. Brand, nav, explore, and full contact. Live site uses the light tone.",
+    note: "Four columns. Brand, nav, explore, and full contact. Card in light mode; matches scrolled header (background) in dark mode.",
   },
   editorial: {
     name: "Editorial",
@@ -167,20 +170,6 @@ function LinkColumn({
   )
 }
 
-function FooterPatternAccent() {
-  const tone = useContext(FooterToneContext)
-
-  return (
-    <BrandPattern
-      variant="flow"
-      className={cn(
-        "pointer-events-none absolute inset-auto -bottom-20 -left-12 h-56 w-72 opacity-[0.05] sm:h-72 sm:w-96",
-        tone === "dark" ? "text-forest-foreground" : "text-cta"
-      )}
-    />
-  )
-}
-
 function LegalBar({ className }: { className?: string }) {
   const styles = useFooterStyles()
   const tone = useContext(FooterToneContext)
@@ -203,7 +192,14 @@ function LegalBar({ className }: { className?: string }) {
         <p>
           &copy; {year} {site.legalName}. All rights reserved.
         </p>
-        <p className="max-w-full break-words">{landing.infrastructure.mofpi}</p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <ColorModeToggle
+            compact
+            showLabel={false}
+            surface={tone === "dark" ? "forest" : "default"}
+          />
+          <p className="max-w-full break-words">{landing.infrastructure.mofpi}</p>
+        </div>
       </div>
     </div>
   )
@@ -285,7 +281,6 @@ function FooterShell({
         data-footer-tone={tone}
         aria-label={`${footerVariantMeta[variant].name} footer`}
       >
-        <FooterPatternAccent />
         <div className="relative z-10">{children}</div>
       </footer>
     </FooterToneContext.Provider>

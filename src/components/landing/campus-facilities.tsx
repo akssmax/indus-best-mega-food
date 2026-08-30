@@ -3,7 +3,7 @@ import { SectionIntro } from "@/components/landing/feature-card"
 import { Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 import { ProcessingCapacityTable } from "@/components/landing/processing-capabilities"
-import { CampusOverviewCard } from "@/components/landing/campus-overview"
+import { CampusOverviewList } from "@/components/landing/campus-overview"
 import { SectionBand } from "@/lib/section-band"
 import {
   facilityCategories,
@@ -17,7 +17,7 @@ export function CampusFacilities({ flat = false }: { flat?: boolean }) {
 
   return (
     <SectionBand tone="secondary-30" to="background" flat={flat}>
-      <Section id={campusOverview.id} deferPaint className="bg-transparent">
+      <Section id={campusOverview.id} className="bg-transparent">
         <Reveal>
           <SectionIntro
             eyebrow={campusOverview.eyebrow}
@@ -26,13 +26,7 @@ export function CampusFacilities({ flat = false }: { flat?: boolean }) {
           />
         </Reveal>
 
-        <Stagger className="mt-10 grid gap-6 sm:grid-cols-2">
-          {campusOverview.items.map((item) => (
-            <MotionItem key={item.title}>
-              <CampusOverviewCard item={item} />
-            </MotionItem>
-          ))}
-        </Stagger>
+        <CampusOverviewList />
 
         <div id={facilityCopy.id} className="mt-16 scroll-mt-24 lg:mt-20">
           <Reveal>

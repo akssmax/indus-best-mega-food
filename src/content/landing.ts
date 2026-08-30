@@ -265,6 +265,14 @@ export const landing = {
         body: "30–35 developed plots with roads, water, power, and effluent treatment, ready to commission.",
         metric: "30–35",
         metricLabel: "ready plots",
+        proof: "30–35 serviced plots ready to commission",
+        tone: "primary" as const,
+        details: [
+          "Roads, water, power, and effluent treatment on site",
+          "Lease or co-develop — you commission the plant, not the estate",
+          "Internal roads sized for heavy vehicles (15–21 m)",
+        ],
+        cta: { label: "Enquire about a plot", href: "/contact" },
         image: {
           src: "/images/admin-building.jpg",
           alt: "Admin building and developed campus plots",
@@ -275,6 +283,14 @@ export const landing = {
         body: "Sixteen MSME units with utilities in place — install equipment, not the building.",
         metric: "16",
         metricLabel: "MSME sheds",
+        proof: "16 MSME sheds with utilities in place",
+        tone: "cta" as const,
+        details: [
+          "Walk in and install equipment — utilities already connected",
+          "Designed for MSMEs and growing brands",
+          "Start operations without a full greenfield build",
+        ],
+        cta: { label: "Enquire about a shed", href: "/contact" },
         image: {
           src: "/images/warehouse.jpg",
           alt: "MSME warehouse sheds at Indus Best Mega Food Park",
@@ -285,6 +301,14 @@ export const landing = {
         body: "Aseptic, concentrate, IQF, and pack house capacity on lines already packing.",
         metric: "Live",
         metricLabel: "aseptic · IQF · pack",
+        proof: "12 MTPH peak aseptic line on campus",
+        tone: "aqua" as const,
+        details: [
+          "Tomato concentrate line · 12 MTPH",
+          "Mango puree line · 6 MTPH",
+          "IQF freeze line · 2 MT/H",
+        ],
+        cta: { label: "View processing capabilities", href: "#processing-capabilities" },
         image: {
           src: "/images/aseptic-line.jpg",
           alt: "Aseptic process line",
@@ -295,6 +319,14 @@ export const landing = {
         body: "5,000 MT cold storage and 12,000 MT dry warehouse beside production.",
         metric: "17k MT",
         metricLabel: "cold + dry",
+        proof: "5,000 MT cold · 12,000 MT dry warehouse",
+        tone: "primary" as const,
+        details: [
+          "Frozen and chilled chambers beside production",
+          "12,000 MT dry bulk warehouse on campus",
+          "Ripening chambers and blast freeze available",
+        ],
+        cta: { label: "Talk to the team", href: "/contact" },
         image: {
           src: "/images/warehouse.jpg",
           alt: "Cold storage warehouse",

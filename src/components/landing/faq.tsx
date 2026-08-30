@@ -14,7 +14,7 @@ export function Faq({ embedded = false }: { embedded?: boolean }) {
   const { faq } = landing
 
   return (
-    <Section id={faq.id} deferPaint className={cn("bg-transparent", embedded && "py-8 lg:py-10")}>
+    <Section id={faq.id} className={cn("bg-transparent", embedded && "py-8 lg:py-10")}>
         <Reveal className="max-w-2xl">
           <Eyebrow>{faq.eyebrow}</Eyebrow>
           <h2 className="mt-3 text-3xl sm:text-4xl">{faq.title}</h2>

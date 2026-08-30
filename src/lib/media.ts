@@ -2,6 +2,7 @@
 export const landingImageSizes = {
   hero: "(min-width: 1024px) 72rem, 100vw",
   card: "(min-width: 1024px) 28rem, (min-width: 640px) 50vw, 100vw",
+  split: "(min-width: 1024px) 36rem, 100vw",
   product: "(min-width: 1024px) 16rem, 50vw",
   logo: "12rem",
 } as const

@@ -1,9 +1,11 @@
 import { CheckIcon, PaletteIcon, RotateCcwIcon } from "lucide-react"
 
+import { ColorModeToggle } from "@/components/theme/color-mode-toggle"
 import { fontPairings, isFontPairingId } from "@/lib/fonts"
 import {
   applyTheme,
   bases,
+  isDarkColorMode,
   palettes,
   radii,
   resetTheme,
@@ -38,6 +40,7 @@ import { cn } from "@/lib/utils"
 
 function ThemeControls({ compact = false }: { compact?: boolean }) {
   const { theme } = useTheme()
+  const dark = isDarkColorMode(theme.mode)
   const activePalette =
     palettes.find((item) => item.id === theme.palette) ?? palettes[0]
   const activeBase = bases.find((item) => item.id === theme.base) ?? bases[0]
@@ -46,6 +49,8 @@ function ThemeControls({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className={cn("grid", compact ? "gap-5" : "gap-8")}>
+      <ColorModeToggle compact={compact} showLabel={!compact} />
+
       <div className="grid gap-3">
         <p className="text-sm font-medium">Palette</p>
         <div
@@ -169,15 +174,16 @@ function ThemeControls({ compact = false }: { compact?: boolean }) {
         </div>
       </div>
 
-      <div className="grid gap-3">
+      <div className={cn("grid gap-3", dark && "opacity-60")}>
         <p className="text-sm font-medium">Base</p>
         <ToggleGroup
           type="single"
           variant="outline"
           spacing={0}
           value={theme.base}
+          disabled={dark}
           onValueChange={(value) => {
-            if (!value) return
+            if (!value || dark) return
             const next = bases.find((item) => item.id === value)
             if (next) applyTheme({ base: next.id })
           }}
@@ -198,7 +204,11 @@ function ThemeControls({ compact = false }: { compact?: boolean }) {
           ))}
         </ToggleGroup>
         {compact ? null : (
-          <p className="text-sm text-muted-foreground">{activeBase.note}</p>
+          <p className="text-sm text-muted-foreground">
+            {dark
+              ? "Canvas tone applies in light mode only. Dark mode uses the Night palette."
+              : activeBase.note}
+          </p>
         )}
       </div>
 

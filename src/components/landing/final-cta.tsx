@@ -67,7 +67,7 @@ export function FinalCta({
 
         <Reveal className="relative z-10 mx-auto max-w-3xl text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl">{data.title}</h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-forest-foreground/85 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-forest-foreground/90 sm:text-lg">
             {data.body}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -106,7 +106,8 @@ export function FinalCta({
           className={cn(
             "relative z-[1] -mt-px block",
             bandBg.card,
-            bandWave.forest
+            bandWave.forest,
+            "dark:bg-background"
           )}
         />
       ) : null}

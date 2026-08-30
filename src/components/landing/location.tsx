@@ -34,7 +34,6 @@ export function Location({
   const content = (
     <Section
       id={data.id}
-      deferPaint
       className={cn("bg-transparent", embedded && "py-8 lg:py-10")}
     >
         <Reveal className="max-w-2xl">
