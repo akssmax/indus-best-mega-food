@@ -41,10 +41,9 @@ export function InvestorRates() {
             <div className="hidden dark:contents">
               <BorderBeam
                 duration={8}
-                size={100}
-                borderRadius={16}
                 borderWidth={1}
-                className="from-transparent via-cta to-primary/60"
+                colorFrom="var(--cta)"
+                colorTo="color-mix(in oklch, var(--primary) 60%, transparent)"
               />
             </div>
           </div>

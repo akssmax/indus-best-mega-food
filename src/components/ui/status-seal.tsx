@@ -1,6 +1,7 @@
 import { ShieldCheckIcon } from "lucide-react"
 
 import { PatternCorner } from "@/components/ui/brand-pattern"
+import { BorderBeam } from "@/components/ui/border-beam"
 import { cn } from "@/lib/utils"
 
 function SealMark() {
@@ -24,11 +25,17 @@ export function StatusSeal({
     <div
       className={cn(
         "relative flex h-full min-h-[9.5rem] w-full flex-col overflow-hidden rounded-2xl bg-linear-to-br from-forest via-forest to-forest/92 text-forest-foreground",
-        "shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_14px_32px_rgba(15,43,29,0.14)] ring-1 ring-forest/25",
-        "dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] dark:ring-forest-foreground/25",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_14px_32px_rgba(15,43,29,0.14)]",
+        "dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
         className
       )}
     >
+      <BorderBeam
+        duration={8}
+        borderWidth={1}
+        colorFrom="var(--cta)"
+        colorTo="color-mix(in oklch, var(--forest-foreground) 35%, transparent)"
+      />
       <PatternCorner
         variant="bloom"
         position="top-right"

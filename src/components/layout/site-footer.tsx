@@ -84,7 +84,6 @@ export const footerVariantMeta: Record<
   },
 }
 
-const year = new Date().getFullYear()
 const blogLink = { label: "Blog", href: "/blog" }
 const allLinks = [...site.nav, blogLink, ...site.explore]
 
@@ -204,7 +203,7 @@ function LegalBar({ className }: { className?: string }) {
         )}
       >
         <p>
-          &copy; {year} {site.legalName}. All rights reserved.
+          &copy; {new Date().getFullYear()} {site.legalName}. All rights reserved.
         </p>
         <div className="justify-self-center">
           <ColorModeToggle
