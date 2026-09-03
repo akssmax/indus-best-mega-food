@@ -1,3 +1,5 @@
+import { ArrowRightIcon } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Eyebrow } from "@/components/landing/section"
 import { OceanBackground } from "@/components/landing/ocean-background"
@@ -8,11 +10,13 @@ export function PageHero({
   title,
   body,
   cta,
+  secondaryCta,
 }: {
   eyebrow: string
   title: string
   body: string
   cta?: { label: string; href: string }
+  secondaryCta?: { label: string; href: string }
 }) {
   return (
     <section
@@ -45,12 +49,23 @@ export function PageHero({
               {body}
             </p>
           </MotionItem>
-          {cta ? (
+          {cta || secondaryCta ? (
             <MotionItem>
-              <div className="mt-8">
-                <Button variant="cta" className="h-12 px-6 text-base" asChild>
-                  <a href={cta.href}>{cta.label}</a>
-                </Button>
+              <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+                {cta ? (
+                  <Button variant="cta" className="h-12 px-6 text-base" asChild>
+                    <a href={cta.href}>{cta.label}</a>
+                  </Button>
+                ) : null}
+                {secondaryCta ? (
+                  <a
+                    href={secondaryCta.href}
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-forest-foreground underline-offset-4 hover:underline"
+                  >
+                    {secondaryCta.label}
+                    <ArrowRightIcon className="size-4" />
+                  </a>
+                ) : null}
               </div>
             </MotionItem>
           ) : null}

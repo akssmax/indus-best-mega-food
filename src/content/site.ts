@@ -80,6 +80,7 @@ export const site = {
   explore: [
     { label: "Why Us", href: "/why" },
     { label: "Campus", href: "/campus" },
+    { label: "Virtual tour", href: "/virtual-tour" },
     { label: "Why invest", href: "/opportunities" },
     { label: "Private label", href: "/private-label" },
     { label: "Products", href: "/products" },
@@ -127,6 +128,7 @@ export const site = {
       description:
         "The Indus Best Mega Food Park campus at Village Bemta–Sarora near Raipur: plots, processing lines, cold storage, utilities, and how to reach the site.",
       cta: { label: "Enquire now", href: "/contact" },
+      secondaryCta: { label: "Take the virtual tour", href: "/virtual-tour" },
     },
     opportunities: {
       eyebrow: "Why invest",
@@ -150,6 +152,14 @@ export const site = {
       body: "Tomato puree, desi ghee, and chemical-free jaggery leave Bemta–Sarora under the Nourya brand. Browse the range made on campus.",
       description:
         "Nourya products packed at Indus Best Mega Food Park: tomato puree, dairy, jaggery, and more from the Bemta–Sarora campus near Raipur.",
+    },
+    virtualTour: {
+      eyebrow: "Virtual tour",
+      title: "Walk the campus before you visit.",
+      body: "Step through plots, processing lines, cold chain, quality labs, and the PPC collection network — an operational MOFPI campus at Bemta–Sarora, near Raipur.",
+      description:
+        "Virtual tour of Indus Best Mega Food Park: explore plots, processing lines, cold storage, labs, and PPC network at the Bemta–Sarora campus near Raipur.",
+      cta: { label: "Book a site visit", href: "/contact" },
     },
   },
 } as const

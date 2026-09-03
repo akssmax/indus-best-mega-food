@@ -12,10 +12,9 @@ import { SiteHeader } from "@/components/layout/site-header"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { ColorModeSync } from "@/components/theme/color-mode-sync"
 import { FontLoader } from "@/components/layout/font-loader"
-import { LandingSwitcher } from "@/components/layout/landing-switcher"
 import { AppError, AppNotFound } from "@/components/layout/app-error"
 import { Toaster } from "@/components/ui/sonner"
-import { hideSiteChrome, showLandingSwitcher } from "@/lib/skins"
+import { hideSiteChrome } from "@/lib/skins"
 import { isDashboardRoute } from "@/app/lib/routes"
 import { organizationJsonLd, THEME_COLOR } from "@/lib/seo"
 import { themeBootScript } from "@/lib/theme"
@@ -88,7 +87,6 @@ function PageChrome({ children }: { children: ReactNode }) {
       {chromeless || dashboard ? null : <SiteHeader />}
       {children}
       {chromeless || dashboard ? null : <SiteFooter tone="light" />}
-      {dashboard || !showLandingSwitcher(pathname) ? null : <LandingSwitcher />}
     </>
   )
 }

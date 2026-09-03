@@ -27,6 +27,7 @@ function CampusPage() {
         title={page.title}
         body={page.body}
         cta={page.cta}
+        secondaryCta={page.secondaryCta}
       />
       <Campus />
       <Location />

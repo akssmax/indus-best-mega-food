@@ -44,28 +44,10 @@ export async function ensureFontPairingLoaded(id: FontPairingId) {
   await importFontPairing(id)
 }
 
-function skinFontPairing(skin: string | undefined): FontPairingId | null {
-  switch (skin) {
-    case "night":
-      return "premium"
-    default:
-      return null
-  }
-}
-
-/** Load fonts for the active theme pairing and any landing skin override. */
+/** Load fonts for the active theme pairing. */
 export async function ensureFontsForDocument() {
   if (typeof document === "undefined") return
-
-  const tasks: Promise<void>[] = [ensureFontPairingLoaded(readStoredFontPairing())]
-
-  const skin =
-    document.querySelector<HTMLElement>("[data-skin]")?.dataset.skin ??
-    document.documentElement.dataset.skin
-  const skinPairing = skinFontPairing(skin)
-  if (skinPairing) tasks.push(ensureFontPairingLoaded(skinPairing))
-
-  await Promise.all(tasks)
+  await ensureFontPairingLoaded(readStoredFontPairing())
 }
 
 export function readDocumentFontPairing(): FontPairingId {

@@ -13,6 +13,7 @@ export const marketingPaths = [
   "/contact",
   "/why",
   "/campus",
+  "/virtual-tour",
   "/opportunities",
   "/private-label",
   "/products",

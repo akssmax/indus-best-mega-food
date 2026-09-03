@@ -19,10 +19,10 @@ import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as FacilitiesRouteImport } from './routes/facilities'
 import { Route as Hero1RouteImport } from './routes/hero-1'
 import { Route as InvestorsRouteImport } from './routes/investors'
-import { Route as Landing3RouteImport } from './routes/landing-3'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PrivateLabelRouteImport } from './routes/private-label'
 import { Route as ProductsRouteImport } from './routes/products'
+import { Route as VirtualTourRouteImport } from './routes/virtual-tour'
 import { Route as WhyRouteImport } from './routes/why'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppAuthenticatedRouteRouteImport } from './routes/app/_authenticated/route'
@@ -84,11 +84,6 @@ const InvestorsRoute = InvestorsRouteImport.update({
   path: '/investors',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Landing3Route = Landing3RouteImport.update({
-  id: '/landing-3',
-  path: '/landing-3',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
@@ -102,6 +97,11 @@ const PrivateLabelRoute = PrivateLabelRouteImport.update({
 const ProductsRoute = ProductsRouteImport.update({
   id: '/products',
   path: '/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VirtualTourRoute = VirtualTourRouteImport.update({
+  id: '/virtual-tour',
+  path: '/virtual-tour',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WhyRoute = WhyRouteImport.update({
@@ -169,10 +169,10 @@ export interface FileRoutesByFullPath {
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
-  '/landing-3': typeof Landing3Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
+  '/virtual-tour': typeof VirtualTourRoute
   '/why': typeof WhyRoute
   '/app/login': typeof AppLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -193,10 +193,10 @@ export interface FileRoutesByTo {
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
-  '/landing-3': typeof Landing3Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
+  '/virtual-tour': typeof VirtualTourRoute
   '/why': typeof WhyRoute
   '/app': typeof AppIndexRoute
   '/app/login': typeof AppLoginRoute
@@ -219,10 +219,10 @@ export interface FileRoutesById {
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
-  '/landing-3': typeof Landing3Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
+  '/virtual-tour': typeof VirtualTourRoute
   '/why': typeof WhyRoute
   '/app/_authenticated': typeof AppAuthenticatedRouteRouteWithChildren
   '/app/login': typeof AppLoginRoute
@@ -247,10 +247,10 @@ export interface FileRouteTypes {
     | '/facilities'
     | '/hero-1'
     | '/investors'
-    | '/landing-3'
     | '/opportunities'
     | '/private-label'
     | '/products'
+    | '/virtual-tour'
     | '/why'
     | '/app/login'
     | '/blog/$slug'
@@ -271,10 +271,10 @@ export interface FileRouteTypes {
     | '/facilities'
     | '/hero-1'
     | '/investors'
-    | '/landing-3'
     | '/opportunities'
     | '/private-label'
     | '/products'
+    | '/virtual-tour'
     | '/why'
     | '/app'
     | '/app/login'
@@ -296,10 +296,10 @@ export interface FileRouteTypes {
     | '/facilities'
     | '/hero-1'
     | '/investors'
-    | '/landing-3'
     | '/opportunities'
     | '/private-label'
     | '/products'
+    | '/virtual-tour'
     | '/why'
     | '/app/_authenticated'
     | '/app/login'
@@ -323,10 +323,10 @@ export interface RootRouteChildren {
   FacilitiesRoute: typeof FacilitiesRoute
   Hero1Route: typeof Hero1Route
   InvestorsRoute: typeof InvestorsRoute
-  Landing3Route: typeof Landing3Route
   OpportunitiesRoute: typeof OpportunitiesRoute
   PrivateLabelRoute: typeof PrivateLabelRoute
   ProductsRoute: typeof ProductsRoute
+  VirtualTourRoute: typeof VirtualTourRoute
   WhyRoute: typeof WhyRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -404,13 +404,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvestorsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/landing-3': {
-      id: '/landing-3'
-      path: '/landing-3'
-      fullPath: '/landing-3'
-      preLoaderRoute: typeof Landing3RouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/opportunities': {
       id: '/opportunities'
       path: '/opportunities'
@@ -430,6 +423,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/products'
       preLoaderRoute: typeof ProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/virtual-tour': {
+      id: '/virtual-tour'
+      path: '/virtual-tour'
+      fullPath: '/virtual-tour'
+      preLoaderRoute: typeof VirtualTourRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/why': {
@@ -551,10 +551,10 @@ const rootRouteChildren: RootRouteChildren = {
   FacilitiesRoute: FacilitiesRoute,
   Hero1Route: Hero1Route,
   InvestorsRoute: InvestorsRoute,
-  Landing3Route: Landing3Route,
   OpportunitiesRoute: OpportunitiesRoute,
   PrivateLabelRoute: PrivateLabelRoute,
   ProductsRoute: ProductsRoute,
+  VirtualTourRoute: VirtualTourRoute,
   WhyRoute: WhyRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,

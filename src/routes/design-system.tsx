@@ -71,7 +71,6 @@ import { PullQuote } from "@/components/ui/pull-quote"
 import { CaptionGallery } from "@/components/ui/caption-gallery"
 import { DesignSystemLayout } from "@/components/design-system/design-system-layout"
 import { HeroBgTuner } from "@/components/design-system/hero-bg-tuner"
-import { landingSkins } from "@/lib/skins"
 import { cn } from "@/lib/utils"
 
 export const Route = createFileRoute("/design-system")({
@@ -580,43 +579,12 @@ function DesignSystemPage() {
         </div>
       </Section>
 
-      <Section id="skins">
-        <Eyebrow>Landing skins</Eyebrow>
-        <h2 className="mt-3 text-3xl">Locked palettes for the experiments.</h2>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
-          These do not follow the theme picker. Each landing wraps in{" "}
-          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm">
-            data-skin
-          </code>{" "}
-          and owns its header.
-        </p>
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          {landingSkins.map((skin) => (
-            <Card key={skin.id} size="sm">
-              <CardHeader>
-                <CardTitle>{skin.label}</CardTitle>
-                <CardDescription>{skin.note}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" className="h-11 touch-manipulation" asChild>
-                  <Link to={skin.href}>Open {skin.label}</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </Section>
-
       <Section id="headers">
         <Eyebrow>Headers</Eyebrow>
         <h2 className="mt-3 text-3xl">Island nav, touch-first.</h2>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Used on the Night landing experiment. Open{" "}
-          <Link to="/landing-3" className="font-medium text-foreground underline-offset-4 hover:underline">
-            /landing-3
-          </Link>{" "}
-          to see it over real content — the frame below is a structural demo on
-          the live theme.
+          Compact floating navigation for focused landing layouts. The frame below
+          is a structural demo on the live theme.
         </p>
         <div className="mt-10 overflow-hidden rounded-xl ring-1 ring-border">
           <div className="bg-forest pb-6">
