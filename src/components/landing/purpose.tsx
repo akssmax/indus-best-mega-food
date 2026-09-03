@@ -1,4 +1,6 @@
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 import { CampusHotspots } from "@/components/ui/campus-hotspots"
@@ -34,6 +36,7 @@ const utilityItems = [
 ]
 
 export function Why() {
+  const landing = useLandingContent()
   const { why } = landing
   const [featured, compact, metric, stack, scheme, utilities] = why.advantages
 

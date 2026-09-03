@@ -1,8 +1,12 @@
 import { sql } from "drizzle-orm"
 import type { JSONContent } from "@tiptap/core"
 import type { EnquiryInterest } from "@/content/landing"
+import type { SiteSettingsPatch } from "@/content/site-settings.schema"
+import type { HomeSectionPatch } from "@/content/home-sections.registry"
 import {
+  boolean,
   index,
+  uniqueIndex,
   integer,
   jsonb,
   pgEnum,
@@ -115,8 +119,39 @@ export const enquiries = pgTable(
   ],
 )
 
+export const siteSettings = pgTable("site_settings", {
+  id: text("id").primaryKey().default("default"),
+  data: jsonb("data").$type<SiteSettingsPatch>().notNull().default({}),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => sql`now()`),
+})
+
+export const pageSections = pgTable(
+  "page_sections",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    pageSlug: text("page_slug").notNull(),
+    sectionKey: text("section_key").notNull(),
+    enabled: boolean("enabled").notNull().default(true),
+    sortOrder: integer("sort_order").notNull(),
+    data: jsonb("data").$type<HomeSectionPatch>().notNull().default({}),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => sql`now()`),
+  },
+  (table) => [
+    index("page_sections_slug_idx").on(table.pageSlug),
+    uniqueIndex("page_sections_slug_key_unique").on(table.pageSlug, table.sectionKey),
+  ],
+)
+
 export type Media = typeof media.$inferSelect
 export type Author = typeof authors.$inferSelect
 export type Category = typeof categories.$inferSelect
 export type Post = typeof posts.$inferSelect
 export type Enquiry = typeof enquiries.$inferSelect
+export type SiteSettingsRow = typeof siteSettings.$inferSelect
+export type PageSection = typeof pageSections.$inferSelect

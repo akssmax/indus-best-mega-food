@@ -1,10 +1,13 @@
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { SectionIntro } from "@/components/landing/feature-card"
 import { Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
 import { SectionBand } from "@/lib/section-band"
 
 export function SocialProof() {
+  const landing = useLandingContent()
   const { socialProof } = landing
 
   return (

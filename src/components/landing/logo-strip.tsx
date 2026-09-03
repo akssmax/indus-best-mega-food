@@ -1,6 +1,8 @@
 import { motion, useReducedMotion } from "framer-motion"
 
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Reveal } from "@/components/landing/motion"
 import { PatternBand, WaveEdge } from "@/components/ui/brand-pattern"
 import { bandBg, bandWave } from "@/lib/section-band"
@@ -106,6 +108,7 @@ export function ClientMarquee({
   compact?: boolean
   className?: string
 }) {
+  const landing = useLandingContent()
   const { clients } = landing
   const marks = items ?? clients.items
 
@@ -175,6 +178,7 @@ export function LogoStrip({
   variant?: "home" | "plain" | "minimal"
   tone?: "default" | "forest"
 }) {
+  const landing = useLandingContent()
   const { clients } = landing
   const isHome = variant === "home"
   const isMinimal = variant === "minimal"

@@ -1,4 +1,6 @@
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Button } from "@/components/ui/button"
 import { FeaturedProductGrid } from "@/components/landing/featured-product-grid"
 import { SectionIntro } from "@/components/landing/feature-card"
@@ -14,6 +16,7 @@ export function Products({
   products: NouryaProduct[]
   intro?: boolean
 }) {
+  const landing = useLandingContent()
   const { products: data } = landing
 
   return (

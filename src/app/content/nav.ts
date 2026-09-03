@@ -1,4 +1,4 @@
-import { InboxIcon, NewspaperIcon } from "lucide-react"
+import { InboxIcon, LayoutTemplateIcon, NewspaperIcon, SettingsIcon } from "lucide-react"
 
 export const appNav = [
   {
@@ -10,6 +10,16 @@ export const appNav = [
     title: "Posts",
     href: "/app/posts",
     icon: NewspaperIcon,
+  },
+  {
+    title: "Home page",
+    href: "/app/pages/home",
+    icon: LayoutTemplateIcon,
+  },
+  {
+    title: "Settings",
+    href: "/app/settings",
+    icon: SettingsIcon,
   },
 ] as const
 

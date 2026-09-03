@@ -14,7 +14,9 @@ import {
 } from "framer-motion"
 
 import { primaryProcessingCentres } from "@/content/facilities"
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal, motionEase } from "@/components/landing/motion"
 import { DropFlourish, PatternBand } from "@/components/ui/brand-pattern"
@@ -743,6 +745,7 @@ function AnimatedProcessFlow() {
 }
 
 export function EcosystemFlow({ flat = false }: { flat?: boolean }) {
+  const landing = useLandingContent()
   const { ecosystem } = landing
 
   return (

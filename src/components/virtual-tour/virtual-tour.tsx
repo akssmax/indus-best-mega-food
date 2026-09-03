@@ -23,6 +23,15 @@ function readHashZoneId(): VirtualTourZoneId {
   return defaultZoneId as VirtualTourZoneId
 }
 
+function replaceTourHash(id: string) {
+  const url = `${window.location.pathname}${window.location.search}#${id}`
+  window.history.replaceState(
+    { ...window.history.state, __hashScrollIntoViewOptions: false },
+    "",
+    url
+  )
+}
+
 function scrollToZone(id: string, behavior: ScrollBehavior = "smooth") {
   const el = document.getElementById(id)
   if (!el) return
@@ -54,8 +63,7 @@ export function VirtualTourSection() {
       if (index < 0) return
       setActiveId(id as VirtualTourZoneId)
       if (typeof window !== "undefined") {
-        const url = `${window.location.pathname}${window.location.search}#${id}`
-        window.history.replaceState(null, "", url)
+        replaceTourHash(id)
         if (scroll) {
           lockScrollSpy()
           scrollToZone(id)
@@ -66,14 +74,7 @@ export function VirtualTourSection() {
   )
 
   const onActiveChange = useCallback((id: string) => {
-    setActiveId((current) => {
-      if (current === id) return current
-      if (typeof window !== "undefined") {
-        const url = `${window.location.pathname}${window.location.search}#${id}`
-        window.history.replaceState(null, "", url)
-      }
-      return id as VirtualTourZoneId
-    })
+    setActiveId((current) => (current === id ? current : (id as VirtualTourZoneId)))
   }, [])
 
   useEffect(() => {

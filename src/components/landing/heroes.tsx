@@ -1,3 +1,5 @@
+"use client"
+
 import type {
   CSSProperties,
   Dispatch,
@@ -9,7 +11,8 @@ import { useEffect, useRef, useState } from "react"
 import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion"
 
-import { landing } from "@/content/landing"
+import { landing as landingDefaults } from "@/content/landing"
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Button } from "@/components/ui/button"
 import { OceanBackground } from "@/components/landing/ocean-background"
 import { Eyebrow } from "@/components/landing/section"
@@ -100,7 +103,7 @@ const HERO_SLIDE_MS = 6000
 const CAMPUS_HERO_SLIDE_COUNT = 3
 const heroImageTransition = { duration: 0.92, delay: 0.1, ease: motionEase }
 
-type HeroSlide = (typeof landing.hero.slides)[number]
+type HeroSlide = (typeof landingDefaults.hero.slides)[number]
 
 type HeroSlideCard = {
   value: string
@@ -213,8 +216,10 @@ function useHorizontalSwipe(
   }
 }
 
-function getSlideCopy(slide: HeroSlide) {
-  const { hero } = landing
+function getSlideCopy(
+  slide: HeroSlide,
+  hero: typeof landingDefaults.hero,
+) {
   return {
     headline: slide.headline ?? hero.headline,
     body: slide.body ?? hero.body,
@@ -249,7 +254,7 @@ function MaskedRotatingHeroVisual({
   frameClassName: string
   imageObjectPosition?: string
 }) {
-  const { hero } = landing
+  const { hero } = useLandingContent()
   const slides = hero.slides
   const reduce = useReducedMotion()
   const rootRef = useRef<HTMLDivElement>(null)
@@ -437,7 +442,7 @@ function HeroShell({
 }
 
 function HeroCopy({ className }: { className?: string }) {
-  const { hero } = landing
+  const { hero } = useLandingContent()
 
   return (
     <Stagger
@@ -465,7 +470,7 @@ function HeroCopy({ className }: { className?: string }) {
 }
 
 function HeroCtaRow({ className }: { className?: string }) {
-  const { hero } = landing
+  const { hero } = useLandingContent()
 
   return (
     <div
@@ -503,6 +508,8 @@ function HeroCopySlide({
   reduce: boolean | null
   className?: string
 }) {
+  const { hero } = useLandingContent()
+
   return (
     <div
       className={cn(
@@ -512,7 +519,7 @@ function HeroCopySlide({
     >
       <div className="grid w-full">
         {slides.map((slide, index) => {
-          const copy = getSlideCopy(slide)
+          const copy = getSlideCopy(slide, hero)
           const isActive = index === activeIndex
 
           return (
@@ -571,10 +578,10 @@ function HeroCopyAnimated({
   activeIndex: number
   className?: string
 }) {
-  const { hero } = landing
+  const { hero } = useLandingContent()
   const { slides } = hero
   const slide = slides[activeIndex] ?? slides[0]
-  const copy = getSlideCopy(slide)
+  const copy = getSlideCopy(slide, hero)
   const reduce = useReducedMotion()
 
   return (
@@ -778,6 +785,7 @@ function CampusHeroVisual({
 }
 
 export function CampusHero({ markHero = true }: { markHero?: boolean }) {
+  const landing = useLandingContent()
   const slides = landing.hero.slides.slice(0, CAMPUS_HERO_SLIDE_COUNT)
   const rootRef = useRef<HTMLDivElement>(null)
   const inView = useInView(rootRef, { margin: "0px 0px -12% 0px" })
@@ -804,7 +812,7 @@ export function CampusHero({ markHero = true }: { markHero?: boolean }) {
 }
 
 function HeroStatPills({ className }: { className?: string }) {
-  const { stats } = landing.hero
+  const { stats } = useLandingContent().hero
 
   return (
     <Stagger
@@ -829,7 +837,7 @@ function HeroStatPills({ className }: { className?: string }) {
 }
 
 function HeroStatRow({ className }: { className?: string }) {
-  const { stats } = landing.hero
+  const { stats } = useLandingContent().hero
 
   return (
     <Stagger
@@ -857,7 +865,7 @@ function HeroStatRow({ className }: { className?: string }) {
 }
 
 function FrameHeroVisual() {
-  const { hero } = landing
+  const { hero } = useLandingContent()
 
   return (
     <Reveal
@@ -892,7 +900,7 @@ function FrameHeroVisual() {
 }
 
 function BandHeroVisual() {
-  const { hero } = landing
+  const { hero } = useLandingContent()
 
   return (
     <Reveal when="mount" delay={0.18}>

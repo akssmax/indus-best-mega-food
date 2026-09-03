@@ -5,7 +5,7 @@ import { createContext, useContext } from "react"
 import { Link } from "@tanstack/react-router"
 import { ArrowRightIcon } from "lucide-react"
 
-import { site } from "@/content/site"
+import { useSiteContent } from "@/lib/site-content-context"
 import { landing } from "@/content/landing"
 import { ColorModeToggle } from "@/components/theme/color-mode-toggle"
 import { Eyebrow } from "@/components/landing/section"
@@ -85,7 +85,6 @@ export const footerVariantMeta: Record<
 }
 
 const blogLink = { label: "Blog", href: "/blog" }
-const allLinks = [...site.nav, blogLink, ...site.explore]
 
 function BrandMark({
   size = "md",
@@ -94,6 +93,7 @@ function BrandMark({
   size?: "sm" | "md" | "lg"
   className?: string
 }) {
+  const site = useSiteContent()
   return (
     <Link to="/" className={cn("flex min-w-0 items-center gap-3", className)}>
       <img
@@ -184,6 +184,7 @@ function LinkColumn({
 }
 
 function LegalBar({ className }: { className?: string }) {
+  const site = useSiteContent()
   const styles = useFooterStyles()
   const tone = useContext(FooterToneContext)
 
@@ -257,6 +258,7 @@ function SocialIcon({
 }
 
 function Socials({ className }: { className?: string }) {
+  const site = useSiteContent()
   const styles = useFooterStyles()
 
   return (
@@ -303,6 +305,7 @@ function FooterShell({
 }
 
 function DirectoryFooter({ tone }: { tone: FooterTone }) {
+  const site = useSiteContent()
   const styles = footerToneStyles[tone]
 
   return (
@@ -349,6 +352,8 @@ function DirectoryFooter({ tone }: { tone: FooterTone }) {
 }
 
 function EditorialFooter({ tone }: { tone: FooterTone }) {
+  const site = useSiteContent()
+  const allLinks = [...site.nav, blogLink, ...site.explore]
   const styles = footerToneStyles[tone]
 
   return (
@@ -382,6 +387,7 @@ function EditorialFooter({ tone }: { tone: FooterTone }) {
 }
 
 function SplitFooter({ tone }: { tone: FooterTone }) {
+  const site = useSiteContent()
   const styles = footerToneStyles[tone]
 
   return (

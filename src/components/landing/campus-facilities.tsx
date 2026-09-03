@@ -1,4 +1,6 @@
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { SectionIntro } from "@/components/landing/feature-card"
 import { Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
@@ -18,6 +20,7 @@ const facilityCardPalettes = [
 ] as const
 
 export function CampusFacilities({ flat = false }: { flat?: boolean }) {
+  const landing = useLandingContent()
   const { campusOverview, facilityCategories: facilityCopy, processingCapabilities } =
     landing
 

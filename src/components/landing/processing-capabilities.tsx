@@ -1,5 +1,7 @@
 import { peakAsepticMtph, parseMtph, processingLines } from "@/content/facilities"
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { SectionIntro } from "@/components/landing/feature-card"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 import { cn } from "@/lib/utils"
@@ -72,6 +74,7 @@ export function ProcessingCapacityTable({
   showHeader?: boolean
   heading?: "h2" | "h3"
 }) {
+  const landing = useLandingContent()
   const { infrastructure, processingCapabilities } = landing
 
   return (

@@ -1,4 +1,6 @@
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Button } from "@/components/ui/button"
 import {
   Accordion,
@@ -11,6 +13,7 @@ import { Reveal } from "@/components/landing/motion"
 import { cn } from "@/lib/utils"
 
 export function Faq({ embedded = false }: { embedded?: boolean }) {
+  const landing = useLandingContent()
   const { faq } = landing
 
   return (

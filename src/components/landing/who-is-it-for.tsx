@@ -7,7 +7,9 @@ import {
 import { motion, useReducedMotion } from "framer-motion"
 import type { ReactNode } from "react"
 
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { SectionIntro } from "@/components/landing/feature-card"
 import { SecondaryCtaLink } from "@/components/landing/secondary-cta"
 import { Section } from "@/components/landing/section"
@@ -66,6 +68,7 @@ function AudienceCard({ children }: { children: ReactNode }) {
 }
 
 export function WhoIsItFor({ flat = false }: { flat?: boolean }) {
+  const landing = useLandingContent()
   const { audience } = landing
 
   return (

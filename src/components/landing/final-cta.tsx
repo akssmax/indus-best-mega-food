@@ -2,7 +2,7 @@
 
 import { useState, type FocusEvent, type PointerEvent } from "react"
 
-import { landing } from "@/content/landing"
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Button } from "@/components/ui/button"
 import { OceanBackground } from "@/components/landing/ocean-background"
 import { Section } from "@/components/landing/section"
@@ -32,6 +32,7 @@ export function FinalCta({
   /** Hide the secondary link — e.g. on /campus, where it would point here. */
   showSecondary?: boolean
 }) {
+  const landing = useLandingContent()
   const { finalCta: data } = landing
   const showTop = bridge === true || bridge === "both" || bridge === "top"
   const showBottom = bridge === true || bridge === "both" || bridge === "bottom"

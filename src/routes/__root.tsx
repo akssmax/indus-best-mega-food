@@ -8,6 +8,8 @@ import {
 } from "@tanstack/react-router"
 
 import { site } from "@/content/site"
+import { getSiteContent } from "@/server/content"
+import { SiteContentProvider } from "@/lib/site-content-context"
 import { SiteHeader } from "@/components/layout/site-header"
 import { SiteFooter } from "@/components/layout/site-footer"
 import { ColorModeSync } from "@/components/theme/color-mode-sync"
@@ -21,7 +23,11 @@ import { themeBootScript } from "@/lib/theme"
 import appCss from "../styles.css?url"
 
 export const Route = createRootRoute({
-  head: () => ({
+  loader: async () => {
+    const siteContent = await getSiteContent()
+    return { siteContent }
+  },
+  head: ({ loaderData }) => ({
     meta: [
       { charSet: "utf-8" },
       {
@@ -29,8 +35,11 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1, viewport-fit=cover",
       },
       { name: "theme-color", content: THEME_COLOR },
-      { title: site.home.title },
-      { name: "description", content: site.home.description },
+      { title: loaderData?.siteContent.home.title ?? site.home.title },
+      {
+        name: "description",
+        content: loaderData?.siteContent.home.description ?? site.home.description,
+      },
       organizationJsonLd(),
     ],
     links: [
@@ -79,14 +88,15 @@ function PageChrome({ children }: { children: ReactNode }) {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   })
+  const siteContent = Route.useLoaderData()?.siteContent ?? site
   const chromeless = hideSiteChrome(pathname)
   const dashboard = isDashboardRoute(pathname)
 
   return (
-    <>
+    <SiteContentProvider value={siteContent}>
       {chromeless || dashboard ? null : <SiteHeader />}
       {children}
       {chromeless || dashboard ? null : <SiteFooter tone="light" />}
-    </>
+    </SiteContentProvider>
   )
 }

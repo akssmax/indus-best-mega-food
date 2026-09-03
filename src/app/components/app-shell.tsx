@@ -15,6 +15,8 @@ function usePageTitle() {
   const exact = appNav.find((item) => item.href === pathname)?.title
   if (exact) return exact
   if (pathname.startsWith("/app/posts")) return "Posts"
+  if (pathname.startsWith("/app/pages/home")) return "Home page"
+  if (pathname === "/app/settings") return "Settings"
   return "Dashboard"
 }
 

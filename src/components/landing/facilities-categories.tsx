@@ -3,7 +3,9 @@ import {
   infrastructure as infraItems,
   qualityLabs,
 } from "@/content/facilities"
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 import { SectionBand } from "@/lib/section-band"
@@ -46,6 +48,7 @@ const categories = [
 ] as const
 
 export function FacilitiesCategories() {
+  const landing = useLandingContent()
   const { facilityCategories } = landing
 
   return (

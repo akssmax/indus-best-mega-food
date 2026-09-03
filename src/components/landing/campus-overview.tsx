@@ -12,14 +12,17 @@ import {
 } from "@heroicons/react/24/outline"
 import { ArrowRightIcon, SnowflakeIcon, ThermometerSnowflakeIcon } from "lucide-react"
 
-import { landing } from "@/content/landing"
+"use client"
+
+import { landing as landingDefaults } from "@/content/landing"
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
 import { facilityCategoryStyles } from "@/lib/facility-categories"
 import { landingImageSizes } from "@/lib/media"
 import { cn } from "@/lib/utils"
 
-type CampusOverviewItem = (typeof landing.campusOverview.items)[number]
+type CampusOverviewItem = (typeof landingDefaults.campusOverview.items)[number]
 type CampusIcon = ComponentType<{ className?: string }>
 
 const tonePalette = {
@@ -150,6 +153,7 @@ export function CampusOverviewRow({
 }
 
 export function CampusOverviewList() {
+  const landing = useLandingContent()
   const { campusOverview } = landing
 
   return (
@@ -164,6 +168,7 @@ export function CampusOverviewList() {
 }
 
 export function CampusOverview() {
+  const landing = useLandingContent()
   const { campusOverview } = landing
 
   return (

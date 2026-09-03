@@ -30,9 +30,12 @@ import { Route as AppLoginRouteImport } from './routes/app/login'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as AppAuthenticatedEnquiriesRouteImport } from './routes/app/_authenticated/enquiries'
+import { Route as AppAuthenticatedSettingsRouteImport } from './routes/app/_authenticated/settings'
 import { Route as AppAuthenticatedPostsIndexRouteImport } from './routes/app/_authenticated/posts/index'
 import { Route as AppAuthenticatedPostsPostIdRouteImport } from './routes/app/_authenticated/posts/$postId'
 import { Route as AppAuthenticatedPostsNewRouteImport } from './routes/app/_authenticated/posts/new'
+import { Route as AppAuthenticatedPagesHomeIndexRouteImport } from './routes/app/_authenticated/pages/home/index'
+import { Route as AppAuthenticatedPagesHomeSectionKeyRouteImport } from './routes/app/_authenticated/pages/home/$sectionKey'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -139,6 +142,12 @@ const AppAuthenticatedEnquiriesRoute =
     path: '/enquiries',
     getParentRoute: () => AppAuthenticatedRouteRoute,
   } as any)
+const AppAuthenticatedSettingsRoute =
+  AppAuthenticatedSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AppAuthenticatedRouteRoute,
+  } as any)
 const AppAuthenticatedPostsIndexRoute =
   AppAuthenticatedPostsIndexRouteImport.update({
     id: '/posts/',
@@ -155,6 +164,18 @@ const AppAuthenticatedPostsNewRoute =
   AppAuthenticatedPostsNewRouteImport.update({
     id: '/posts/new',
     path: '/posts/new',
+    getParentRoute: () => AppAuthenticatedRouteRoute,
+  } as any)
+const AppAuthenticatedPagesHomeIndexRoute =
+  AppAuthenticatedPagesHomeIndexRouteImport.update({
+    id: '/pages/home/',
+    path: '/pages/home/',
+    getParentRoute: () => AppAuthenticatedRouteRoute,
+  } as any)
+const AppAuthenticatedPagesHomeSectionKeyRoute =
+  AppAuthenticatedPagesHomeSectionKeyRouteImport.update({
+    id: '/pages/home/$sectionKey',
+    path: '/pages/home/$sectionKey',
     getParentRoute: () => AppAuthenticatedRouteRoute,
   } as any)
 
@@ -179,9 +200,12 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/app/enquiries': typeof AppAuthenticatedEnquiriesRoute
+  '/app/settings': typeof AppAuthenticatedSettingsRoute
   '/app/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
   '/app/posts/new': typeof AppAuthenticatedPostsNewRoute
   '/app/posts/': typeof AppAuthenticatedPostsIndexRoute
+  '/app/pages/home/$sectionKey': typeof AppAuthenticatedPagesHomeSectionKeyRoute
+  '/app/pages/home/': typeof AppAuthenticatedPagesHomeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -203,9 +227,12 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
   '/app/enquiries': typeof AppAuthenticatedEnquiriesRoute
+  '/app/settings': typeof AppAuthenticatedSettingsRoute
   '/app/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
   '/app/posts/new': typeof AppAuthenticatedPostsNewRoute
   '/app/posts': typeof AppAuthenticatedPostsIndexRoute
+  '/app/pages/home/$sectionKey': typeof AppAuthenticatedPagesHomeSectionKeyRoute
+  '/app/pages/home': typeof AppAuthenticatedPagesHomeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -230,9 +257,12 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/app/_authenticated/enquiries': typeof AppAuthenticatedEnquiriesRoute
+  '/app/_authenticated/settings': typeof AppAuthenticatedSettingsRoute
   '/app/_authenticated/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
   '/app/_authenticated/posts/new': typeof AppAuthenticatedPostsNewRoute
   '/app/_authenticated/posts/': typeof AppAuthenticatedPostsIndexRoute
+  '/app/_authenticated/pages/home/$sectionKey': typeof AppAuthenticatedPagesHomeSectionKeyRoute
+  '/app/_authenticated/pages/home/': typeof AppAuthenticatedPagesHomeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -257,9 +287,12 @@ export interface FileRouteTypes {
     | '/app/'
     | '/blog/'
     | '/app/enquiries'
+    | '/app/settings'
     | '/app/posts/$postId'
     | '/app/posts/new'
     | '/app/posts/'
+    | '/app/pages/home/$sectionKey'
+    | '/app/pages/home/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -281,9 +314,12 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog'
     | '/app/enquiries'
+    | '/app/settings'
     | '/app/posts/$postId'
     | '/app/posts/new'
     | '/app/posts'
+    | '/app/pages/home/$sectionKey'
+    | '/app/pages/home'
   id:
     | '__root__'
     | '/'
@@ -307,9 +343,12 @@ export interface FileRouteTypes {
     | '/app/'
     | '/blog/'
     | '/app/_authenticated/enquiries'
+    | '/app/_authenticated/settings'
     | '/app/_authenticated/posts/$postId'
     | '/app/_authenticated/posts/new'
     | '/app/_authenticated/posts/'
+    | '/app/_authenticated/pages/home/$sectionKey'
+    | '/app/_authenticated/pages/home/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -481,6 +520,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuthenticatedEnquiriesRouteImport
       parentRoute: typeof AppAuthenticatedRouteRoute
     }
+    '/app/_authenticated/settings': {
+      id: '/app/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppAuthenticatedSettingsRouteImport
+      parentRoute: typeof AppAuthenticatedRouteRoute
+    }
     '/app/_authenticated/posts/': {
       id: '/app/_authenticated/posts/'
       path: '/posts'
@@ -502,21 +548,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuthenticatedPostsNewRouteImport
       parentRoute: typeof AppAuthenticatedRouteRoute
     }
+    '/app/_authenticated/pages/home/': {
+      id: '/app/_authenticated/pages/home/'
+      path: '/pages/home'
+      fullPath: '/app/pages/home/'
+      preLoaderRoute: typeof AppAuthenticatedPagesHomeIndexRouteImport
+      parentRoute: typeof AppAuthenticatedRouteRoute
+    }
+    '/app/_authenticated/pages/home/$sectionKey': {
+      id: '/app/_authenticated/pages/home/$sectionKey'
+      path: '/pages/home/$sectionKey'
+      fullPath: '/app/pages/home/$sectionKey'
+      preLoaderRoute: typeof AppAuthenticatedPagesHomeSectionKeyRouteImport
+      parentRoute: typeof AppAuthenticatedRouteRoute
+    }
   }
 }
 
 interface AppAuthenticatedRouteRouteChildren {
   AppAuthenticatedEnquiriesRoute: typeof AppAuthenticatedEnquiriesRoute
+  AppAuthenticatedSettingsRoute: typeof AppAuthenticatedSettingsRoute
   AppAuthenticatedPostsPostIdRoute: typeof AppAuthenticatedPostsPostIdRoute
   AppAuthenticatedPostsNewRoute: typeof AppAuthenticatedPostsNewRoute
   AppAuthenticatedPostsIndexRoute: typeof AppAuthenticatedPostsIndexRoute
+  AppAuthenticatedPagesHomeSectionKeyRoute: typeof AppAuthenticatedPagesHomeSectionKeyRoute
+  AppAuthenticatedPagesHomeIndexRoute: typeof AppAuthenticatedPagesHomeIndexRoute
 }
 
 const AppAuthenticatedRouteRouteChildren: AppAuthenticatedRouteRouteChildren = {
   AppAuthenticatedEnquiriesRoute: AppAuthenticatedEnquiriesRoute,
+  AppAuthenticatedSettingsRoute: AppAuthenticatedSettingsRoute,
   AppAuthenticatedPostsPostIdRoute: AppAuthenticatedPostsPostIdRoute,
   AppAuthenticatedPostsNewRoute: AppAuthenticatedPostsNewRoute,
   AppAuthenticatedPostsIndexRoute: AppAuthenticatedPostsIndexRoute,
+  AppAuthenticatedPagesHomeSectionKeyRoute:
+    AppAuthenticatedPagesHomeSectionKeyRoute,
+  AppAuthenticatedPagesHomeIndexRoute: AppAuthenticatedPagesHomeIndexRoute,
 }
 
 const AppAuthenticatedRouteRouteWithChildren =

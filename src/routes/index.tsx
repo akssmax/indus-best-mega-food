@@ -1,40 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { landing } from "@/content/landing"
-import { site } from "@/content/site"
-import { Hero } from "@/components/landing/hero"
-import { LogoStrip } from "@/components/landing/logo-strip"
-// import { SocialProof } from "@/components/landing/social-proof"
-import { Why } from "@/components/landing/purpose"
-import { WhoIsItFor } from "@/components/landing/who-is-it-for"
-import { EcosystemFlow } from "@/components/landing/ecosystem-flow"
-import { CampusFacilities } from "@/components/landing/campus-facilities"
-import { ProductsDeferred } from "@/components/landing/products-deferred"
-import { Opportunities } from "@/components/landing/opportunities"
-import { Location } from "@/components/landing/location"
-import { Faq } from "@/components/landing/faq"
-import { FinalCta } from "@/components/landing/final-cta"
-import { SectionBand } from "@/lib/section-band"
+import { getHomePageContent, getSiteContent } from "@/server/content"
+import { LandingContentProvider } from "@/lib/landing-content-context"
+import { renderHomeSections } from "@/components/landing/home-section-renderer"
 import { faqJsonLd, seoHead } from "@/lib/seo"
 
-const lcpHeroImage = landing.hero.slides[0]?.image.src ?? landing.hero.image.src
-
 export const Route = createFileRoute("/")({
-  head: () => {
+  loader: async () => {
+    const [siteContent, homeContent] = await Promise.all([
+      getSiteContent(),
+      getHomePageContent(),
+    ])
+    return { siteContent, homeContent }
+  },
+  head: ({ loaderData }) => {
+    const siteContent = loaderData?.siteContent
+    const landingContent = loaderData?.homeContent?.landing
     const seo = seoHead({
-      title: site.home.title,
-      description: site.home.description,
+      title: siteContent?.home.title ?? "Indus Best Mega Food Park",
+      description:
+        siteContent?.home.description ??
+        "Developed plots, MSME sheds, and shared food processing at Bemta–Sarora, near Raipur.",
       path: "/",
     })
     return {
-      meta: [...seo.meta, faqJsonLd(landing.faq.items)],
+      meta: [
+        ...seo.meta,
+        ...(landingContent ? faqJsonLd(landingContent.faq.items) : []),
+      ],
       links: [
         ...seo.links,
         { rel: "preconnect", href: "https://cdn.shopify.com" },
         { rel: "dns-prefetch", href: "https://maps.google.com" },
         {
           rel: "preload",
-          href: lcpHeroImage,
+          href:
+            landingContent?.hero.slides[0]?.image.src ??
+            landingContent?.hero.image.src ??
+            "/images/warehouse.jpg",
           as: "image",
           fetchPriority: "high",
         },
@@ -45,22 +48,11 @@ export const Route = createFileRoute("/")({
 })
 
 function HomePage() {
+  const { homeContent } = Route.useLoaderData()
+
   return (
-    <main>
-      <Hero />
-      <LogoStrip variant="home" />
-      {/* <SocialProof /> */}
-      <Why />
-      <WhoIsItFor />
-      <EcosystemFlow />
-      <CampusFacilities />
-      <ProductsDeferred />
-      <Opportunities />
-      <SectionBand tone="secondary-25">
-        <Location bandFrom={null} />
-        <Faq />
-      </SectionBand>
-      <FinalCta bridgeFrom="secondary-25" />
-    </main>
+    <LandingContentProvider value={homeContent.landing}>
+      <main>{renderHomeSections(homeContent.sections)}</main>
+    </LandingContentProvider>
   )
 }

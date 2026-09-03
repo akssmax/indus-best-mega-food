@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useRouterState } from "@tanstack/react-router"
 import { MenuIcon, XIcon } from "lucide-react"
 
-import { site } from "@/content/site"
+import { useSiteContent } from "@/lib/site-content-context"
 import { ThemePopover } from "@/components/theme/theme-selector"
 import { Button } from "@/components/ui/button"
 import { contentContainerClass, contentGutterClass } from "@/lib/layout"
@@ -25,6 +25,7 @@ function BrandMark({
   className?: string
   tone: HeaderTone
 }) {
+  const site = useSiteContent()
   return (
     <Link
       to="/"
@@ -179,6 +180,7 @@ const forestIconButton =
   "border-forest-foreground/30 bg-transparent text-forest-foreground hover:bg-forest-foreground/10 hover:text-forest-foreground focus-visible:border-forest-foreground/40 focus-visible:ring-forest-foreground/30 aria-expanded:bg-forest-foreground/10 aria-expanded:text-forest-foreground"
 
 export function SiteHeader() {
+  const site = useSiteContent()
   const [open, setOpen] = useState(false)
   const overHero = useOverHero()
   const pathname = useRouterState({

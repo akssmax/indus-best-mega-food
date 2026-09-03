@@ -1,6 +1,8 @@
 import { ArrowRightIcon } from "lucide-react"
 
-import { landing } from "@/content/landing"
+"use client"
+
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Button } from "@/components/ui/button"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
@@ -9,6 +11,7 @@ import { PullQuote } from "@/components/ui/pull-quote"
 import { SectionBand } from "@/lib/section-band"
 
 export function Opportunities({ flat = false }: { flat?: boolean }) {
+  const landing = useLandingContent()
   const { opportunities: data } = landing
   const ways = data.items.filter((item) => !item.featured)
 

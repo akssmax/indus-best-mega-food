@@ -1,3 +1,5 @@
+"use client"
+
 import {
   ArrowUpRight,
   PlaneIcon,
@@ -7,14 +9,18 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
-import { landing } from "@/content/landing"
+import { landing as landingDefaults } from "@/content/landing"
+import { useLandingContent } from "@/lib/landing-content-context"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 import { googleMapsEmbed, googleMapsSearch } from "@/lib/maps"
 import { SectionBand, type BandSurface } from "@/lib/section-band"
 import { cn } from "@/lib/utils"
 
-const benefitIcons: Record<(typeof landing.location.benefits)[number]["icon"], LucideIcon> = {
+const benefitIcons: Record<
+  (typeof landingDefaults.location.benefits)[number]["icon"],
+  LucideIcon
+> = {
   crop: SproutIcon,
   road: RouteIcon,
   rail: TrainFrontIcon,
@@ -28,6 +34,7 @@ export function Location({
   bandFrom?: BandSurface | null
   embedded?: boolean
 }) {
+  const landing = useLandingContent()
   const { location: data } = landing
   const embedSrc = googleMapsEmbed(data.campusQuery, 14)
 

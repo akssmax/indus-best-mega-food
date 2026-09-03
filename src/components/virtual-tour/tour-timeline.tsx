@@ -18,33 +18,40 @@ const timelineDotClass = {
 function resolveActiveFromScroll(sections: HTMLElement[]) {
   const vh = window.innerHeight
   const focusLine = vh * 0.33
+  const lastIndex = sections.length - 1
+  const lastSection = sections[lastIndex]
 
-  let bestIndex = 0
-  let bestScore = Number.NEGATIVE_INFINITY
+  let activeIndex = 0
+  let containsFocus = false
 
   sections.forEach((section, index) => {
     const rect = section.getBoundingClientRect()
-    const visibleTop = Math.max(rect.top, 0)
-    const visibleBottom = Math.min(rect.bottom, vh)
-    const visibleHeight = Math.max(0, visibleBottom - visibleTop)
-
-    if (visibleHeight < 48) return
-
-    const sectionCenter = rect.top + rect.height / 2
-    const focusDistance = Math.abs(sectionCenter - focusLine)
-    const score = visibleHeight - focusDistance * 0.65
-
-    if (score > bestScore) {
-      bestScore = score
-      bestIndex = index
+    if (rect.top <= focusLine && rect.bottom > focusLine) {
+      activeIndex = index
+      containsFocus = true
     }
   })
 
-  const activeId = sections[bestIndex]?.dataset.tourZone ?? null
+  if (!containsFocus) {
+    sections.forEach((section, index) => {
+      const rect = section.getBoundingClientRect()
+      if (rect.top <= focusLine) {
+        activeIndex = Math.max(activeIndex, index)
+      }
+    })
+  }
+
+  const lastRect = lastSection?.getBoundingClientRect()
+  const pastTourEnd = lastRect != null && lastRect.bottom < focusLine
+  if (pastTourEnd) {
+    activeIndex = lastIndex
+  }
+
+  const activeId = sections[activeIndex]?.dataset.tourZone ?? null
   let segmentProgress = 0
 
-  const current = sections[bestIndex]
-  const next = sections[bestIndex + 1]
+  const current = sections[activeIndex]
+  const next = sections[activeIndex + 1]
   if (current && next) {
     const currentTop = current.getBoundingClientRect().top
     const nextTop = next.getBoundingClientRect().top
@@ -56,7 +63,32 @@ function resolveActiveFromScroll(sections: HTMLElement[]) {
     segmentProgress = 1
   }
 
-  return { activeId, activeIndex: bestIndex, segmentProgress }
+  return { activeId, activeIndex, segmentProgress, focusLine, pastTourEnd }
+}
+
+function computeRailFillHeight(
+  rail: HTMLElement,
+  dots: HTMLDivElement[],
+  focusLine: number
+) {
+  if (dots.length === 0) return 0
+
+  const railTop = rail.getBoundingClientRect().top
+  const centers = dots.map(
+    (dot) => dot.getBoundingClientRect().top + dot.offsetHeight / 2
+  )
+  const firstCenter = centers[0]! - railTop
+  const lastCenter = centers[centers.length - 1]! - railTop
+
+  if (focusLine <= centers[0]!) {
+    return 0
+  }
+
+  if (focusLine >= centers[centers.length - 1]!) {
+    return Math.max(0, lastCenter - firstCenter)
+  }
+
+  return Math.max(0, focusLine - railTop - firstCenter)
 }
 
 function TimelineZone({
@@ -220,89 +252,73 @@ export function TourTimeline({
   const currentActiveIdRef = useRef(activeId)
   const [currentActiveId, setCurrentActiveId] = useState(activeId)
   const [fillHeight, setFillHeight] = useState(0)
-  const [segmentProgress, setSegmentProgress] = useState(0)
 
   const activeIndex = zones.findIndex((z) => z.id === currentActiveId)
 
-  const updateRailFill = useCallback(() => {
+  const measureTimeline = useCallback(() => {
+    const root = rootRef.current
     const rail = railRef.current
     const dots = dotRefs.current.filter(Boolean) as HTMLDivElement[]
-    if (!rail || dots.length === 0 || activeIndex < 0) return
-
-    const railTop = rail.getBoundingClientRect().top
-    const firstCenter =
-      dots[0]!.getBoundingClientRect().top + dots[0]!.offsetHeight / 2 - railTop
-    const activeDot = dots[Math.min(activeIndex, dots.length - 1)]!
-    const activeCenter =
-      activeDot.getBoundingClientRect().top + activeDot.offsetHeight / 2 - railTop
-
-    let fill = activeCenter - firstCenter
-
-    if (activeIndex < dots.length - 1 && segmentProgress > 0) {
-      const nextDot = dots[activeIndex + 1]!
-      const nextCenter =
-        nextDot.getBoundingClientRect().top + nextDot.offsetHeight / 2 - railTop
-      fill += (nextCenter - activeCenter) * segmentProgress
-    }
-
-    setFillHeight(Math.max(0, fill))
-  }, [activeIndex, segmentProgress])
-
-  const runScrollSpy = useCallback(() => {
-    if (scrollLockRef.current) return
-
-    const root = rootRef.current
-    if (!root) return
+    if (!root || !rail || dots.length === 0) return
 
     const sections = Array.from(
       root.querySelectorAll<HTMLElement>("[data-tour-zone]")
     )
     if (sections.length === 0) return
 
-    const { activeId: nextId, segmentProgress: nextProgress } =
+    const { activeId: scrollActiveId, focusLine } =
       resolveActiveFromScroll(sections)
 
-    setSegmentProgress(nextProgress)
+    setFillHeight(computeRailFillHeight(rail, dots, focusLine))
 
-    if (nextId && nextId !== currentActiveIdRef.current) {
-      currentActiveIdRef.current = nextId
-      setCurrentActiveId(nextId)
-      onActiveChange(nextId)
+    if (scrollLockRef.current || !scrollActiveId) return
+
+    if (scrollActiveId !== currentActiveIdRef.current) {
+      currentActiveIdRef.current = scrollActiveId
+      setCurrentActiveId(scrollActiveId)
+      onActiveChange(scrollActiveId)
     }
   }, [onActiveChange, scrollLockRef])
 
-  const scheduleScrollSpy = useCallback(() => {
+  const scheduleMeasure = useCallback(() => {
     if (rafRef.current != null) return
     rafRef.current = window.requestAnimationFrame(() => {
       rafRef.current = null
-      runScrollSpy()
-      updateRailFill()
+      measureTimeline()
     })
-  }, [runScrollSpy, updateRailFill])
+  }, [measureTimeline])
 
   useEffect(() => {
     currentActiveIdRef.current = activeId
     setCurrentActiveId(activeId)
-  }, [activeId])
+    scheduleMeasure()
+  }, [activeId, scheduleMeasure])
 
   useEffect(() => {
-    scheduleScrollSpy()
-    window.addEventListener("scroll", scheduleScrollSpy, { passive: true })
-    window.addEventListener("resize", scheduleScrollSpy)
-    window.addEventListener("virtual-tour:scroll-unlock", scheduleScrollSpy)
+    scheduleMeasure()
+    window.addEventListener("scroll", scheduleMeasure, { passive: true })
+    window.addEventListener("resize", scheduleMeasure)
+    window.addEventListener("virtual-tour:scroll-unlock", scheduleMeasure)
+
+    const root = rootRef.current
+    const resizeObserver =
+      root && typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => scheduleMeasure())
+        : null
+    if (root && resizeObserver) {
+      resizeObserver.observe(root)
+    }
+
     return () => {
-      window.removeEventListener("scroll", scheduleScrollSpy)
-      window.removeEventListener("resize", scheduleScrollSpy)
-      window.removeEventListener("virtual-tour:scroll-unlock", scheduleScrollSpy)
+      window.removeEventListener("scroll", scheduleMeasure)
+      window.removeEventListener("resize", scheduleMeasure)
+      window.removeEventListener("virtual-tour:scroll-unlock", scheduleMeasure)
+      resizeObserver?.disconnect()
       if (rafRef.current != null) {
         window.cancelAnimationFrame(rafRef.current)
       }
     }
-  }, [scheduleScrollSpy])
-
-  useEffect(() => {
-    updateRailFill()
-  }, [activeIndex, segmentProgress, updateRailFill])
+  }, [scheduleMeasure])
 
   return (
     <div ref={rootRef} className="relative mt-10 pl-4 sm:pl-5">
@@ -312,7 +328,7 @@ export function TourTimeline({
         className="absolute top-6 bottom-6 left-4 w-0.5 -translate-x-1/2 rounded-full bg-border sm:left-5"
       >
         <div
-          className="absolute top-0 left-0 w-full rounded-full bg-gradient-to-b from-cta via-cta/90 to-primary transition-[height] duration-300 ease-out"
+          className="absolute top-0 left-0 w-full rounded-full bg-gradient-to-b from-cta via-cta/90 to-primary will-change-[height]"
           style={{ height: fillHeight }}
         />
       </div>
