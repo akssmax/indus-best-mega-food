@@ -19,6 +19,7 @@ import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as FacilitiesRouteImport } from './routes/facilities'
 import { Route as Hero1RouteImport } from './routes/hero-1'
 import { Route as InvestorsRouteImport } from './routes/investors'
+import { Route as LogoOptionsRouteImport } from './routes/logo-options'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PrivateLabelRouteImport } from './routes/private-label'
 import { Route as ProductsRouteImport } from './routes/products'
@@ -85,6 +86,11 @@ const Hero1Route = Hero1RouteImport.update({
 const InvestorsRoute = InvestorsRouteImport.update({
   id: '/investors',
   path: '/investors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogoOptionsRoute = LogoOptionsRouteImport.update({
+  id: '/logo-options',
+  path: '/logo-options',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
@@ -190,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
+  '/logo-options': typeof LogoOptionsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
@@ -217,6 +224,7 @@ export interface FileRoutesByTo {
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
+  '/logo-options': typeof LogoOptionsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/facilities': typeof FacilitiesRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
+  '/logo-options': typeof LogoOptionsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/facilities'
     | '/hero-1'
     | '/investors'
+    | '/logo-options'
     | '/opportunities'
     | '/private-label'
     | '/products'
@@ -304,6 +314,7 @@ export interface FileRouteTypes {
     | '/facilities'
     | '/hero-1'
     | '/investors'
+    | '/logo-options'
     | '/opportunities'
     | '/private-label'
     | '/products'
@@ -332,6 +343,7 @@ export interface FileRouteTypes {
     | '/facilities'
     | '/hero-1'
     | '/investors'
+    | '/logo-options'
     | '/opportunities'
     | '/private-label'
     | '/products'
@@ -362,6 +374,7 @@ export interface RootRouteChildren {
   FacilitiesRoute: typeof FacilitiesRoute
   Hero1Route: typeof Hero1Route
   InvestorsRoute: typeof InvestorsRoute
+  LogoOptionsRoute: typeof LogoOptionsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   PrivateLabelRoute: typeof PrivateLabelRoute
   ProductsRoute: typeof ProductsRoute
@@ -441,6 +454,13 @@ declare module '@tanstack/react-router' {
       path: '/investors'
       fullPath: '/investors'
       preLoaderRoute: typeof InvestorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logo-options': {
+      id: '/logo-options'
+      path: '/logo-options'
+      fullPath: '/logo-options'
+      preLoaderRoute: typeof LogoOptionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/opportunities': {
@@ -618,6 +638,7 @@ const rootRouteChildren: RootRouteChildren = {
   FacilitiesRoute: FacilitiesRoute,
   Hero1Route: Hero1Route,
   InvestorsRoute: InvestorsRoute,
+  LogoOptionsRoute: LogoOptionsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   PrivateLabelRoute: PrivateLabelRoute,
   ProductsRoute: ProductsRoute,
