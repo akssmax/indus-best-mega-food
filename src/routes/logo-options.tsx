@@ -8,7 +8,7 @@ export const Route = createFileRoute("/logo-options")({
     seoHead({
       title: "A new mark for Indus | Logo exploration",
       description:
-        "Five minimal vector identities for Indus Best Mega Food Park.",
+        "Nine minimal vector identities for Indus Best Mega Food Park.",
       path: "/logo-options",
       noindex: true,
     }),
@@ -27,6 +27,92 @@ const variants = [
   "symbol-white",
   "symbol-green",
 ]
+function HeroPreview({ concept }: { concept: LogoConcept }) {
+  return (
+    <section
+      aria-label={`${concept.name} hero preview`}
+      className="border-t border-[#d8dfd5]"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-[#f3f5ec] px-6 py-4">
+        <p className="text-[10px] font-semibold tracking-[0.16em] text-[#657365] uppercase">
+          In context / Website hero
+        </p>
+        <span className="text-xs text-[#657365]">{concept.name}</span>
+      </div>
+      <div className="bg-[#123c2d] text-white">
+        <div className="flex items-center justify-between gap-4 border-b border-white/15 px-6 py-5 md:px-10">
+          <LogoArtwork
+            concept={concept}
+            variant="reversed"
+            className="w-48 max-w-[65%]"
+          />
+          <span className="hidden text-xs text-white/75 sm:block">
+            About us / Facilities / Investors
+          </span>
+          <span aria-hidden="true" className="text-xl sm:hidden">
+            ☰
+          </span>
+        </div>
+        <div className="grid md:grid-cols-[1.15fr_1fr]">
+          <div className="px-6 py-10 md:px-10 md:py-14">
+            <p className="text-[10px] font-semibold tracking-[0.18em] text-[#b4cf91] uppercase">
+              A connected food ecosystem
+            </p>
+            <h3 className="mt-4 font-sans text-3xl leading-[1.1] font-semibold tracking-tight sm:text-4xl">
+              Great food businesses
+              <br />
+              grow here.
+            </h3>
+            <p className="mt-5 max-w-sm text-sm leading-6 text-white/75">
+              From harvest to market. The space, infrastructure and connections
+              to build your next chapter.
+            </p>
+            <a
+              href="/facilities"
+              className="mt-7 inline-flex items-center gap-6 rounded-md bg-[#d9ebac] px-5 py-3 text-sm font-semibold text-[#123c2d] hover:bg-white"
+            >
+              Explore the park <span aria-hidden="true">↗</span>
+            </a>
+            <div className="mt-9 flex items-center gap-3 border-t border-white/15 pt-5">
+              <LogoArtwork
+                concept={concept}
+                variant="symbol-white"
+                className="size-8"
+              />
+              <span className="text-xs text-white/65">
+                Rooted in agriculture. Built for business.
+              </span>
+            </div>
+          </div>
+          <div className="relative min-h-64 overflow-hidden">
+            <img
+              src="/images/admin-building.jpg"
+              alt="Indus Best Mega Food Park campus building"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute right-5 bottom-5 left-5 flex items-center gap-4 rounded-lg bg-[#f3f5ec] p-5 text-[#164b35]">
+              <LogoArtwork
+                concept={concept}
+                variant="symbol"
+                className="size-12"
+              />
+              <div>
+                <p className="text-sm font-semibold">
+                  A place to make more possible.
+                </p>
+                <p className="mt-1 text-xs text-[#657365]">
+                  Indus Best Mega Food Park · Raipur
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 const label = "text-[10px] font-semibold uppercase tracking-[0.16em]"
 function ConceptCard({ concept }: { concept: LogoConcept }) {
   return (
@@ -41,6 +127,11 @@ function ConceptCard({ concept }: { concept: LogoConcept }) {
             {concept.name}
           </h2>
         </div>
+        {Number(concept.number) >= 6 && (
+          <span className="rounded-full bg-[#164b35] px-3 py-2 text-xs font-semibold text-white">
+            New direction
+          </span>
+        )}
         {concept.number === "01" && (
           <span className="rounded-full bg-[#e9f0dc] px-3 py-2 text-xs font-semibold">
             Recommended
@@ -131,6 +222,7 @@ function ConceptCard({ concept }: { concept: LogoConcept }) {
           className="h-12 max-w-full"
         />
       </div>
+      <HeroPreview concept={concept} />
       <details className="border-t border-[#d8dfd5] p-6">
         <summary className="cursor-pointer text-sm font-semibold">
           Download SVG files · 10 variants
@@ -159,7 +251,7 @@ function LogoOptionsPage() {
         <div className="flex flex-wrap justify-between gap-3 border-b border-[#d8dfd5] pb-5">
           <p className={label}>Indus Best Mega Food Park</p>
           <p className={`${label} text-[#657365]`}>
-            Identity exploration / 01—05
+            Identity exploration / 01—09
           </p>
         </div>
         <div className="grid items-end gap-8 py-12 md:grid-cols-[1.5fr_1fr]">
@@ -170,18 +262,18 @@ function LogoOptionsPage() {
           </h1>
           <div>
             <p className="max-w-md text-base leading-7 text-[#5c695f]">
-              Five simple identities for a connected food industry. Built from
+              Nine simple identities for a connected food industry. Built from
               purposeful geometry, open space and a confident, human sans-serif.
             </p>
             <a
               href="#concepts"
               className="mt-6 inline-block border-b border-[#164b35] pb-1 text-sm font-semibold"
             >
-              Explore the five directions ↓
+              Explore the nine directions ↓
             </a>
           </div>
         </div>
-        <div className="grid grid-cols-5 gap-2 md:gap-4">
+        <div className="grid grid-cols-3 gap-2 md:gap-4 lg:grid-cols-5">
           {logoConcepts.map((c) => (
             <a
               href={`#${c.id}`}
