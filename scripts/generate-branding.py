@@ -15,10 +15,9 @@ palettes=[
 ]
 options=[
  {'id':'familiar','name':'Familiar Canopy','tag':'Your preferred direction','note':'The mark you liked: a broad green canopy, simple arched badge and a clear white drop. The closest starting point for refinement.', 'paths':shared['marks']['heritage-canopy']},
- {'id':'gateway','name':'Gateway Canopy','tag':'A different silhouette','note':'An open park gate instead of a filled badge. The familiar leaf still crowns the arch, and the water drop hangs in the entrance — same story, a more architectural mark.', 'paths':[
- 'M6 46C6 26 17 16 32 16C47 16 58 26 58 46H46C46 32 40 24 32 24C24 24 18 32 18 46Z',
- 'M6 34C10 14 20 8 32 8C45 8 54 14 58 32C46 28 38 22 32 22C24 22 14 28 6 34Z',
- 'M32 30C27 38 23 42 23 47C23 52 27 56 32 56C37 56 41 52 41 47C41 42 37 38 32 30Z']},
+ {'id':'gateway','name':'Open Canopy','tag':'Leaf and drop only','note':'The extra gateway is gone. A simple green canopy sits above a clear water drop — two shapes, the same story, without the filled badge.', 'paths':[
+ 'M32 34C27 42 23 46 23 51C23 56 27 58 32 58C37 58 41 56 41 51C41 46 37 42 32 34Z',
+ 'M8 30C12 12 22 8 32 8C42 8 52 12 56 30C48 22 40 18 32 18C24 18 16 22 8 30Z']},
  {'id':'grounded','name':'Grounded Canopy','tag':'Original base restored','note':'The familiar canopy and drop sit above a separated foundation. It recalls the original name band, with the lettering moved into a legible wordmark.', 'paths':[
  'M6 38C6 22 17 10 32 10C47 10 58 22 58 38V44H6ZM32 24C28 29 25 32 25 36C25 40 28 42 32 42C36 42 39 40 39 36C39 32 36 29 32 24Z',
  'M7 31C10 18 20 10 32 10C44 10 53 17 57 30C44 30 38 25 31 21C22 16 14 20 7 31Z',

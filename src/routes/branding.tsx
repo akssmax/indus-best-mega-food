@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import studies from "@/components/brand/branding-studies.json"
+import { landing } from "@/content/landing"
+import { site } from "@/content/site"
 import { seoHead } from "@/lib/seo"
 
 export const Route = createFileRoute("/branding")({
@@ -16,6 +18,101 @@ export const Route = createFileRoute("/branding")({
 const eyebrow = "text-[10px] font-semibold uppercase tracking-[0.18em]"
 const asset = (id: string, palette = "forest", variant = "horizontal") =>
   `/brand/branding/${id}/${palette}/${variant}.svg`
+const mockups = [
+  { id: "cap", label: "Cap" },
+  { id: "billboard", label: "Billboard" },
+  { id: "campus", label: "Campus gate" },
+] as const
+
+function LandingHeroPreview({ id, name }: { id: string; name: string }) {
+  const hero = landing.hero
+  return (
+    <section className="border-t border-[#d5ddd2]">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-6 py-4 md:px-8">
+        <p className={`${eyebrow} text-[#70806e]`}>On the landing page / Hero</p>
+        <span className="text-xs text-[#5f7162]">{name} in the live header</span>
+      </div>
+      <div className="bg-[#164b35] text-white">
+        <div className="flex items-center justify-between gap-4 border-b border-white/15 px-5 py-3 md:px-8">
+          <img
+            src={asset(id, "forest", "reversed")}
+            alt={`${name} in the site header`}
+            className="h-8 w-auto md:h-9"
+          />
+          <p className="hidden text-xs text-white/70 lg:block">
+            {site.nav.map((item) => item.label).join("  ·  ")}
+          </p>
+          <span className="rounded-md bg-[#d4a84b] px-3 py-1.5 text-xs font-semibold text-[#2a2110]">
+            Enquire now
+          </span>
+        </div>
+        <div className="grid md:grid-cols-[1.15fr_1fr]">
+          <div className="px-5 py-8 md:px-8 md:py-10">
+            <p className={`${eyebrow} text-[#d4a84b]`}>{hero.eyebrow}</p>
+            <h4 className="mt-3 font-sans text-2xl font-semibold tracking-tight md:text-3xl">
+              {hero.headline}
+            </h4>
+            <p className="mt-4 max-w-md text-sm leading-6 text-white/75">
+              {hero.body}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <span className="rounded-md bg-[#d4a84b] px-4 py-2 text-sm font-semibold text-[#2a2110]">
+                {hero.primaryCta.label}
+              </span>
+              <span className="rounded-md border border-white/30 px-4 py-2 text-sm">
+                {hero.secondaryCta.label}
+              </span>
+            </div>
+            <dl className="mt-8 grid grid-cols-2 gap-3 border-t border-white/15 pt-5 sm:grid-cols-4">
+              {hero.stats.map((stat) => (
+                <div key={stat.label}>
+                  <dt className="text-lg font-semibold">{stat.value}</dt>
+                  <dd className="text-[10px] tracking-wide text-white/60 uppercase">
+                    {stat.label}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="relative min-h-52">
+            <img
+              src={hero.image.src}
+              alt={hero.image.alt}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ApplicationMockups({ id, name }: { id: string; name: string }) {
+  return (
+    <section className="border-t border-[#d5ddd2] p-6 md:p-8">
+      <p className={`${eyebrow} mb-6 text-[#70806e]`}>
+        In the world / Three mockups
+      </p>
+      <div className="grid gap-4 md:grid-cols-3">
+        {mockups.map((mockup) => (
+          <figure
+            key={mockup.id}
+            className="overflow-hidden rounded-xl border border-[#d5ddd2] bg-[#f7f8f2]"
+          >
+            <img
+              src={`/brand/mockups/${id}/${mockup.id}.png`}
+              alt={`${name} on a ${mockup.label.toLowerCase()}`}
+              className="aspect-[4/3] w-full object-cover"
+            />
+            <figcaption className="px-4 py-3 text-xs font-semibold">
+              {mockup.label}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  )
+}
 
 function BrandingPage() {
   return (
@@ -39,7 +136,7 @@ function BrandingPage() {
           <p className="max-w-md text-base leading-7 text-[#5f7162]">
             Keep the identity people know. Refine the canopy, protect the
             familiar arch and bring the colors into balance. Three close
-            variations of your preferred mark, plus a more architectural
+            variations of your preferred mark, plus a simpler leaf-and-drop
             alternative, alongside the actual original.
           </p>
         </div>
@@ -58,6 +155,12 @@ function BrandingPage() {
             className="rounded-full border border-[#cbd7c7] px-5 py-3"
           >
             Four refinements ↓
+          </a>
+          <a
+            href="#familiar"
+            className="rounded-full border border-[#cbd7c7] px-5 py-3"
+          >
+            Hero & mockups ↓
           </a>
         </nav>
       </section>
@@ -146,10 +249,9 @@ function BrandingPage() {
           The familiar canopy, four ways.
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-[#5f7162]">
-          Three stay close to the filled badge you liked. Gateway Canopy opens
-          the silhouette into a park entrance, with the leaf and drop still in
-          place. Every color version is shown together so you can compare them
-          directly.
+          Three stay close to the filled badge you liked. Open Canopy keeps only
+          the leaf and the water drop. Every color version is shown together so
+          you can compare them directly.
         </p>
         <div className="my-8 grid grid-cols-2 gap-3 md:grid-cols-4">
           {studies.options.map((o, i) => (
@@ -201,6 +303,8 @@ function BrandingPage() {
                   {o.note}
                 </p>
               </div>
+              <LandingHeroPreview id={o.id} name={o.name} />
+              <ApplicationMockups id={o.id} name={o.name} />
               <div className="border-t border-[#d5ddd2] p-6 md:p-8">
                 <p className={`${eyebrow} mb-6 text-[#70806e]`}>
                   Color comparison / All four palettes

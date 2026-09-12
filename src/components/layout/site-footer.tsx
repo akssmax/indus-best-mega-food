@@ -5,6 +5,7 @@ import { createContext, useContext } from "react"
 import { Link } from "@tanstack/react-router"
 import { ArrowRightIcon } from "lucide-react"
 
+import { SiteBrandMark } from "@/components/brand/site-brand-mark"
 import { useSiteContent } from "@/lib/site-content-context"
 import { landing } from "@/content/landing"
 import { ColorModeToggle } from "@/components/theme/color-mode-toggle"
@@ -94,20 +95,19 @@ function BrandMark({
   className?: string
 }) {
   const site = useSiteContent()
+  const tone = useContext(FooterToneContext)
+
   return (
-    <Link to="/" className={cn("flex min-w-0 items-center gap-3", className)}>
-      <img
-        src={site.logo.src}
-        alt=""
-        className={cn(
-          "w-auto rounded-md bg-background p-1",
-          size === "sm" && "h-9",
-          size === "md" && "h-12",
-          size === "lg" && "h-14"
-        )}
-        width={124}
-        height={88}
-      />
+    <SiteBrandMark
+      tone={tone === "dark" ? "inverse" : "color"}
+      className={cn("gap-3", className)}
+      imgClassName={cn(
+        "w-auto",
+        size === "sm" && "h-9",
+        size === "md" && "h-12 sm:h-12",
+        size === "lg" && "h-14 sm:h-14"
+      )}
+    >
       <span
         className={cn(
           "min-w-0 font-heading leading-tight font-semibold",
@@ -118,7 +118,7 @@ function BrandMark({
       >
         {site.name}
       </span>
-    </Link>
+    </SiteBrandMark>
   )
 }
 

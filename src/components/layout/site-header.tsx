@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { Link, useRouterState } from "@tanstack/react-router"
+import { useRouterState } from "@tanstack/react-router"
 import { MenuIcon, XIcon } from "lucide-react"
 
+import { SiteBrandMark } from "@/components/brand/site-brand-mark"
 import { useSiteContent } from "@/lib/site-content-context"
 import { ThemePopover } from "@/components/theme/theme-selector"
 import { Button } from "@/components/ui/button"
@@ -25,12 +26,11 @@ function BrandMark({
   className?: string
   tone: HeaderTone
 }) {
-  const site = useSiteContent()
   return (
-    <Link
-      to="/"
+    <SiteBrandMark
+      tone={tone === "forest" ? "inverse" : "color"}
       className={cn(
-        "flex min-w-0 items-center gap-2 rounded-lg outline-none sm:gap-2.5",
+        "gap-2 sm:gap-2.5",
         "transition-colors duration-300",
         tone === "forest"
           ? "focus-visible:ring-3 focus-visible:ring-forest-foreground/30"
@@ -38,13 +38,6 @@ function BrandMark({
         className
       )}
     >
-      <img
-        src={site.logo.src}
-        alt=""
-        className="h-9 w-auto shrink-0 sm:h-10"
-        width={124}
-        height={88}
-      />
       <span
         className={cn(
           "min-w-0 font-heading text-[13px] font-semibold leading-[1.15] transition-colors duration-300 sm:text-sm lg:text-[15px]",
@@ -55,7 +48,7 @@ function BrandMark({
         <br />
         Food Park
       </span>
-    </Link>
+    </SiteBrandMark>
   )
 }
 

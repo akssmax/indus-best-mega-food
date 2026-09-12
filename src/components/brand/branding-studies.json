@@ -42,9 +42,9 @@
     },
     {
       "id": "gateway",
-      "name": "Gateway Canopy",
-      "tag": "A different silhouette",
-      "note": "An open park gate instead of a filled badge. The familiar leaf still crowns the arch, and the water drop hangs in the entrance \u2014 same story, a more architectural mark."
+      "name": "Open Canopy",
+      "tag": "Leaf and drop only",
+      "note": "The extra gateway is gone. A simple green canopy sits above a clear water drop \u2014 two shapes, the same story, without the filled badge."
     },
     {
       "id": "grounded",
