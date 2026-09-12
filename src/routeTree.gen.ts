@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AppRouteRouteImport } from './routes/app/route'
+import { Route as BrandingRouteImport } from './routes/branding'
 import { Route as CampusRouteImport } from './routes/campus'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -51,6 +52,11 @@ const AboutRoute = AboutRouteImport.update({
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
   path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandingRoute = BrandingRouteImport.update({
+  id: '/branding',
+  path: '/branding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampusRoute = CampusRouteImport.update({
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/branding': typeof BrandingRoute
   '/campus': typeof CampusRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
@@ -217,6 +224,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/branding': typeof BrandingRoute
   '/campus': typeof CampusRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
@@ -247,6 +255,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/branding': typeof BrandingRoute
   '/campus': typeof CampusRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
@@ -279,6 +288,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/about'
+    | '/branding'
     | '/campus'
     | '/careers'
     | '/contact'
@@ -307,6 +317,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/branding'
     | '/campus'
     | '/careers'
     | '/contact'
@@ -336,6 +347,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/about'
+    | '/branding'
     | '/campus'
     | '/careers'
     | '/contact'
@@ -367,6 +379,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  BrandingRoute: typeof BrandingRoute
   CampusRoute: typeof CampusRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
@@ -405,6 +418,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/branding': {
+      id: '/branding'
+      path: '/branding'
+      fullPath: '/branding'
+      preLoaderRoute: typeof BrandingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campus': {
@@ -631,6 +651,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  BrandingRoute: BrandingRoute,
   CampusRoute: CampusRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,

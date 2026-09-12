@@ -22,6 +22,16 @@ def lettering(text, x, y, size, color, spacing=0):
 
 # Each mark uses only two or three filled shapes. Gaps are transparent.
 marks = {
+ 'heritage-canopy': [
+ 'M6 38C6 22 17 10 32 10C47 10 58 22 58 38V50C58 53 56 55 53 55H11C8 55 6 53 6 50ZM32 25C28 31 24 36 24 40C24 45 28 48 32 48C36 48 40 45 40 40C40 36 36 31 32 25Z',
+ 'M7 31C10 18 20 10 32 10C44 10 53 17 57 30C44 30 38 25 31 21C22 16 14 20 7 31Z'],
+ 'heritage-source': [
+ 'M6 42C6 23 17 10 32 10C47 10 58 23 58 42H50C50 28 43 18 32 18C21 18 14 28 14 42Z',
+ 'M18 18C29 12 45 16 54 28C39 31 26 27 18 18Z',
+ 'M32 28C27 35 23 40 23 45C23 51 27 55 32 55C37 55 41 51 41 45C41 40 37 35 32 28Z'],
+ 'heritage-campus': [
+ 'M6 40C6 23 17 10 32 10C47 10 58 23 58 40ZM32 23C28 29 25 32 25 35H39C39 32 36 29 32 23Z',
+ 'M6 46H58V49C58 53 55 56 51 56H13C9 56 6 53 6 49Z'],
  'organic-food-hub': [
  'M8 8H30C44 8 56 20 56 34V56H34C20 56 8 44 8 30ZM20 32C20 40 26 46 34 46C34 38 28 32 20 32Z',
  'M8 8H30C40 8 49 14 53 22H30C20 22 12 17 8 8Z'],
@@ -78,3 +88,18 @@ for name, paths in marks.items():
                 shapes += lettering('Indus Best',82,36,32,main) + lettering('MEGA FOOD PARK',83,57,11,main,1.5)
         svg = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" aria-label="Indus Best Mega Food Park — {name}, {variant}">{shapes}</svg>\n'
         (folder/f'{variant}.svg').write_text(svg)
+
+# Color variants share the exact same geometry and outlined lettering.
+import json
+palettes = json.loads((root/'src/components/brand/logo-palettes.json').read_text())
+for name in marks:
+    folder = root/'public/brand'/name
+    for palette in palettes:
+        if palette['id'] == 'forest':
+            continue
+        target = folder/palette['id']
+        target.mkdir(exist_ok=True)
+        for variant in ['primary', 'horizontal', 'compact', 'symbol']:
+            svg = (folder/f'{variant}.svg').read_text()
+            svg = svg.replace('#164B35', palette['main']).replace('#78AF45', palette['accent'])
+            (target/f'{variant}.svg').write_text(svg)

@@ -1,0 +1,62 @@
+{
+  "palettes": [
+    {
+      "id": "forest",
+      "name": "Forest & Leaf",
+      "field": "#164B35",
+      "canopy": "#78AF45",
+      "base": "#164B35",
+      "note": "Our recommendation: familiar agriculture, with a deeper, calmer green."
+    },
+    {
+      "id": "river",
+      "name": "River & Forest",
+      "field": "#34798C",
+      "canopy": "#1C563C",
+      "base": "#1C563C",
+      "note": "Closest to the original blue-and-green identity, with restrained saturation."
+    },
+    {
+      "id": "olive",
+      "name": "Olive & Sage",
+      "field": "#485438",
+      "canopy": "#A4B471",
+      "base": "#485438",
+      "note": "A softer, earthy alternative that feels natural and established."
+    },
+    {
+      "id": "harvest",
+      "name": "Forest & Gold",
+      "field": "#174B3B",
+      "canopy": "#DBAC4E",
+      "base": "#174B3B",
+      "note": "Warm harvest color brings a more food-focused accent."
+    }
+  ],
+  "options": [
+    {
+      "id": "familiar",
+      "name": "Familiar Canopy",
+      "tag": "Your preferred direction",
+      "note": "The mark you liked: a broad green canopy, simple arched badge and a clear white drop. The closest starting point for refinement."
+    },
+    {
+      "id": "gateway",
+      "name": "Gateway Canopy",
+      "tag": "A different silhouette",
+      "note": "An open park gate instead of a filled badge. The familiar leaf still crowns the arch, and the water drop hangs in the entrance \u2014 same story, a more architectural mark."
+    },
+    {
+      "id": "grounded",
+      "name": "Grounded Canopy",
+      "tag": "Original base restored",
+      "note": "The familiar canopy and drop sit above a separated foundation. It recalls the original name band, with the lettering moved into a legible wordmark."
+    },
+    {
+      "id": "sheltered",
+      "name": "Sheltered Canopy",
+      "tag": "Softer leaf, same identity",
+      "note": "A gently rising leaf edge gives the canopy more movement. The round-tipped water drop stays centered within the same recognizable arched outline."
+    }
+  ]
+}

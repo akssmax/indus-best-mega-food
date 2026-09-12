@@ -1,0 +1,44 @@
+[
+  {
+    "id": "forest",
+    "name": "Forest & Leaf",
+    "main": "#164B35",
+    "accent": "#78AF45",
+    "note": "The original. Grounded, agricultural and dependable."
+  },
+  {
+    "id": "harvest",
+    "name": "Forest & Harvest",
+    "main": "#174B3B",
+    "accent": "#E8AD35",
+    "note": "Warm harvest gold adds a stronger food connection."
+  },
+  {
+    "id": "terracotta",
+    "name": "Olive & Terracotta",
+    "main": "#414D32",
+    "accent": "#CE704F",
+    "note": "Earthy and distinctive, with a natural materials feel."
+  },
+  {
+    "id": "teal",
+    "name": "Deep Teal & Lime",
+    "main": "#09585B",
+    "accent": "#AFCE54",
+    "note": "Fresh and progressive for a modern food ecosystem."
+  },
+  {
+    "id": "indigo",
+    "name": "Indigo & Leaf",
+    "main": "#283F68",
+    "accent": "#82B45C",
+    "note": "A restrained blue direction with agricultural green."
+  },
+  {
+    "id": "aubergine",
+    "name": "Aubergine & Saffron",
+    "main": "#55364E",
+    "accent": "#E5AD46",
+    "note": "A warmer, more distinctive food-business identity."
+  }
+]

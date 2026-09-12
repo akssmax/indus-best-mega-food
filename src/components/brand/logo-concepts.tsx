@@ -1,3 +1,19 @@
+import { createContext, useContext } from "react"
+import paletteData from "./logo-palettes.json"
+
+export const logoPalettes = paletteData
+export const LogoPaletteContext = createContext(logoPalettes[0])
+export function logoAssetUrl(
+  conceptId: string,
+  variant: string,
+  paletteId: string
+) {
+  const colored = ["primary", "horizontal", "compact", "symbol"].includes(
+    variant
+  )
+  return `/brand/${conceptId}/${colored && paletteId !== "forest" ? `${paletteId}/` : ""}${variant}.svg`
+}
+
 export const logoConcepts = [
   {
     id: "organic-food-hub",
@@ -113,6 +129,45 @@ export const logoConcepts = [
     tradeoff: "The F is a sector cue rather than a brand initial.",
     scores: [4, 5, 4, 5, 4, 4],
   },
+  {
+    id: "heritage-canopy",
+    number: "10",
+    name: "Heritage Canopy",
+    idea: "The familiar mark, distilled.",
+    rationale:
+      "The original arched badge and sweeping canopy remain, reduced to two clean filled shapes. A large transparent water drop replaces the highlighted illustration. Forest green anchors the badge; the lighter canopy adds freshness. IBMFP moves outside the symbol for clarity.",
+    strength:
+      "The closest connection to the supplied logo, with fewer details and a stronger small-size silhouette.",
+    tradeoff:
+      "Retains more of the institutional badge character than the abstract concepts.",
+    scores: [4, 5, 4, 5, 3, 4],
+  },
+  {
+    id: "heritage-source",
+    number: "11",
+    name: "Heritage Source",
+    idea: "Open the canopy. Keep the source.",
+    rationale:
+      "The reference arch becomes an open shelter around a single solid drop. A broad leaf sweeps across its crown, replacing every vein with one organic curve. Three substantial shapes retain the original water-and-agriculture story with more breathing room.",
+    strength:
+      "A lighter evolution with a recognizable canopy and water cue, without an enclosing badge.",
+    tradeoff:
+      "The open arch and drop need more separation than the closed badge at very small sizes.",
+    scores: [4, 4, 4, 4, 4, 4],
+  },
+  {
+    id: "heritage-campus",
+    number: "12",
+    name: "Heritage Campus",
+    idea: "A familiar foundation, made precise.",
+    rationale:
+      "The clipped base from the third reference becomes a clean rounded foundation beneath a symmetrical canopy. A broad horizontal gap opens the badge; a seed-like water opening keeps the original source cue. Two filled shapes replace masks, clipping and embedded initials.",
+    strength:
+      "The most architectural heritage option, with a sturdy base and clear negative space.",
+    tradeoff:
+      "The simplified arch emphasizes infrastructure more than the organic canopy.",
+    scores: [4, 5, 4, 5, 3, 4],
+  },
 ] as const
 
 export type LogoConcept = (typeof logoConcepts)[number]
@@ -125,9 +180,10 @@ export function LogoArtwork({
   variant?: string
   className?: string
 }) {
+  const palette = useContext(LogoPaletteContext)
   return (
     <img
-      src={`/brand/${concept.id}/${variant}.svg`}
+      src={logoAssetUrl(concept.id, variant, palette.id)}
       alt={`${concept.name} — ${variant.replaceAll("-", " ")} logo`}
       className={className}
     />
