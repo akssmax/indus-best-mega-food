@@ -1,325 +1,307 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { ArrowRightIcon, MenuIcon } from "lucide-react"
-
-import {
-  DropIAlternateSymbol,
-  LogoLockup,
-  LogoSymbol,
-  dropIAlternates,
-  logoConcepts,
-} from "@/components/brand/logo-concepts"
-import { OceanBackground } from "@/components/landing/ocean-background"
-import { Eyebrow, Section } from "@/components/landing/section"
-import { PageHero } from "@/components/layout/page-hero"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { LogoArtwork, logoConcepts } from "@/components/brand/logo-concepts"
+import type { LogoConcept } from "@/components/brand/logo-concepts"
 import { seoHead } from "@/lib/seo"
 
 export const Route = createFileRoute("/logo-options")({
   head: () =>
     seoHead({
-      title: "Logo options | Indus Best Mega Food Park",
+      title: "A new mark for Indus | Logo exploration",
       description:
-        "Internal brand exploration for the Indus Best Mega Food Park identity.",
+        "Five minimal vector identities for Indus Best Mega Food Park.",
       path: "/logo-options",
       noindex: true,
     }),
   component: LogoOptionsPage,
 })
 
-function MiniNavigation({
-  concept,
-  tone,
-}: {
-  concept: (typeof logoConcepts)[number]
-  tone: "paper" | "forest"
-}) {
-  const forest = tone === "forest"
-
-  return (
-    <div
-      className={
-        forest
-          ? "relative flex h-16 items-center gap-3 border-b border-forest-foreground/10 bg-forest px-4"
-          : "flex h-16 items-center gap-3 border-b border-border/70 bg-background px-4"
-      }
-    >
-      <LogoLockup concept={concept} tone={tone} compact />
-      <div
-        aria-hidden
-        className={
-          forest
-            ? "ml-auto hidden items-center gap-3 text-[0.58rem] font-medium text-forest-foreground/65 sm:flex"
-            : "ml-auto hidden items-center gap-3 text-[0.58rem] font-medium text-muted-foreground sm:flex"
-        }
-      >
-        <span>About</span>
-        <span>Facilities</span>
-        <span>Investors</span>
-      </div>
-      <span
-        className={
-          forest
-            ? "ml-auto grid size-8 place-items-center rounded-lg border border-forest-foreground/20 text-forest-foreground sm:ml-0"
-            : "ml-auto grid size-8 place-items-center rounded-lg border border-border text-foreground sm:ml-0"
-        }
-      >
-        <MenuIcon className="size-3.5" />
-      </span>
-    </div>
-  )
-}
-
-function HeroApplication({
-  concept,
-}: {
-  concept: (typeof logoConcepts)[number]
-}) {
-  return (
-    <div className="relative isolate min-h-64 overflow-hidden bg-forest px-5 pt-5 text-forest-foreground sm:min-h-72 sm:px-6">
-      <OceanBackground
-        tone="forest"
-        placement="fill"
-        scale={1.45}
-        interaction="static"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-8 -bottom-14 size-48 rounded-full bg-cta/18 blur-3xl"
-      />
-      <div className="relative z-10">
-        <LogoLockup concept={concept} tone="forest" compact />
-        <div className="mt-10 max-w-sm sm:mt-12">
-          <p className="text-[0.58rem] font-semibold tracking-[0.2em] text-cta uppercase">
-            Ready infrastructure
-          </p>
-          <h3 className="mt-2 font-heading text-2xl leading-tight sm:text-[1.7rem]">
-            From crop to market,
-            <br />
-            on one campus.
-          </h3>
-          <div className="mt-5 inline-flex items-center gap-1.5 rounded-lg bg-cta px-3 py-2 text-[0.65rem] font-semibold text-cta-foreground">
-            Explore the park
-            <ArrowRightIcon className="size-3" />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ScaleTest({
-  concept,
-}: {
-  concept: (typeof logoConcepts)[number]
-}) {
-  return (
-    <div className="grid grid-cols-[auto_1fr] items-center gap-5 rounded-xl border border-border/60 bg-muted/35 px-4 py-3">
-      <div className="flex items-end gap-3">
-        <LogoSymbol
-          conceptId={concept.id}
-          className="size-12"
-          title={`${concept.name} mark at 48 pixels`}
-        />
-        <LogoSymbol
-          conceptId={concept.id}
-          className="size-8"
-          title={`${concept.name} mark at 32 pixels`}
-        />
-        <LogoSymbol
-          conceptId={concept.id}
-          className="size-5"
-          title={`${concept.name} mark at 20 pixels`}
-        />
-      </div>
-      <p className="text-right text-[0.62rem] leading-relaxed font-medium tracking-[0.12em] text-muted-foreground uppercase">
-        48 / 32 / 20 px
-      </p>
-    </div>
-  )
-}
-
-function DropIStudies() {
-  return (
-    <section className="border-t border-border/60 bg-muted/25 p-5 sm:p-6">
-      <div className="mb-5">
-        <p className="text-[0.6rem] font-semibold tracking-[0.18em] text-cta uppercase">
-          08A–08E · Alternate studies
-        </p>
-        <h4 className="mt-1.5 font-heading text-xl">Five ways to refine Drop I.</h4>
-        <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          The same core ingredients—structural I, water drop, and leaf—tested
-          with different weight, balance, and silhouette.
-        </p>
-      </div>
-
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {dropIAlternates.map((alternate, index) => (
-          <div
-            key={alternate.id}
-            className="overflow-hidden rounded-2xl border border-border/70 bg-background"
-          >
-            <div className="grid min-h-36 place-items-center p-6">
-              <DropIAlternateSymbol
-                variant={alternate.id}
-                className="size-20"
-                title={`${alternate.label} Drop I alternate`}
-              />
-            </div>
-            <div className="flex items-center gap-2 border-y border-border/60 bg-forest px-3 py-2.5">
-              <DropIAlternateSymbol
-                variant={alternate.id}
-                tone="forest"
-                className="size-7"
-              />
-              <div className="min-w-0 text-forest-foreground">
-                <div className="text-[0.62rem] leading-none font-bold tracking-[0.08em]">
-                  INDUS
-                </div>
-                <div className="mt-0.5 text-[0.38rem] tracking-[0.1em] text-forest-foreground/65 uppercase">
-                  Mega Food Park
-                </div>
-              </div>
-            </div>
-            <div className="p-3.5">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-[0.58rem] font-semibold text-cta">
-                  08{String.fromCharCode(65 + index)}
-                </span>
-                <h5 className="text-sm font-semibold">{alternate.label}</h5>
-              </div>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                {alternate.note}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function ConceptCard({
-  concept,
-}: {
-  concept: (typeof logoConcepts)[number]
-}) {
+const variants = [
+  "primary",
+  "horizontal",
+  "compact",
+  "symbol",
+  "monochrome",
+  "reversed",
+  "green",
+  "symbol-black",
+  "symbol-white",
+  "symbol-green",
+]
+const label = "text-[10px] font-semibold uppercase tracking-[0.16em]"
+function ConceptCard({ concept }: { concept: LogoConcept }) {
   return (
     <article
       id={concept.id}
-      className="group overflow-hidden rounded-3xl border border-border/70 bg-card shadow-[0_18px_60px_rgba(15,43,29,0.07)]"
+      className="scroll-mt-24 overflow-hidden rounded-2xl border border-[#d8dfd5] bg-white"
     >
-      <div className="flex items-start justify-between gap-5 border-b border-border/60 p-5 sm:p-6">
+      <div className="flex items-start justify-between gap-6 border-b border-[#d8dfd5] p-6 md:p-8">
         <div>
-          <div className="flex items-center gap-2.5">
-            <span className="font-mono text-[0.65rem] font-semibold tracking-[0.16em] text-cta">
-              {concept.number}
-            </span>
-            <Eyebrow>{concept.name}</Eyebrow>
-          </div>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+          <p className={`${label} text-[#657365]`}>Concept {concept.number}</p>
+          <h2 className="mt-2 font-sans text-2xl font-semibold tracking-tight">
+            {concept.name}
+          </h2>
+        </div>
+        {concept.number === "01" && (
+          <span className="rounded-full bg-[#e9f0dc] px-3 py-2 text-xs font-semibold">
+            Recommended
+          </span>
+        )}
+      </div>
+      <div className="grid md:grid-cols-[1.2fr_1fr]">
+        <div className="relative flex min-h-72 items-center justify-center bg-[#f3f5ec] p-9">
+          <span className={`${label} absolute top-5 left-6 text-[#657365]`}>
+            Primary identity
+          </span>
+          <LogoArtwork
+            concept={concept}
+            variant="primary"
+            className="w-full max-w-72"
+          />
+        </div>
+        <div className="flex flex-col justify-center p-6 md:p-8">
+          <h3 className="font-sans text-xl font-semibold">{concept.idea}</h3>
+          <p className="mt-4 text-sm leading-7 text-[#5c695f]">
             {concept.rationale}
           </p>
+          <p className="mt-5 border-l-2 border-[#78af45] pl-4 text-sm leading-6">
+            {concept.strength}
+          </p>
         </div>
-        <LogoSymbol
-          conceptId={concept.id}
-          className="size-12 transition-transform duration-500 group-hover:scale-105 sm:size-14"
-          title={`${concept.name} logo`}
-        />
       </div>
-
-      <div className="grid min-h-52 place-items-center bg-background/45 p-8 sm:p-10">
-        <LogoLockup
+      <div className="grid border-y border-[#d8dfd5] md:grid-cols-2">
+        <div className="p-6">
+          <p className={`${label} mb-6 text-[#657365]`}>
+            Horizontal / website & documents
+          </p>
+          <LogoArtwork concept={concept} className="h-16 max-w-full" />
+        </div>
+        <div className="bg-[#164b35] p-6 text-white">
+          <p className={`${label} mb-6 text-white/70`}>Reversed / pure white</p>
+          <LogoArtwork
+            concept={concept}
+            variant="reversed"
+            className="h-16 max-w-full"
+          />
+        </div>
+      </div>
+      <div className="grid sm:grid-cols-3">
+        <div className="p-6">
+          <p className={`${label} mb-6 text-[#657365]`}>Compact</p>
+          <LogoArtwork
+            concept={concept}
+            variant="compact"
+            className="h-12 max-w-full"
+          />
+        </div>
+        <div className="bg-[#f6f6f2] p-6">
+          <p className={`${label} mb-6 text-[#657365]`}>Single-color green</p>
+          <LogoArtwork
+            concept={concept}
+            variant="symbol-green"
+            className="size-12"
+          />
+        </div>
+        <div className="p-6">
+          <p className={`${label} mb-6 text-[#657365]`}>
+            Symbol / actual pixels
+          </p>
+          <div className="flex items-end gap-5">
+            {[48, 32, 24].map((size) => (
+              <div key={size} style={{ width: size }}>
+                <LogoArtwork
+                  concept={concept}
+                  variant="symbol"
+                  className="w-full"
+                />
+                <span className="mt-2 block text-[10px] text-[#657365]">
+                  {size}px
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[#d8dfd5] p-6">
+        <span className={`${label} text-[#657365]`}>
+          Black / transparent background
+        </span>
+        <LogoArtwork
           concept={concept}
-          symbolClassName="size-16 sm:size-20"
-          className="scale-105 sm:scale-110"
+          variant="monochrome"
+          className="h-12 max-w-full"
         />
       </div>
-
-      <div className="grid border-y border-border/60 lg:grid-cols-2">
-        <div className="border-b border-border/60 lg:border-r lg:border-b-0">
-          <div className="border-b border-border/60 bg-muted/30 px-4 py-2 text-[0.58rem] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
-            Light navigation
-          </div>
-          <MiniNavigation concept={concept} tone="paper" />
-        </div>
-        <div>
-          <div className="border-b border-border/60 bg-muted/30 px-4 py-2 text-[0.58rem] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
-            Forest navigation
-          </div>
-          <MiniNavigation concept={concept} tone="forest" />
-        </div>
-      </div>
-
-      <HeroApplication concept={concept} />
-
-      {concept.id === "indus-i" ? <DropIStudies /> : null}
-
-      <div className="space-y-4 p-5 sm:p-6">
-        <ScaleTest concept={concept} />
-        <div className="flex flex-wrap gap-2">
-          {concept.cues.map((cue) => (
-            <Badge key={cue} variant="secondary">
-              {cue}
-            </Badge>
+      <details className="border-t border-[#d8dfd5] p-6">
+        <summary className="cursor-pointer text-sm font-semibold">
+          Download SVG files · 10 variants
+        </summary>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {variants.map((variant) => (
+            <a
+              key={variant}
+              download
+              href={`/brand/${concept.id}/${variant}.svg`}
+              className="rounded-md border border-[#d8dfd5] px-3 py-2 text-xs capitalize hover:bg-[#e9f0dc] focus-visible:outline-2"
+            >
+              {variant.replaceAll("-", " ")} ↓
+            </a>
           ))}
         </div>
-      </div>
+      </details>
     </article>
   )
 }
 
 function LogoOptionsPage() {
   return (
-    <main>
-      <PageHero
-        eyebrow="Brand exploration · 2026"
-        title="A cleaner evolution of Indus."
-        body="Eight modern vector directions built from the existing identity’s most memorable ingredients: the water drop, the leaf canopy, and the meeting of agriculture and infrastructure."
-        cta={{ label: "Compare the options", href: "#options" }}
-      />
-
-      <Section id="options" className="bg-background">
-        <div className="mb-10 grid gap-6 border-b border-border/70 pb-8 md:grid-cols-[1fr_auto] md:items-end">
-          <div className="max-w-2xl">
-            <Eyebrow>Identity studies</Eyebrow>
-            <h2 className="mt-3 text-3xl sm:text-4xl">
-              Familiar at heart. Sharper in form.
-            </h2>
-            <p className="mt-4 leading-relaxed text-muted-foreground">
-              Every option carries forward the old logo’s drop or leaf
-              language, reduced to clean geometry and tested as a primary
-              lockup, navigation signature, hero application, and small icon.
-              The live website logo remains unchanged.
+    <main className="bg-[#fafbf7] font-sans text-[#173c2b]">
+      <section className="mx-auto max-w-7xl px-6 pt-16 pb-12 md:px-10 md:pt-24">
+        <div className="flex flex-wrap justify-between gap-3 border-b border-[#d8dfd5] pb-5">
+          <p className={label}>Indus Best Mega Food Park</p>
+          <p className={`${label} text-[#657365]`}>
+            Identity exploration / 01—05
+          </p>
+        </div>
+        <div className="grid items-end gap-8 py-12 md:grid-cols-[1.5fr_1fr]">
+          <h1 className="font-sans text-5xl leading-[1.06] font-semibold tracking-[-0.055em] md:text-7xl">
+            A place for food.
+            <br />
+            <span className="text-[#729344]">A mark for growth.</span>
+          </h1>
+          <div>
+            <p className="max-w-md text-base leading-7 text-[#5c695f]">
+              Five simple identities for a connected food industry. Built from
+              purposeful geometry, open space and a confident, human sans-serif.
             </p>
-          </div>
-          <div className="flex gap-2">
-            <Badge variant="outline">8 concepts</Badge>
-            <Badge variant="outline">Vector SVG</Badge>
-            <Badge variant="outline">Drop + leaf heritage</Badge>
+            <a
+              href="#concepts"
+              className="mt-6 inline-block border-b border-[#164b35] pb-1 text-sm font-semibold"
+            >
+              Explore the five directions ↓
+            </a>
           </div>
         </div>
-
-        <div className="grid gap-6 xl:grid-cols-2 xl:gap-8">
-          {logoConcepts.map((concept) => (
-            <ConceptCard key={concept.id} concept={concept} />
+        <div className="grid grid-cols-5 gap-2 md:gap-4">
+          {logoConcepts.map((c) => (
+            <a
+              href={`#${c.id}`}
+              key={c.id}
+              className="group rounded-xl border border-[#d8dfd5] p-3 transition-colors hover:bg-[#e9f0dc] md:p-6"
+            >
+              <LogoArtwork
+                concept={c}
+                variant="symbol"
+                className="mx-auto my-4 w-full max-w-20"
+              />
+              <p className={`${label} text-[#657365]`}>{c.number}</p>
+              <p className="mt-1 hidden text-sm font-semibold md:block">
+                {c.name}
+              </p>
+            </a>
           ))}
         </div>
-
-        <div className="mt-12 rounded-3xl bg-forest px-6 py-10 text-center text-forest-foreground sm:px-10 sm:py-14">
-          <Eyebrow className="text-cta">Next step</Eyebrow>
-          <h2 className="mx-auto mt-3 max-w-2xl text-3xl sm:text-4xl">
-            Shortlist two directions, then refine one.
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-forest-foreground/70 sm:text-base">
-            The selected route can be developed into final horizontal,
-            stacked, monochrome, favicon, signage, and social variants.
-          </p>
-          <Button variant="cta" className="mt-7" asChild>
-            <a href="#options">Review all eight</a>
-          </Button>
+        <div className="mt-8 flex flex-wrap items-center gap-6 text-xs text-[#5c695f]">
+          <span>Palette</span>
+          {[
+            ["#164B35", "Forest"],
+            ["#78AF45", "Fresh green"],
+          ].map(([color, name]) => (
+            <span key={color} className="flex items-center gap-2">
+              <span
+                className="size-4 rounded-full"
+                style={{ background: color }}
+              />
+              {name} · {color}
+            </span>
+          ))}
+          <span>Inter / outlined wordmarks</span>
+          <span>Flat SVG / transparent cutouts</span>
         </div>
-      </Section>
+      </section>
+      <section
+        id="concepts"
+        className="mx-auto grid max-w-7xl gap-8 px-6 pb-16 md:px-10"
+      >
+        {logoConcepts.map((c) => (
+          <ConceptCard key={c.id} concept={c} />
+        ))}
+      </section>
+      <section className="bg-[#164b35] px-6 py-16 text-white md:px-10">
+        <div className="mx-auto max-w-6xl">
+          <p className={`${label} text-[#b4cf91]`}>
+            Our recommendation / Concept 01
+          </p>
+          <div className="mt-6 grid gap-8 md:grid-cols-[1fr_2fr]">
+            <LogoArtwork
+              concept={logoConcepts[0]}
+              variant="symbol-white"
+              className="size-36"
+            />
+            <div>
+              <h2 className="font-sans text-4xl font-semibold tracking-tight">
+                Organic Food Hub
+              </h2>
+              <p className="mt-5 max-w-2xl leading-7 text-white/80">
+                The most complete response to the brief: a memorable leaf-block
+                silhouette, a seed revealed through negative space, and enough
+                structural weight to represent a food industry campus. It works
+                independently of the name and keeps its character in one color.
+              </p>
+              <p className="mt-4 text-sm text-white/65">
+                Design assessment below uses a 1–5 scale. These are comparative
+                judgments, not audience research or trademark clearance.
+              </p>
+            </div>
+          </div>
+          <div className="mt-10 overflow-x-auto">
+            <table className="w-full min-w-[700px] text-left text-sm">
+              <thead>
+                <tr>
+                  {[
+                    "Concept",
+                    "Memory",
+                    "Simplicity",
+                    "Food relevance",
+                    "Scale",
+                    "Distinctiveness",
+                    "Standalone",
+                  ].map((x) => (
+                    <th
+                      key={x}
+                      className="border-b border-white/25 px-3 py-4 font-medium text-white/65"
+                    >
+                      {x}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {logoConcepts.map((c) => (
+                  <tr
+                    key={c.id}
+                    className={c.number === "01" ? "bg-white/10" : ""}
+                  >
+                    <th className="px-3 py-4 font-medium">{c.name}</th>
+                    {c.scores.map((s, i) => (
+                      <td key={i} className="px-3 py-4">
+                        {s}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {logoConcepts.map((c) => (
+              <p key={c.id} className="text-sm leading-6 text-white/70">
+                <strong className="text-white">{c.number} / </strong>
+                {c.tradeoff}
+              </p>
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
   )
 }
