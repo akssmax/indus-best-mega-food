@@ -37,7 +37,7 @@ export const Route = createFileRoute("/")({
           href:
             landingContent?.hero.slides[0]?.image.src ??
             landingContent?.hero.image.src ??
-            "/images/warehouse.jpg",
+            "/images/gallery/campus-overview.webp",
           as: "image",
           fetchPriority: "high",
         },

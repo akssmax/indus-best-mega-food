@@ -8,7 +8,7 @@ export const aboutPage = {
     headline: "An operational Mega Food Park, built for processors near Raipur.",
     body: `${site.legalName} sits at Village Bemta–Sarora, in Chhattisgarh's growing belt. The campus is approved under the Ministry of Food Processing Industries Mega Food Park Scheme and listed as operational.`,
     image: {
-      src: "/images/warehouse.jpg",
+      src: "/images/gallery/processing-campus-ground.webp",
       alt: "Warehouse and campus at Indus Best Mega Food Park, Raipur",
     },
     primaryCta: { label: "Talk to the project team", href: "/contact" },
@@ -159,7 +159,7 @@ export const aboutPage = {
       { label: "Weighbridge", value: "100 MT" },
     ],
     image: {
-      src: "/images/admin-lab.jpg",
+      src: "/images/gallery/quality-lab.webp",
       alt: "Quality control laboratory at Indus Best Mega Food Park",
     },
   },

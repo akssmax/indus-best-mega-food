@@ -80,6 +80,7 @@ export const site = {
   explore: [
     { label: "Why Us", href: "/why" },
     { label: "Campus", href: "/campus" },
+    { label: "Gallery", href: "/gallery" },
     { label: "Virtual tour", href: "/virtual-tour" },
     { label: "Why invest", href: "/opportunities" },
     { label: "Private label", href: "/private-label" },
@@ -156,9 +157,9 @@ export const site = {
     virtualTour: {
       eyebrow: "Virtual tour",
       title: "Walk the campus before you visit.",
-      body: "Step through plots, processing lines, cold chain, quality labs, and the PPC collection network — an operational MOFPI campus at Bemta–Sarora, near Raipur.",
+      body: "Step through the gate, utilities, processing lines, cold chain, dry warehouse, quality labs, and the PPC collection network — an operational MOFPI campus at Bemta–Sarora, near Raipur.",
       description:
-        "Virtual tour of Indus Best Mega Food Park: explore plots, processing lines, cold storage, labs, and PPC network at the Bemta–Sarora campus near Raipur.",
+        "Virtual tour of Indus Best Mega Food Park: explore the gate, utilities, processing lines, cold storage, dry warehouse, labs, and PPC network at the Bemta–Sarora campus near Raipur.",
       cta: { label: "Book a site visit", href: "/contact" },
     },
   },

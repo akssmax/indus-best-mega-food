@@ -76,6 +76,7 @@ export const campusDetail = {
           "4 borewells at 1,015 L/min each",
           "1.5 ML combined head tank and sump storage",
           "2.7 MLD current demand — expandable to 5.0 MLD",
+          "Cooling towers on the process-water circuit",
         ],
       },
       {
@@ -102,6 +103,10 @@ export const campusDetail = {
         ],
       },
     ],
+    image: {
+      src: "/images/gallery/etp-plant.webp",
+      alt: "ETP plant and chimney on the campus utilities block",
+    },
   },
   assurance: {
     id: "campus-assurance",
@@ -120,6 +125,50 @@ export const campusDetail = {
       "Pest control across the processing zone",
       "100 MT electronic modular weighbridge at entry",
       "Batch-level traceability through storage and processing",
+    ],
+    image: {
+      src: "/images/gallery/lab-corridor.webp",
+      alt: "Blue-panel corridor through the quality assurance wing",
+    },
+  },
+  groundProof: {
+    id: "campus-ground",
+    eyebrow: "On the ground",
+    title: "What the campus looks like today.",
+    body: "Gate, utilities, live lines, and dry storage photographed on site — the same campus the spec sheet describes.",
+    items: [
+      {
+        title: "Gate",
+        body: "Indus entry gate and security cabin at Bemta–Sarora.",
+        image: {
+          src: "/images/gallery/entry-gate.webp",
+          alt: "Indus Best entry gate and security cabin at Bemta–Sarora",
+        },
+      },
+      {
+        title: "Utilities",
+        body: "ETP plant with chimney on the campus utilities block.",
+        image: {
+          src: "/images/gallery/etp-plant.webp",
+          alt: "ETP plant and chimney on the campus utilities block",
+        },
+      },
+      {
+        title: "On the line",
+        body: "Stainless processing hall in production, with steam on the floor.",
+        image: {
+          src: "/images/gallery/process-hall.webp",
+          alt: "Live processing hall with stainless equipment and steam",
+        },
+      },
+      {
+        title: "Dry store",
+        body: "Pallet racking in the dry warehouse beside production.",
+        image: {
+          src: "/images/gallery/warehouse-racking.webp",
+          alt: "Pallet racking aisle in the dry warehouse",
+        },
+      },
     ],
   },
 } as const

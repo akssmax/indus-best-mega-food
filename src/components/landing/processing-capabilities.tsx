@@ -22,7 +22,7 @@ function ProcessingLineCard({
         <div className="relative size-11 shrink-0 overflow-hidden rounded-xl bg-muted ring-1 ring-foreground/10 sm:size-12">
           <img
             src={line.image.src}
-            alt=""
+            alt={line.image.alt}
             loading="lazy"
             decoding="async"
             className="size-full object-cover"

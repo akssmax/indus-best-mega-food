@@ -85,8 +85,8 @@ export const privateLabel = {
         products: ["Desi ghee", "Fresh paneer", "UHT milk", "Probiotic curd"],
         body: "Dairy processing and packing on campus — the same infrastructure behind Nourya ghee and curd.",
         image: {
-          src: "/images/aseptic-line.jpg",
-          alt: "Aseptic processing line on campus",
+          src: "/images/gallery/process-hall.webp",
+          alt: "Live processing hall with stainless equipment and steam",
         },
       },
       {
@@ -94,8 +94,8 @@ export const privateLabel = {
         products: ["Liquid jaggery", "Natural jaggery cubes", "Chemical-free blocks"],
         body: "Traditional jaggery processing with retail-ready packs or bulk formats for your label.",
         image: {
-          src: "/images/evaporator.jpg",
-          alt: "Evaporator and processing equipment",
+          src: "/images/gallery/evaporator-hall.webp",
+          alt: "Stainless steel evaporator and pasteuriser hall",
         },
       },
       {
@@ -107,8 +107,8 @@ export const privateLabel = {
         ],
         body: "2 MT/H IQF line with packaging hall, blast freezers, and frozen storage at −20°C on site.",
         image: {
-          src: "/images/warehouse.jpg",
-          alt: "Cold storage and warehouse on campus",
+          src: "/images/gallery/storage-corridor.webp",
+          alt: "Storage Section corridor with insulated chamber doors",
         },
       },
       {
@@ -116,8 +116,8 @@ export const privateLabel = {
         products: ["Sorted fresh produce", "Graded intake", "Retail-ready packs"],
         body: "10 MT/H pack house with collection from three Primary Processing Centres in the growing belt.",
         image: {
-          src: "/images/cpc-building.jpg",
-          alt: "Primary processing centre building",
+          src: "/images/gallery/vegetable-intake.webp",
+          alt: "Staff sorting chillies at the vegetable intake line",
         },
       },
     ],

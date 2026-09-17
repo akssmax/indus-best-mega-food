@@ -4,6 +4,5 @@ Disallow: /app
 Disallow: /app/
 Disallow: /design-system
 Disallow: /hero-1
-Disallow: /logo-options
 
 Sitemap: https://www.indusbestmegafoodpark.com/sitemap.xml

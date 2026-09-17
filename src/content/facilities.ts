@@ -114,7 +114,7 @@ export const coldChain = [
   },
   {
     name: "Pack house",
-    detail: "Automatic sorting, grading & packaging for fresh produce",
+    detail: "Intake, grading and packing for fresh produce on the line",
     capacity: "10 MT/H",
   },
 ] as const

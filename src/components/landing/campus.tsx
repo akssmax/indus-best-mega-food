@@ -19,7 +19,7 @@ function FacilitiesDetail() {
           <p className="mt-4 leading-relaxed text-muted-foreground">{data.body}</p>
         </Reveal>
 
-        <Stagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {data.items.map((facility) => (
             <MotionItem key={facility.title}>
               <Card className="h-full gap-0 overflow-hidden p-0">

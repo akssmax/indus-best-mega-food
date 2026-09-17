@@ -177,6 +177,44 @@ function CampusScale() {
   )
 }
 
+function GroundProof() {
+  const { groundProof } = campusDetail
+
+  return (
+    <Section id={groundProof.id}>
+      <Reveal className="max-w-2xl">
+        <Eyebrow>{groundProof.eyebrow}</Eyebrow>
+        <h2 className="mt-3 text-3xl sm:text-4xl">{groundProof.title}</h2>
+        <p className="mt-4 leading-relaxed text-muted-foreground">
+          {groundProof.body}
+        </p>
+      </Reveal>
+
+      <Stagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {groundProof.items.map((item) => (
+          <MotionItem key={item.title}>
+            <article className="h-full overflow-hidden rounded-2xl bg-card ring-1 ring-foreground/8">
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <img
+                  src={item.image.src}
+                  alt={item.image.alt}
+                  className="size-full object-cover"
+                />
+              </div>
+              <div className="p-5">
+                <h3 className="font-heading text-lg font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.body}
+                </p>
+              </div>
+            </article>
+          </MotionItem>
+        ))}
+      </Stagger>
+    </Section>
+  )
+}
+
 function CollectionNetwork() {
   const { collection } = campusDetail
 
@@ -244,6 +282,14 @@ function CampusUtilities() {
           <p className="mt-4 leading-relaxed text-muted-foreground">{utilities.body}</p>
         </Reveal>
 
+        <Reveal className="mt-10 overflow-hidden rounded-2xl">
+          <img
+            src={utilities.image.src}
+            alt={utilities.image.alt}
+            className="aspect-[16/10] w-full object-cover"
+          />
+        </Reveal>
+
         <Stagger className="mt-10 grid gap-5 sm:grid-cols-2">
           {utilities.groups.map((group) => {
             const meta = utilityGroupMeta[group.title]
@@ -295,6 +341,14 @@ function CampusAssurance() {
         <Eyebrow>{assurance.eyebrow}</Eyebrow>
         <h2 className="mt-3 text-3xl sm:text-4xl">{assurance.title}</h2>
         <p className="mt-4 leading-relaxed text-muted-foreground">{assurance.body}</p>
+      </Reveal>
+
+      <Reveal className="mt-10 overflow-hidden rounded-2xl">
+        <img
+          src={assurance.image.src}
+          alt={assurance.image.alt}
+          className="aspect-[16/10] w-full object-cover lg:max-h-[22rem]"
+        />
       </Reveal>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -388,6 +442,7 @@ export function CampusDetail() {
   return (
     <>
       <CampusScale />
+      <GroundProof />
       <CollectionNetwork />
       <CampusUtilities />
       <CampusAssurance />

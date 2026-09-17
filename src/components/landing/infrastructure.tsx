@@ -20,13 +20,31 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   truck: TruckIcon,
 }
 
-const zoneImages: Record<string, string> = {
-  map: "/images/admin-building.jpg",
-  factory: "/images/aseptic-line.jpg",
-  snowflake: "/images/warehouse.jpg",
-  warehouse: "/images/warehouse.jpg",
-  zap: "/images/weigh-bridge.jpg",
-  truck: "/images/admin-building.jpg",
+const zoneImages: Record<string, { src: string; alt: string }> = {
+  map: {
+    src: "/images/gallery/campus-overview.webp",
+    alt: "Aerial overview of the 67-acre Indus Best campus",
+  },
+  factory: {
+    src: "/images/gallery/process-hall.webp",
+    alt: "Live processing hall with stainless equipment and steam",
+  },
+  snowflake: {
+    src: "/images/gallery/green-roof-warehouse.webp",
+    alt: "Green-roof warehouse viewed from the air",
+  },
+  warehouse: {
+    src: "/images/gallery/warehouse-racking.webp",
+    alt: "Pallet racking aisle in the dry warehouse",
+  },
+  zap: {
+    src: "/images/gallery/etp-plant.webp",
+    alt: "ETP plant and chimney on the campus utilities block",
+  },
+  truck: {
+    src: "/images/gallery/warehouse-dock.webp",
+    alt: "Reefer truck at the green warehouse dispatch dock",
+  },
 }
 
 export function Infrastructure() {
@@ -37,20 +55,26 @@ export function Infrastructure() {
       <Reveal className="max-w-2xl">
         <Eyebrow>{data.eyebrow}</Eyebrow>
         <h2 className="mt-3 text-3xl sm:text-4xl">{data.title}</h2>
-        <p className="mt-4 leading-relaxed text-muted-foreground">{data.body}</p>
+        <p className="mt-4 leading-relaxed text-muted-foreground">
+          {data.body}
+        </p>
       </Reveal>
 
       <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data.zones.map((zone) => {
           const Icon = iconMap[zone.icon] ?? MapIcon
-          const imgSrc = zoneImages[zone.icon] ?? "/images/warehouse.jpg"
+          const img =
+            zoneImages[zone.icon] ?? {
+              src: "/images/gallery/warehouse-aerial.webp",
+              alt: "Aerial view of warehouse sheds at Indus Best Mega Food Park",
+            }
           return (
             <MotionItem key={zone.title}>
               <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <img
-                    src={imgSrc}
-                    alt={zone.title}
+                    src={img.src}
+                    alt={img.alt}
                     className="size-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
@@ -61,10 +85,16 @@ export function Infrastructure() {
                   </div>
                   <div className="absolute inset-0 flex flex-col justify-end p-5">
                     <div className="rounded-xl bg-black/40 p-3 backdrop-blur-sm">
-                      <h3 className="font-heading text-lg font-semibold text-white" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}>
+                      <h3
+                        className="font-heading text-lg font-semibold text-white"
+                        style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}
+                      >
                         {zone.title}
                       </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-white/90 line-clamp-3" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}>
+                      <p
+                        className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/90"
+                        style={{ textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}
+                      >
                         {zone.body}
                       </p>
                     </div>

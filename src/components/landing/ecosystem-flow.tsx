@@ -1,4 +1,11 @@
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import {
   BeakerIcon,
   BuildingOffice2Icon,
@@ -14,7 +21,7 @@ import {
 } from "framer-motion"
 
 import { primaryProcessingCentres } from "@/content/facilities"
-"use client"
+;("use client")
 
 import { useLandingContent } from "@/lib/landing-content-context"
 import { Eyebrow, Section } from "@/components/landing/section"
@@ -30,7 +37,10 @@ const panelFlexTransition =
   "transition-[flex-grow,flex-basis,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
 
 function parseStageStatValue(value: string) {
-  if (/[–-]/.test(value) || /[A-Za-z]/.test(value.replace(/MT|MT\/H|MTPH/g, ""))) {
+  if (
+    /[–-]/.test(value) ||
+    /[A-Za-z]/.test(value.replace(/MT|MT\/H|MTPH/g, ""))
+  ) {
     return { kind: "static" as const, display: value }
   }
 
@@ -98,7 +108,9 @@ function StageStatValue({
     }
 
     if (reduce) {
-      setDisplay(formatStageCount(parsed.numeric, parsed.formatCommas) + parsed.suffix)
+      setDisplay(
+        formatStageCount(parsed.numeric, parsed.formatCommas) + parsed.suffix
+      )
       return
     }
 
@@ -109,18 +121,16 @@ function StageStatValue({
       ease: motionEase,
       delay,
       onUpdate: (current) => {
-        setDisplay(formatStageCount(current, parsed.formatCommas) + parsed.suffix)
+        setDisplay(
+          formatStageCount(current, parsed.formatCommas) + parsed.suffix
+        )
       },
     })
 
     return () => controls.stop()
   }, [delay, parsed, reduce, stageKey])
 
-  return (
-    <p className={className}>
-      {display}
-    </p>
-  )
+  return <p className={className}>{display}</p>
 }
 
 function StageStatsRow({ active }: { active: number }) {
@@ -146,7 +156,11 @@ function StageStatsRow({ active }: { active: number }) {
               key={stat.label}
               initial={reduce ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.42, delay: index * 0.07, ease: motionEase }}
+              transition={{
+                duration: 0.42,
+                delay: index * 0.07,
+                ease: motionEase,
+              }}
               className={cn(
                 "relative overflow-hidden rounded-2xl px-5 py-4 text-center",
                 "bg-forest-foreground/8"
@@ -157,7 +171,7 @@ function StageStatsRow({ active }: { active: number }) {
                 stageKey={stage.step}
                 delay={0.12 + index * 0.08}
                 className={cn(
-                  "font-heading font-semibold tabular-nums text-white",
+                  "font-heading font-semibold text-white tabular-nums",
                   stat.value.length > 8 ? "text-xl sm:text-2xl" : "text-2xl"
                 )}
               />
@@ -184,14 +198,17 @@ const flowStages = [
       `Intake at ${primaryProcessingCentres.length} Primary Processing Centres`,
     ],
     image: {
-      src: "/images/admin-building.jpg",
-      alt: "Primary processing centre building",
+      src: "/images/gallery/etp-plant.webp",
+      alt: "ETP plant and chimney on the campus utilities block",
       position: "center 35%",
     },
     tint: "from-cta/30",
     icon: SparklesIcon,
     stats: [
-      { value: String(primaryProcessingCentres.length), label: "Primary processing centres" },
+      {
+        value: String(primaryProcessingCentres.length),
+        label: "Primary processing centres",
+      },
       { value: "3 districts", label: "Durg · Bilaspur · Abhanpur" },
       { value: "Growing belt", label: "Agri & horticulture catchment" },
     ],
@@ -207,7 +224,7 @@ const flowStages = [
       "16 MSME sheds with utilities in place",
     ],
     image: {
-      src: "/images/cpc-building.jpg",
+      src: "/images/gallery/processing-campus.webp",
       alt: "Central processing campus at Bemta–Sarora",
       position: "center 55%",
     },
@@ -230,8 +247,8 @@ const flowStages = [
       "5,000 MT cold · IQF 2 MT/H · Pack house 10 MT/H",
     ],
     image: {
-      src: "/images/aseptic-line.jpg",
-      alt: "Aseptic processing line on campus",
+      src: "/images/gallery/process-hall.webp",
+      alt: "Live processing hall with stainless equipment and steam",
       position: "center center",
     },
     tint: "from-primary/20",
@@ -253,8 +270,8 @@ const flowStages = [
       "NH-53 access · rail at Tilda",
     ],
     image: {
-      src: "/images/weigh-bridge.jpg",
-      alt: "Weighbridge and campus dispatch gate",
+      src: "/images/gallery/warehouse-racking.webp",
+      alt: "Pallet racking aisle in the dry warehouse",
       position: "center 65%",
     },
     tint: "from-cta/25",
@@ -311,7 +328,7 @@ function ProcessConnector({
           className={cn(
             "absolute size-2.5 rounded-full bg-cta shadow-[0_0_10px_var(--cta)]",
             vertical
-              ? "left-1/2 top-0 -translate-x-1/2"
+              ? "top-0 left-1/2 -translate-x-1/2"
               : "top-1/2 left-0 -translate-y-1/2"
           )}
           animate={
@@ -470,11 +487,7 @@ function StageImageOverlays({
   )
 }
 
-function StageDetailCard({
-  stage,
-}: {
-  stage: (typeof flowStages)[number]
-}) {
+function StageDetailCard({ stage }: { stage: (typeof flowStages)[number] }) {
   return (
     <div className="relative isolate flex h-full flex-col overflow-hidden rounded-xl border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.22)]">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -487,10 +500,10 @@ function StageDetailCard({
         <div className="absolute inset-0 bg-black/50" />
       </div>
       <div className="relative z-10 flex h-full min-h-0 flex-col p-4">
-        <h3 className="font-heading text-xl font-semibold leading-snug text-white line-clamp-2">
+        <h3 className="line-clamp-2 font-heading text-xl leading-snug font-semibold text-white">
           {stage.title}
         </h3>
-        <p className="mt-2 min-h-[4.25rem] text-sm leading-relaxed text-white/90 line-clamp-4">
+        <p className="mt-2 line-clamp-4 min-h-[4.25rem] text-sm leading-relaxed text-white/90">
           {stage.summary}
         </p>
         <ul className="mt-auto space-y-2 pt-4">
@@ -543,7 +556,7 @@ function StagePanel({
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <img
           src={stage.image.src}
-          alt=""
+          alt={stage.image.alt}
           className={cn(
             "size-full scale-105 object-cover",
             !isActive && "brightness-[0.92] saturate-[0.95]"
@@ -597,7 +610,7 @@ function MobileStageHero({ stage }: { stage: (typeof flowStages)[number] }) {
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <img
           src={stage.image.src}
-          alt=""
+          alt={stage.image.alt}
           className="size-full scale-105 object-cover"
           style={{ objectPosition: stage.image.position }}
           loading="lazy"
@@ -652,7 +665,7 @@ function StageThumb({
     >
       <img
         src={stage.image.src}
-        alt=""
+        alt={stage.image.alt}
         className="size-full object-cover"
         style={{ objectPosition: stage.image.position }}
         loading="lazy"
@@ -711,7 +724,10 @@ function AnimatedProcessFlow() {
       <ProcessTrack active={active} onSelect={selectStage} />
 
       <div
-        className={cn("hidden items-stretch gap-1.5 lg:flex xl:gap-2", PANEL_HEIGHT)}
+        className={cn(
+          "hidden items-stretch gap-1.5 lg:flex xl:gap-2",
+          PANEL_HEIGHT
+        )}
       >
         {flowStages.map((stage, index) => (
           <StagePanel
@@ -749,7 +765,12 @@ export function EcosystemFlow({ flat = false }: { flat?: boolean }) {
   const { ecosystem } = landing
 
   return (
-    <SectionBand tone="forest" from="secondary-25" to="secondary-30" flat={flat}>
+    <SectionBand
+      tone="forest"
+      from="secondary-25"
+      to="secondary-30"
+      flat={flat}
+    >
       <div className="relative text-forest-foreground">
         <PatternBand
           variant="hatch"

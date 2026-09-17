@@ -118,14 +118,8 @@ function BrandingPage() {
   return (
     <main className="bg-[#f7f8f2] font-sans text-[#183d2d]">
       <section className="mx-auto max-w-7xl px-6 pt-16 pb-12 md:px-10">
-        <div className="flex flex-wrap justify-between gap-3 border-b border-[#d5ddd2] pb-5">
+        <div className="border-b border-[#d5ddd2] pb-5">
           <p className={eyebrow}>Indus Best / Branding</p>
-          <a
-            href="/logo-options"
-            className="text-xs text-[#5f7162] underline underline-offset-4"
-          >
-            View earlier explorations ↗
-          </a>
         </div>
         <div className="grid items-end gap-7 py-12 md:grid-cols-[1.4fr_1fr]">
           <h1 className="font-sans text-5xl leading-[1.05] font-semibold tracking-[-0.045em] md:text-7xl">

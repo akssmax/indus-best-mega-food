@@ -14,8 +14,8 @@ export const landing = {
     headline: "Build your plant. Skip the greenfield.",
     body: "Plots and sheds with power, water, cold chain, and collection already on site — capital goes into your line, not the estate.",
     image: {
-      src: "/images/warehouse.jpg",
-      alt: "Warehouse and campus at Indus Best Mega Food Park, Raipur",
+      src: "/images/gallery/campus-overview.webp",
+      alt: "Aerial view of Indus Best Mega Food Park and the surrounding agricultural landscape",
     },
     primaryCta: { label: "Enquire Now", href: "/contact" },
     secondaryCta: { label: "Explore the Campus", href: "/campus" },
@@ -30,8 +30,8 @@ export const landing = {
         headline: "Build your plant. Skip the greenfield.",
         body: "Plots and sheds with power, water, cold chain, and collection already on site — capital goes into your line, not the estate.",
         image: {
-          src: "/images/warehouse.jpg",
-          alt: "Warehouse and MSME sheds at Indus Best Mega Food Park",
+          src: "/images/gallery/warehouse-aerial.webp",
+          alt: "Aerial view of warehouse sheds at Indus Best Mega Food Park",
         },
         cards: [
           {
@@ -52,8 +52,8 @@ export const landing = {
         headline: "Your brand on lines already packing.",
         body: "Co-pack or co-brand on aseptic, puree, and IQF. Fill orders this season — then grow into your own unit on the same campus.",
         image: {
-          src: "/images/aseptic-line.jpg",
-          alt: "Aseptic processing line on campus",
+          src: "/images/gallery/process-hall.webp",
+          alt: "Live processing hall with stainless equipment on the Indus Best campus",
         },
         cards: [
           {
@@ -71,33 +71,11 @@ export const landing = {
         ],
       },
       {
-        headline: "Invest in a campus that's already running.",
-        body: "MOFPI-listed and operational near Raipur. Joint venture, plot, or partnership on a live asset — not a prospectus.",
-        image: {
-          src: "/images/cpc-building.jpg",
-          alt: "Central processing campus at Bemta–Sarora",
-        },
-        cards: [
-          {
-            value: "67",
-            label: "Acres on site",
-            detail: "Capital into an operating park",
-            side: "left" as const,
-          },
-          {
-            value: "30–35",
-            label: "Industrial plots",
-            detail: "Lease or co-develop, not greenfield",
-            side: "right" as const,
-          },
-        ],
-      },
-      {
         headline: "Ship from a gate that's already built.",
         body: "Weighbridge, process water, and highway access on campus — logistics capex you do not duplicate.",
         image: {
-          src: "/images/weigh-bridge.jpg",
-          alt: "Entry gate and 100 MT weighbridge",
+          src: "/images/gallery/entry-gate.webp",
+          alt: "Indus Best entry gate and security cabin at Bemta–Sarora",
         },
         cards: [
           {
@@ -115,11 +93,33 @@ export const landing = {
         ],
       },
       {
+        headline: "Invest in a campus that's already running.",
+        body: "MOFPI-listed and operational near Raipur. Joint venture, plot, or partnership on a live asset — not a prospectus.",
+        image: {
+          src: "/images/gallery/processing-campus.webp",
+          alt: "Aerial view of the central processing campus at Bemta–Sarora",
+        },
+        cards: [
+          {
+            value: "67",
+            label: "Acres on site",
+            detail: "Capital into an operating park",
+            side: "left" as const,
+          },
+          {
+            value: "30–35",
+            label: "Industrial plots",
+            detail: "Lease or co-develop, not greenfield",
+            side: "right" as const,
+          },
+        ],
+      },
+      {
         headline: "Hold the run beside the line you own.",
         body: "Cold rooms, dry warehouse, and quality labs on site — inventory and QA without a second campus.",
         image: {
-          src: "/images/admin-lab.jpg",
-          alt: "Quality control laboratory on campus",
+          src: "/images/gallery/production-hall.webp",
+          alt: "Production hall within the Indus Best food processing campus",
         },
         cards: [
           {
@@ -249,14 +249,46 @@ export const landing = {
     title: "One connected ecosystem for food processing.",
     body: "IBMFP connects agricultural sourcing with central processing, storage and dispatch — with Primary Processing Centres at Durg, Bilaspur and Abhanpur (New Raipur).",
     steps: [
-      { title: "Farmers", detail: "Agri and horticulture in the growing belt.", tone: "primary" as const },
-      { title: "Primary Processing Centres", detail: "Intake and grading at Durg, Bilaspur and Abhanpur.", tone: "cta" as const },
-      { title: "Indus Best Mega Food Park", detail: "Central campus at Village Bemta–Sarora.", tone: "aqua" as const },
-      { title: "Processing", detail: "Aseptic, concentrate, IQF and pack house.", tone: "primary" as const },
-      { title: "Packaging", detail: "Sort, grade and pack for market.", tone: "cta" as const },
-      { title: "Cold Chain", detail: "Frozen, chilled and IQF storage.", tone: "aqua" as const },
-      { title: "Warehousing", detail: "12,000 MT dry bulk storage.", tone: "primary" as const },
-      { title: "Distribution", detail: "NH-53, rail at Tilda, dispatch-ready.", tone: "cta" as const },
+      {
+        title: "Farmers",
+        detail: "Agri and horticulture in the growing belt.",
+        tone: "primary" as const,
+      },
+      {
+        title: "Primary Processing Centres",
+        detail: "Intake and grading at Durg, Bilaspur and Abhanpur.",
+        tone: "cta" as const,
+      },
+      {
+        title: "Indus Best Mega Food Park",
+        detail: "Central campus at Village Bemta–Sarora.",
+        tone: "aqua" as const,
+      },
+      {
+        title: "Processing",
+        detail: "Aseptic, concentrate, IQF and pack house.",
+        tone: "primary" as const,
+      },
+      {
+        title: "Packaging",
+        detail: "Sort, grade and pack for market.",
+        tone: "cta" as const,
+      },
+      {
+        title: "Cold Chain",
+        detail: "Frozen, chilled and IQF storage.",
+        tone: "aqua" as const,
+      },
+      {
+        title: "Warehousing",
+        detail: "12,000 MT dry bulk storage.",
+        tone: "primary" as const,
+      },
+      {
+        title: "Distribution",
+        detail: "NH-53, rail at Tilda, dispatch-ready.",
+        tone: "cta" as const,
+      },
     ],
   },
   facilityCategories: {
@@ -285,7 +317,7 @@ export const landing = {
         ],
         cta: { label: "Enquire about a plot", href: "/contact" },
         image: {
-          src: "/images/admin-building.jpg",
+          src: "/images/gallery/admin-building.webp",
           alt: "Admin building and developed campus plots",
         },
       },
@@ -303,7 +335,7 @@ export const landing = {
         ],
         cta: { label: "Enquire about a shed", href: "/contact" },
         image: {
-          src: "/images/warehouse.jpg",
+          src: "/images/gallery/msme-sheds.webp",
           alt: "MSME warehouse sheds at Indus Best Mega Food Park",
         },
       },
@@ -319,10 +351,13 @@ export const landing = {
           "Mango puree line · 6 MTPH",
           "IQF freeze line · 2 MT/H",
         ],
-        cta: { label: "View processing capabilities", href: "#processing-capabilities" },
+        cta: {
+          label: "View processing capabilities",
+          href: "#processing-capabilities",
+        },
         image: {
-          src: "/images/aseptic-line.jpg",
-          alt: "Aseptic process line",
+          src: "/images/gallery/process-hall.webp",
+          alt: "Live processing hall with stainless equipment and steam",
         },
       },
       {
@@ -339,7 +374,7 @@ export const landing = {
         ],
         cta: { label: "Talk to the team", href: "/contact" },
         image: {
-          src: "/images/warehouse.jpg",
+          src: "/images/gallery/cold-storage.webp",
           alt: "Cold storage warehouse",
         },
       },
@@ -385,7 +420,10 @@ export const landing = {
         question: "What processing capabilities are available?",
         answer:
           "Aseptic and concentrate lines for tomato, mango, and other fruit and vegetable juices, plus IQF at 2 MT/H. See the processing capabilities section for full throughput details.",
-        link: { label: "View processing capabilities", href: "#processing-capabilities" },
+        link: {
+          label: "View processing capabilities",
+          href: "#processing-capabilities",
+        },
       },
       {
         question: "Where is the park located?",
@@ -417,8 +455,8 @@ export const landing = {
       body: "Give processors shared infrastructure, quality systems, and a collection network so they can commission a unit, not construct an industrial estate.",
     },
     image: {
-      src: "/images/cpc-building.jpg",
-      alt: "Central Processing Campus at Indus Best Mega Food Park",
+      src: "/images/gallery/processing-campus.webp",
+      alt: "Aerial view of the Central Processing Campus at Indus Best Mega Food Park",
     },
     cta: { label: "Read about the park", href: "/about" },
   },
@@ -432,8 +470,8 @@ export const landing = {
         title: "Plug-and-play sheds",
         body: "16 MSME sheds so you install equipment, not the building.",
         image: {
-          src: "/images/warehouse.jpg",
-          alt: "MSME warehouse sheds at Indus Best Mega Food Park",
+          src: "/images/gallery/warehouse-roof.webp",
+          alt: "Warehouse sheds viewed from above at Indus Best Mega Food Park",
         },
         pills: ["16 sheds", "Roads, water, power"],
       },
@@ -526,13 +564,13 @@ export const landing = {
     id: "campus",
     eyebrow: "The campus",
     title: "Plots, lines, cold chain, and utilities on one site.",
-    body: "Six layers from industrial land to dispatch. Shared plant for processors who need throughput now; a spec sheet for those building their own unit on plot.",
+    body: "Eight layers from industrial land to dispatch. Shared plant for processors who need throughput now; a spec sheet for those building their own unit on plot.",
     items: [
       {
         title: "Industrial plots",
         body: "30–35 developed plots with roads, water, power, and effluent treatment, ready to commission.",
         image: {
-          src: "/images/admin-building.jpg",
+          src: "/images/gallery/admin-building.webp",
           alt: "Admin building and developed campus plots",
         },
         spec: "30–35 plots",
@@ -541,8 +579,8 @@ export const landing = {
         title: "Processing",
         body: "Aseptic and concentrate lines for tomato, mango, blueberry, papaya, guava, amla, and vegetable juices, plus IQF at 2 MT/H.",
         image: {
-          src: "/images/aseptic-line.jpg",
-          alt: "Aseptic process line",
+          src: "/images/gallery/process-hall.webp",
+          alt: "Live processing hall with stainless equipment and steam",
         },
         spec: "12 MTPH tomato",
       },
@@ -550,17 +588,26 @@ export const landing = {
         title: "Cold chain",
         body: "1,500 MT at −20°C (4 chambers) and 3,500 MT at 0–10°C (6 chambers), plus ripening and blast freeze.",
         image: {
-          src: "/images/warehouse.jpg",
-          alt: "Cold storage warehouse",
+          src: "/images/gallery/storage-corridor.webp",
+          alt: "Storage Section corridor with insulated chamber doors",
         },
         spec: "5,000 MT",
       },
       {
         title: "Pack house",
-        body: "Automatic sorting, grading, and packing for fresh produce, with intake from the Primary Processing Centres.",
+        body: "Intake, grading, and packing for fresh produce on the line, with collection from the Primary Processing Centres.",
         image: {
-          src: "/images/evaporator.jpg",
-          alt: "Evaporator and pack-house equipment",
+          src: "/images/gallery/vegetable-intake.webp",
+          alt: "Staff sorting chillies at the vegetable intake line",
+        },
+        spec: "10 MT/H",
+      },
+      {
+        title: "Intake & wash",
+        body: "Rotary drum washers and inspection belts wash and sort produce before it reaches the concentrate and pack lines.",
+        image: {
+          src: "/images/gallery/rotary-washer.webp",
+          alt: "Rotary drum washers and inspection belts on the intake line",
         },
         spec: "10 MT/H",
       },
@@ -568,17 +615,26 @@ export const landing = {
         title: "Quality labs",
         body: "Microbiology, pesticide residue, product development, and quality assurance.",
         image: {
-          src: "/images/admin-lab.jpg",
+          src: "/images/gallery/quality-lab.webp",
           alt: "Quality control laboratory",
         },
         spec: "4 lab functions",
       },
       {
+        title: "Dry warehouse",
+        body: "12,000 MT ambient pallet racking beside production, with a reefer dock for outbound loads.",
+        image: {
+          src: "/images/gallery/warehouse-racking.webp",
+          alt: "Pallet racking aisle in the dry warehouse",
+        },
+        spec: "12,000 MT",
+      },
+      {
         title: "Utilities",
         body: "2.7 MLD process water, centralised ETP and STP, 100 MT weighbridge, and 12,000 MT dry warehouse.",
         image: {
-          src: "/images/weigh-bridge.jpg",
-          alt: "Entry gate and 100 MT weighbridge",
+          src: "/images/gallery/etp-plant.webp",
+          alt: "ETP plant and chimney on the campus utilities block",
         },
         spec: "2.7 MLD",
       },
@@ -789,7 +845,11 @@ export const landing = {
     ppcs: [
       { label: "Durg", query: "Durg, Chhattisgarh", zoom: 12 },
       { label: "Bilaspur", query: "Bilaspur, Chhattisgarh", zoom: 12 },
-      { label: "Abhanpur", query: "Abhanpur, New Raipur, Chhattisgarh", zoom: 13 },
+      {
+        label: "Abhanpur",
+        query: "Abhanpur, New Raipur, Chhattisgarh",
+        zoom: 13,
+      },
     ],
   },
   partners: {
@@ -848,37 +908,37 @@ export const landing = {
     title: "What the site looks like.",
     items: [
       {
-        src: "/images/warehouse.jpg",
-        alt: "Warehouse and storage facilities",
+        src: "/images/gallery/warehouse-aerial.webp",
+        alt: "Aerial view of warehouse and storage facilities",
         caption: "Warehouse complex",
       },
       {
-        src: "/images/admin-lab.jpg",
-        alt: "Admin and laboratory buildings",
-        caption: "Admin and labs",
+        src: "/images/gallery/processing-line-wide.webp",
+        alt: "Processing line in operation",
+        caption: "Processing line",
       },
       {
-        src: "/images/aseptic-line.jpg",
-        alt: "Aseptic process line",
-        caption: "Aseptic line",
+        src: "/images/gallery/process-tanks.webp",
+        alt: "Process tanks beside a facility building",
+        caption: "Process tanks",
       },
       {
-        src: "/images/evaporator.jpg",
-        alt: "Evaporator equipment",
-        caption: "Evaporator",
+        src: "/images/gallery/warehouse-interior.webp",
+        alt: "Finished goods warehouse interior",
+        caption: "Warehouse interior",
       },
       {
-        src: "/images/cpc-building.jpg",
-        alt: "Central processing campus",
-        caption: "Central processing campus",
+        src: "/images/gallery/utility-building.webp",
+        alt: "Campus utility building set within the agricultural landscape",
+        caption: "Utility building",
       },
       {
-        src: "/images/weigh-bridge.jpg",
-        alt: "Entry gate and 100 MT weighbridge",
+        src: "/images/gallery/weighbridge.webp",
+        alt: "Weighbridge lane at campus entry",
         caption: "Entry and 100 MT weighbridge",
       },
       {
-        src: "/images/admin-building.jpg",
+        src: "/images/gallery/admin-building.webp",
         alt: "Admin building campus view",
         caption: "Admin building",
       },
@@ -896,8 +956,7 @@ export const landing = {
       },
       {
         title: "MOFPI Mega Food Park",
-        summary:
-          "Approved under the 2014 scheme and listed as operational.",
+        summary: "Approved under the 2014 scheme and listed as operational.",
         tag: "Scheme",
       },
       {
