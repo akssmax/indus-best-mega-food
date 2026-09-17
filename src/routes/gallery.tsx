@@ -244,19 +244,13 @@ function GalleryPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-16 md:px-10 md:py-24">
-        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border pb-7">
-          <div>
-            <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
-              {galleryImages.length} campus views
-            </p>
-            <h2 className="mt-3 text-3xl sm:text-4xl">
-              From the air to the line.
-            </h2>
-          </div>
-          <p className="max-w-md text-sm leading-6 text-muted-foreground">
-            Select any image to view it in detail. All images are optimized WebP
-            files for quicker loading.
+        <div className="border-b border-border pb-7">
+          <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
+            {galleryImages.length} campus views
           </p>
+          <h2 className="mt-3 text-3xl sm:text-4xl">
+            From the air to the line.
+          </h2>
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

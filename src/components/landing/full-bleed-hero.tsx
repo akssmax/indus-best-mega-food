@@ -14,19 +14,19 @@ import { cn } from "@/lib/utils"
 const SLIDE_MS = 6000
 const SLIDE_COUNT = 3
 
-/** Ground-level stills so the full-bleed crop reads like the client reference. */
+/** Aerial campus stills for the landing-2 full-bleed hero. */
 const FULL_BLEED_IMAGES = [
   {
-    src: "/images/gallery/msme-sheds.webp",
-    alt: "Plug-and-play MSME sheds at Indus Best Mega Food Park",
+    src: "/images/gallery/campus-overview.webp",
+    alt: "Wide aerial view of the Indus Best campus",
   },
   {
-    src: "/images/gallery/process-hall.webp",
-    alt: "Live processing hall with stainless equipment on the Indus Best campus",
+    src: "/images/gallery/warehouse-aerial.webp",
+    alt: "Aerial view of the warehouse complex",
   },
   {
-    src: "/images/gallery/processing-campus-ground.webp",
-    alt: "Warehouse and campus at Indus Best Mega Food Park, Raipur",
+    src: "/images/gallery/processing-campus.webp",
+    alt: "Central food processing campus from above",
   },
 ] as const
 
@@ -107,7 +107,7 @@ export function FullBleedHero() {
           sizes={landingImageSizes.hero}
           loading="eager"
           fetchPriority="high"
-          className="absolute inset-0 size-full object-cover object-[center_40%]"
+          className="absolute inset-0 size-full object-cover object-center"
         />
         <div
           aria-hidden
