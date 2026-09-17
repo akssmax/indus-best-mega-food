@@ -47,6 +47,7 @@ export function renderSingleHomeSection(sectionKey: HomeSectionKey) {
 
 export function renderHomeSections(
   sections: { sectionKey: HomeSectionKey; enabled: boolean }[],
+  options?: { hero?: () => ReactNode },
 ) {
   const enabled = sections.filter((section) => section.enabled)
   const nodes: ReactNode[] = []
@@ -54,7 +55,10 @@ export function renderHomeSections(
   for (let index = 0; index < enabled.length; index += 1) {
     const section = enabled[index]!
     const next = enabled[index + 1]
-    const render = SECTION_COMPONENTS[section.sectionKey]
+    const render =
+      section.sectionKey === "hero" && options?.hero
+        ? options.hero
+        : SECTION_COMPONENTS[section.sectionKey]
 
     if (
       section.sectionKey === "location" &&
