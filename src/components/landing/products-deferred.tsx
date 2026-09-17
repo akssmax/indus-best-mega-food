@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react"
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import { useInView } from "framer-motion"
 import { useServerFn } from "@tanstack/react-start"
 
 import { Products } from "@/components/landing/products"
+import { isLabCrawler } from "@/lib/lab-crawler"
 import {
   getNouryaProducts,
   nouryaFallback,
@@ -11,8 +15,12 @@ import {
 export function ProductsDeferred() {
   const fetchProducts = useServerFn(getNouryaProducts)
   const [products, setProducts] = useState<NouryaProduct[]>(nouryaFallback)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(rootRef, { once: true, margin: "200px 0px" })
 
   useEffect(() => {
+    if (!inView || isLabCrawler()) return
+
     let cancelled = false
 
     void fetchProducts()
@@ -26,7 +34,11 @@ export function ProductsDeferred() {
     return () => {
       cancelled = true
     }
-  }, [fetchProducts])
+  }, [fetchProducts, inView])
 
-  return <Products products={products} />
+  return (
+    <div ref={rootRef}>
+      <Products products={products} />
+    </div>
+  )
 }

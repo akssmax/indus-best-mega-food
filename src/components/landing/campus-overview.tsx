@@ -20,6 +20,7 @@ import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
 import { facilityCategoryStyles } from "@/lib/facility-categories"
 import { landingImageSizes } from "@/lib/media"
+import { CampusImg } from "@/components/ui/campus-img"
 import { cn } from "@/lib/utils"
 
 type CampusOverviewItem = (typeof landingDefaults.campusOverview.items)[number]
@@ -85,12 +86,11 @@ export function CampusOverviewRow({
           )}
         >
           <div className="relative aspect-[16/10] min-h-[14rem] overflow-hidden sm:aspect-[5/3] lg:aspect-auto lg:h-full lg:min-h-[22rem]">
-            <img
+            <CampusImg
               src={item.image.src}
               alt={item.image.alt}
               sizes={landingImageSizes.split}
-              loading={index === 0 ? "eager" : "lazy"}
-              decoding="async"
+              loading="lazy"
               className="absolute inset-0 size-full object-cover object-center transition-transform duration-500 hover-fine:group-hover/card:scale-[1.03]"
             />
           <div

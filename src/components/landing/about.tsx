@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
+import { CampusImg } from "@/components/ui/campus-img"
+import { landingImageSizes } from "@/lib/media"
 
 export function About() {
   const { about } = landing
@@ -55,9 +57,10 @@ export function About() {
         </Reveal>
         <Reveal delay={0.08}>
           <div className="relative overflow-hidden rounded-xl ring-1 ring-foreground/10">
-            <img
+            <CampusImg
               src={about.image.src}
               alt={about.image.alt}
+              sizes={landingImageSizes.split}
               className="aspect-[4/3] w-full object-cover"
             />
           </div>

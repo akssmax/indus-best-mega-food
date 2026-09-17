@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Eyebrow } from "@/components/landing/section"
 import { OceanBackground } from "@/components/landing/ocean-background"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
+import { CampusImg } from "@/components/ui/campus-img"
+import { landingImageSizes } from "@/lib/media"
 
 export function AboutHero() {
   const { hero } = aboutPage
@@ -73,9 +75,12 @@ export function AboutHero() {
         </Stagger>
         <Reveal delay={0.08} className="mt-10 lg:mt-12">
           <div className="relative overflow-hidden rounded-xl ring-1 ring-white/10">
-            <img
+            <CampusImg
               src={hero.image.src}
               alt={hero.image.alt}
+              sizes={landingImageSizes.hero}
+              loading="eager"
+              fetchPriority="high"
               className="aspect-[16/10] w-full object-cover sm:aspect-[2/1] lg:aspect-[21/9]"
             />
           </div>

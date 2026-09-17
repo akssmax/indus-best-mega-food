@@ -3,6 +3,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal } from "@/components/landing/motion"
 import { StatusSeal } from "@/components/ui/status-seal"
+import { CampusImg } from "@/components/ui/campus-img"
+import { landingImageSizes } from "@/lib/media"
 
 export function AboutWho() {
   const { who } = aboutPage
@@ -24,9 +26,10 @@ export function AboutWho() {
         </Reveal>
         <Reveal delay={0.08}>
           <Card className="overflow-hidden p-0">
-            <img
+            <CampusImg
               src={who.image.src}
               alt={who.image.alt}
+              sizes={landingImageSizes.split}
               className="aspect-[4/3] w-full rounded-none object-cover"
             />
             <CardContent className="p-4">

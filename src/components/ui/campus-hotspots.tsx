@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react"
 import { PlugZapIcon, WarehouseIcon } from "lucide-react"
 
+import { CampusImg } from "@/components/ui/campus-img"
 import { cn } from "@/lib/utils"
 
 export type CampusPinIcon = "sheds" | "utilities"
@@ -57,12 +58,11 @@ export function CampusHotspots({
         className
       )}
     >
-      <img
+      <CampusImg
         src={src}
         alt={alt}
         sizes="(min-width: 1024px) 42rem, 100vw"
         loading="lazy"
-        decoding="async"
         className="absolute inset-0 size-full object-cover object-[center_40%]"
       />
       <div className="absolute inset-0 bg-linear-to-t from-forest/50 via-transparent to-forest/10" />

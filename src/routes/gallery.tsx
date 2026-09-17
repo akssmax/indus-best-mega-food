@@ -6,6 +6,8 @@ import {
 import { createFileRoute } from "@tanstack/react-router"
 
 import { PageHero } from "@/components/layout/page-hero"
+import { CampusImg } from "@/components/ui/campus-img"
+import { landingImageSizes } from "@/lib/media"
 import { seoHead } from "@/lib/seo"
 
 const galleryImages = [
@@ -265,10 +267,11 @@ function GalleryPage() {
               onClick={() => setActiveImage(image)}
               className={`group relative overflow-hidden rounded-2xl bg-muted text-left focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 ${index % 5 === 0 ? "sm:col-span-2" : ""}`}
             >
-              <img
+              <CampusImg
                 src={image.src}
                 alt={image.alt}
-                loading={index < 4 ? "eager" : "lazy"}
+                sizes={landingImageSizes.card}
+                loading={index < 2 ? "eager" : "lazy"}
                 className="aspect-[16/10] size-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-5 pt-14 pb-5 text-white">
@@ -303,9 +306,10 @@ function GalleryPage() {
             aria-label="Close image viewer"
           />
           <div className="relative z-10 max-h-full max-w-6xl overflow-auto rounded-xl bg-black shadow-2xl">
-            <img
+            <CampusImg
               src={activeImage.src}
               alt={activeImage.alt}
+              sizes="100vw"
               className="max-h-[82vh] w-full object-contain"
             />
             <div className="flex items-center justify-between gap-4 bg-[#153d2d] px-5 py-4 text-white">

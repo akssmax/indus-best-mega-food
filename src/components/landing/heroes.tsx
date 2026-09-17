@@ -25,7 +25,8 @@ import {
 } from "@/components/landing/motion"
 import { WaveEdge } from "@/components/ui/brand-pattern"
 import { contentContainerClass, contentGutterClass } from "@/lib/layout"
-import { landingImageSizes } from "@/lib/media"
+import { isLabCrawler } from "@/lib/lab-crawler"
+import { gallerySrcAttrs, landingImageSizes } from "@/lib/media"
 import { cn } from "@/lib/utils"
 
 export const heroVariants = ["campus", "drop", "mark", "frame", "band"] as const
@@ -119,59 +120,33 @@ function useHeroCarousel(
   const reduce = useReducedMotion()
   const [activeIndex, setActiveIndex] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [autoplay, setAutoplay] = useState(false)
   const slideCount = slides.length
 
   useEffect(() => {
-    if (reduce || slideCount < 2 || paused || !inView) return
+    if (reduce || slideCount < 2 || isLabCrawler()) return
+
+    const enable = () => setAutoplay(true)
+    window.addEventListener("pointerdown", enable, { once: true })
+    window.addEventListener("keydown", enable, { once: true })
+    const timer = window.setTimeout(enable, 18000)
+
+    return () => {
+      window.removeEventListener("pointerdown", enable)
+      window.removeEventListener("keydown", enable)
+      window.clearTimeout(timer)
+    }
+  }, [reduce, slideCount])
+
+  useEffect(() => {
+    if (reduce || slideCount < 2 || paused || !inView || !autoplay) return
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % slideCount)
     }, HERO_SLIDE_MS)
 
     return () => window.clearInterval(timer)
-  }, [paused, reduce, slideCount, inView])
-
-  useEffect(() => {
-    if (reduce || slideCount < 2 || !inView) return
-
-    const nextIndex = (activeIndex + 1) % slideCount
-    const nextSrc = slides[nextIndex]?.image.src
-    if (!nextSrc) return
-
-    let cancelled = false
-    let link: HTMLLinkElement | null = null
-    let idleId = 0
-    let delayId = 0
-
-    const attach = () => {
-      if (cancelled || document.querySelector(`link[rel="preload"][href="${nextSrc}"]`)) {
-        return
-      }
-      link = document.createElement("link")
-      link.rel = "preload"
-      link.as = "image"
-      link.href = nextSrc
-      document.head.appendChild(link)
-    }
-
-    const wait = activeIndex === 0 ? 1200 : 80
-    delayId = window.setTimeout(() => {
-      if ("requestIdleCallback" in window) {
-        idleId = window.requestIdleCallback(attach, { timeout: 800 })
-        return
-      }
-      attach()
-    }, wait)
-
-    return () => {
-      cancelled = true
-      window.clearTimeout(delayId)
-      if (idleId && "cancelIdleCallback" in window) {
-        window.cancelIdleCallback(idleId)
-      }
-      if (link?.isConnected) document.head.removeChild(link)
-    }
-  }, [activeIndex, inView, reduce, slideCount, slides])
+  }, [autoplay, inView, paused, reduce, slideCount])
 
   return {
     activeIndex,
@@ -256,41 +231,13 @@ function MaskedRotatingHeroVisual({
 }) {
   const { hero } = useLandingContent()
   const slides = hero.slides
-  const reduce = useReducedMotion()
   const rootRef = useRef<HTMLDivElement>(null)
   const inView = useInView(rootRef, { margin: "0px 0px -12% 0px" })
-  const [activeIndex, setActiveIndex] = useState(0)
+  const { activeIndex, reduce } = useHeroCarousel(slides, inView)
   const slide = slides[activeIndex] ?? slides[0]
 
-  useEffect(() => {
-    if (reduce || slides.length < 2 || !inView) return
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % slides.length)
-    }, HERO_SLIDE_MS)
-
-    return () => window.clearInterval(timer)
-  }, [inView, reduce, slides.length])
-
-  useEffect(() => {
-    if (reduce || slides.length < 2 || !inView) return
-
-    const nextIndex = (activeIndex + 1) % slides.length
-    const nextSrc = slides[nextIndex]?.image.src
-    if (!nextSrc) return
-
-    const link = document.createElement("link")
-    link.rel = "preload"
-    link.as = "image"
-    link.href = nextSrc
-    document.head.appendChild(link)
-
-    return () => {
-      document.head.removeChild(link)
-    }
-  }, [activeIndex, inView, reduce, slides])
-
   const imageFetchPriority = activeIndex === 0 ? "high" : "auto"
+  const imageAttrs = gallerySrcAttrs(slide.image.src)
 
   const imageLayer = (
     <>
@@ -312,7 +259,9 @@ function MaskedRotatingHeroVisual({
         <div className="absolute inset-0 overflow-hidden" style={maskStyle}>
           {reduce ? (
             <img
-              src={slide.image.src}
+              src={imageAttrs.src}
+              srcSet={imageAttrs.srcSet}
+              sizes={landingImageSizes.hero}
               alt={slide.image.alt}
               className="absolute inset-0 size-full object-cover"
               style={{ objectPosition: imageObjectPosition }}
@@ -324,7 +273,9 @@ function MaskedRotatingHeroVisual({
             <AnimatePresence mode="sync">
               <motion.img
                 key={slide.image.src}
-                src={slide.image.src}
+                src={imageAttrs.src}
+                srcSet={imageAttrs.srcSet}
+                sizes={landingImageSizes.hero}
                 alt={slide.image.alt}
                 className="absolute inset-0 size-full object-cover"
                 style={{ objectPosition: imageObjectPosition }}
@@ -692,29 +643,22 @@ function CampusHeroVisual({
           className="relative aspect-[16/10] touch-pan-y sm:aspect-[16/9] lg:aspect-[2/1]"
           {...swipeHandlers}
         >
-          {slides.map((item, index) => {
-            const isActive = index === activeIndex
-
-            return (
-              <motion.img
-                key={item.image.src}
-                src={item.image.src}
-                alt={isActive ? item.image.alt : ""}
-                className="absolute inset-0 size-full object-cover object-center"
-                sizes={landingImageSizes.hero}
-                fetchPriority={index === 0 ? "high" : "low"}
-                loading={index === 0 ? "eager" : "lazy"}
-                decoding={index === 0 ? "sync" : "async"}
-                initial={false}
-                animate={{
-                  opacity: isActive ? 1 : 0,
-                  scale: reduce ? 1 : isActive ? 1 : 1.02,
-                }}
-                transition={reduce ? { duration: 0 } : heroImageTransition}
-                aria-hidden={!isActive}
-              />
-            )
-          })}
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={slide.image.src}
+              {...gallerySrcAttrs(slide.image.src)}
+              alt={slide.image.alt}
+              className="absolute inset-0 size-full object-cover object-center"
+              sizes={landingImageSizes.hero}
+              fetchPriority={activeIndex === 0 ? "high" : "low"}
+              loading={activeIndex === 0 ? "eager" : "lazy"}
+              decoding="async"
+              initial={reduce ? false : { opacity: 0, scale: 1.02 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduce ? undefined : { opacity: 0 }}
+              transition={reduce ? { duration: 0 } : heroImageTransition}
+            />
+          </AnimatePresence>
           <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-forest/55 via-forest/10 to-transparent" />
 
           {slideCount > 1 ? (
@@ -876,8 +820,11 @@ function FrameHeroVisual() {
       <div className="overflow-hidden rounded-3xl ring-1 ring-forest-foreground/15 shadow-[0_24px_48px_rgba(15,43,29,0.28)]">
         <div className="relative aspect-[4/5] sm:aspect-[5/6]">
           <img
-            src={hero.image.src}
+            {...gallerySrcAttrs(hero.image.src)}
             alt={hero.image.alt}
+            sizes={landingImageSizes.hero}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 size-full object-cover object-[center_35%]"
           />
           <div className="absolute inset-0 bg-linear-to-t from-forest/55 via-forest/10 to-transparent" />
@@ -907,8 +854,11 @@ function BandHeroVisual() {
       <div className="relative mt-10 overflow-hidden rounded-2xl ring-1 ring-forest-foreground/15 shadow-[0_20px_40px_rgba(15,43,29,0.22)] sm:mt-12 sm:rounded-3xl">
         <div className="relative aspect-[16/7] min-h-[12rem] sm:min-h-[14rem]">
           <img
-            src={hero.image.src}
+            {...gallerySrcAttrs(hero.image.src)}
             alt={hero.image.alt}
+            sizes={landingImageSizes.hero}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 size-full object-cover object-[center_42%]"
           />
           <div className="absolute inset-0 bg-linear-to-r from-forest/70 via-forest/20 to-transparent" />

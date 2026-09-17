@@ -25,8 +25,10 @@ import { campusDetail } from "@/content/campus"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 import { PatternBand, PatternCorner } from "@/components/ui/brand-pattern"
+import { CampusImg } from "@/components/ui/campus-img"
 import { SectionBand } from "@/lib/section-band"
 import { facilityCategoryStyles } from "@/lib/facility-categories"
+import { landingImageSizes } from "@/lib/media"
 import { cn } from "@/lib/utils"
 
 const utilityGroupMeta: Record<
@@ -195,9 +197,10 @@ function GroundProof() {
           <MotionItem key={item.title}>
             <article className="h-full overflow-hidden rounded-2xl bg-card ring-1 ring-foreground/8">
               <div className="relative aspect-[16/10] overflow-hidden">
-                <img
+                <CampusImg
                   src={item.image.src}
                   alt={item.image.alt}
+                  sizes={landingImageSizes.card}
                   className="size-full object-cover"
                 />
               </div>
@@ -283,9 +286,10 @@ function CampusUtilities() {
         </Reveal>
 
         <Reveal className="mt-10 overflow-hidden rounded-2xl">
-          <img
+          <CampusImg
             src={utilities.image.src}
             alt={utilities.image.alt}
+            sizes="(min-width: 1024px) 72rem, 100vw"
             className="aspect-[16/10] w-full object-cover"
           />
         </Reveal>
@@ -344,9 +348,10 @@ function CampusAssurance() {
       </Reveal>
 
       <Reveal className="mt-10 overflow-hidden rounded-2xl">
-        <img
+        <CampusImg
           src={assurance.image.src}
           alt={assurance.image.alt}
+          sizes="(min-width: 1024px) 72rem, 100vw"
           className="aspect-[16/10] w-full object-cover lg:max-h-[22rem]"
         />
       </Reveal>

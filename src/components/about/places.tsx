@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import { aboutPage } from "@/content/about"
 import { site } from "@/content/site"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -6,6 +9,7 @@ import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 
 export function AboutPlaces() {
   const { places } = aboutPage
+  const [mapEnabled, setMapEnabled] = useState(false)
   const addresses = [
     site.addresses.works,
     site.addresses.corporate,
@@ -46,16 +50,31 @@ export function AboutPlaces() {
 
       <Reveal className="mt-8" delay={0.06}>
         <div className="overflow-hidden rounded-xl ring-1 ring-foreground/10">
-          <iframe
-            src={places.mapEmbed}
-            width="100%"
-            height="360"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Indus Best Mega Food Park works"
-          />
+          {mapEnabled ? (
+            <iframe
+              src={places.mapEmbed}
+              width="100%"
+              height="360"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Indus Best Mega Food Park works"
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setMapEnabled(true)}
+              className="flex h-[22.5rem] w-full flex-col items-center justify-center gap-2 bg-muted px-6 text-center"
+            >
+              <span className="font-heading text-lg font-semibold">
+                View campus on Google Maps
+              </span>
+              <span className="max-w-sm text-sm text-muted-foreground">
+                Load the map for Village Bemta–Sarora, near Raipur.
+              </span>
+            </button>
+          )}
         </div>
       </Reveal>
 

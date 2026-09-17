@@ -2,7 +2,9 @@ import { useState } from "react"
 import { XIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { CampusImg } from "@/components/ui/campus-img"
 import { cn } from "@/lib/utils"
+import { landingImageSizes } from "@/lib/media"
 
 export type GalleryItem = {
   src: string
@@ -41,9 +43,14 @@ export function CaptionGallery({
                 index === 0 ? "h-full min-h-0" : "aspect-[4/3]"
               )}
             >
-              <img
+              <CampusImg
                 src={item.src}
                 alt={item.alt}
+                sizes={
+                  index === 0
+                    ? "(min-width: 1024px) 50vw, 100vw"
+                    : landingImageSizes.card
+                }
                 className="absolute inset-0 size-full object-cover"
                 loading={index > 2 ? "lazy" : "eager"}
               />
@@ -81,9 +88,11 @@ export function CaptionGallery({
             className="flex min-h-0 flex-1 touch-manipulation items-center justify-center px-4 pb-[max(1rem,env(safe-area-inset-bottom))]"
             onClick={() => setActive(null)}
           >
-            <img
+            <CampusImg
               src={current.src}
               alt={current.alt}
+              sizes="100vw"
+              loading="eager"
               className="max-h-full max-w-full object-contain"
             />
           </button>

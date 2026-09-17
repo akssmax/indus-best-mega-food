@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type RefObject } from "react"
 
+import { isLabCrawler } from "@/lib/lab-crawler"
 import { cn } from "@/lib/utils"
 import { getHeroDropAnchor } from "@/lib/vgpu/fft-ocean/tuning-runtime"
 
@@ -101,6 +102,7 @@ export function OceanBackground({
     const wrap = wrapRef.current
     const canvas = canvasRef.current
     if (!wrap || !canvas) return
+    if (isLabCrawler()) return
     if (typeof navigator === "undefined" || !("gpu" in navigator)) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
@@ -280,10 +282,10 @@ export function OceanBackground({
       }
       const requestIdle = window.requestIdleCallback
       if (requestIdle) {
-        idleId = requestIdle.call(window, run, { timeout: 1600 })
+        idleId = requestIdle.call(window, run)
         return
       }
-      idleTimeout = window.setTimeout(run, 280)
+      idleTimeout = window.setTimeout(run, 1200)
     }
 
     const observer = new IntersectionObserver(

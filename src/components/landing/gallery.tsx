@@ -1,6 +1,8 @@
 import { landing } from "@/content/landing"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
+import { CampusImg } from "@/components/ui/campus-img"
+import { landingImageSizes } from "@/lib/media"
 
 export function Gallery() {
   const { gallery: data } = landing
@@ -19,11 +21,12 @@ export function Gallery() {
             className={`min-w-0 ${index < 4 ? "lg:col-span-3" : "lg:col-span-4"}`}
           >
             <figure className="group relative aspect-[4/3] w-full overflow-hidden rounded-xl ring-1 ring-foreground/10">
-              <img
+              <CampusImg
                 src={item.src}
                 alt={item.alt}
+                sizes={landingImageSizes.card}
+                loading="lazy"
                 className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                loading={index > 2 ? "lazy" : "eager"}
               />
               <div
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/75 via-black/30 to-transparent"

@@ -1,3 +1,5 @@
+import { landingImageSizes } from "@/lib/media"
+import { CampusImg } from "@/components/ui/campus-img"
 import { landing } from "@/content/landing"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eyebrow, Section } from "@/components/landing/section"
@@ -24,9 +26,10 @@ function FacilitiesDetail() {
             <MotionItem key={facility.title}>
               <Card className="h-full gap-0 overflow-hidden p-0">
                 <div className="relative aspect-[16/10] w-full overflow-hidden">
-                  <img
+                  <CampusImg
                     src={facility.image.src}
                     alt={facility.image.alt}
+                    sizes={landingImageSizes.card}
                     className="absolute inset-0 size-full rounded-none object-cover transition-transform duration-500 hover-fine:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />

@@ -23,6 +23,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { PatternBand } from "@/components/ui/brand-pattern"
+import { CampusImg } from "@/components/ui/campus-img"
 import { landingImageSizes } from "@/lib/media"
 import { cn } from "@/lib/utils"
 
@@ -53,11 +54,10 @@ function MockupImage({
   className?: string
 }) {
   return (
-    <img
+    <CampusImg
       src={src}
       alt={alt}
       loading={priority ? "eager" : "lazy"}
-      decoding="async"
       sizes={landingImageSizes.card}
       className={cn(
         "size-full object-cover object-center",
@@ -241,11 +241,11 @@ export function PrivateLabelPageContent() {
                         ))}
                       </ul>
                     </div>
-                    <img
+                    <CampusImg
                       src={category.image.src}
                       alt={category.image.alt}
                       loading="lazy"
-                      decoding="async"
+                      sizes={landingImageSizes.product}
                       className="hidden aspect-[4/3] w-full rounded-xl object-cover ring-1 ring-foreground/8 lg:block"
                     />
                   </div>

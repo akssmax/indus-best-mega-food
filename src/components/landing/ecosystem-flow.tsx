@@ -27,7 +27,10 @@ import { useLandingContent } from "@/lib/landing-content-context"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { Reveal, motionEase } from "@/components/landing/motion"
 import { DropFlourish, PatternBand } from "@/components/ui/brand-pattern"
+import { CampusImg } from "@/components/ui/campus-img"
 import { SectionBand } from "@/lib/section-band"
+import { isLabCrawler } from "@/lib/lab-crawler"
+import { landingImageSizes } from "@/lib/media"
 import { cn } from "@/lib/utils"
 
 const STAGE_DURATION_MS = 4800
@@ -491,9 +494,10 @@ function StageDetailCard({ stage }: { stage: (typeof flowStages)[number] }) {
   return (
     <div className="relative isolate flex h-full flex-col overflow-hidden rounded-xl border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.22)]">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <img
+        <CampusImg
           src={stage.image.src}
           alt=""
+          sizes={landingImageSizes.thumb}
           className="size-full scale-125 object-cover blur-2xl"
           style={{ objectPosition: stage.image.position }}
         />
@@ -554,16 +558,15 @@ function StagePanel({
       )}
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <img
+        <CampusImg
           src={stage.image.src}
           alt={stage.image.alt}
+          sizes={isActive ? landingImageSizes.split : landingImageSizes.thumb}
           className={cn(
             "size-full scale-105 object-cover",
             !isActive && "brightness-[0.92] saturate-[0.95]"
           )}
           style={{ objectPosition: stage.image.position }}
-          loading="lazy"
-          decoding="async"
         />
         <StageImageOverlays stage={stage} compact={!isActive} />
       </div>
@@ -608,13 +611,12 @@ function MobileStageHero({ stage }: { stage: (typeof flowStages)[number] }) {
       )}
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <img
+        <CampusImg
           src={stage.image.src}
           alt={stage.image.alt}
+          sizes="100vw"
           className="size-full scale-105 object-cover"
           style={{ objectPosition: stage.image.position }}
-          loading="lazy"
-          decoding="async"
         />
         <StageImageOverlays stage={stage} />
       </div>
@@ -663,13 +665,12 @@ function StageThumb({
           : "opacity-70 hover-fine:opacity-100"
       )}
     >
-      <img
+      <CampusImg
         src={stage.image.src}
         alt={stage.image.alt}
+        sizes={landingImageSizes.thumb}
         className="size-full object-cover"
         style={{ objectPosition: stage.image.position }}
-        loading="lazy"
-        decoding="async"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
       <span className="absolute inset-x-0 bottom-1 text-center text-[0.5625rem] font-medium tracking-[0.12em] text-white uppercase">
@@ -682,6 +683,7 @@ function StageThumb({
 function AnimatedProcessFlow() {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [autoplay, setAutoplay] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const inView = useInView(rootRef, { amount: 0.25, margin: "-10% 0px" })
   const reduce = useReducedMotion()
@@ -692,20 +694,35 @@ function AnimatedProcessFlow() {
   }, [])
 
   useEffect(() => {
+    if (reduce || isLabCrawler()) return
+
+    const enable = () => setAutoplay(true)
+    window.addEventListener("pointerdown", enable, { once: true })
+    window.addEventListener("keydown", enable, { once: true })
+    const timer = window.setTimeout(enable, 18000)
+
+    return () => {
+      window.removeEventListener("pointerdown", enable)
+      window.removeEventListener("keydown", enable)
+      window.clearTimeout(timer)
+    }
+  }, [reduce])
+
+  useEffect(() => {
     if (!paused) return
     const resume = window.setTimeout(() => setPaused(false), 9000)
     return () => window.clearTimeout(resume)
   }, [paused, active])
 
   useEffect(() => {
-    if (reduce || !inView || paused) return
+    if (reduce || !inView || paused || !autoplay) return
 
     const timer = window.setInterval(() => {
       setActive((current) => (current + 1) % flowStages.length)
     }, STAGE_DURATION_MS)
 
     return () => window.clearInterval(timer)
-  }, [reduce, inView, paused])
+  }, [autoplay, reduce, inView, paused])
 
   const currentStage = flowStages[active]
 

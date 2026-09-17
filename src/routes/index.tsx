@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { getHomePageContent, getSiteContent } from "@/server/content"
 import { LandingContentProvider } from "@/lib/landing-content-context"
 import { renderHomeSections } from "@/components/landing/home-section-renderer"
+import { galleryPreloadAttrs } from "@/lib/media"
 import { faqJsonLd, seoHead } from "@/lib/seo"
 
 export const Route = createFileRoute("/")({
@@ -16,6 +17,11 @@ export const Route = createFileRoute("/")({
   head: ({ loaderData }) => {
     const siteContent = loaderData?.siteContent
     const landingContent = loaderData?.homeContent?.landing
+    const heroSrc =
+      landingContent?.hero.slides[0]?.image.src ??
+      landingContent?.hero.image.src ??
+      "/images/gallery/campus-overview.webp"
+    const preload = galleryPreloadAttrs(heroSrc)
     const seo = seoHead({
       title: siteContent?.home.title ?? "Indus Best Mega Food Park",
       description:
@@ -30,14 +36,9 @@ export const Route = createFileRoute("/")({
       ],
       links: [
         ...seo.links,
-        { rel: "preconnect", href: "https://cdn.shopify.com" },
-        { rel: "dns-prefetch", href: "https://maps.google.com" },
         {
           rel: "preload",
-          href:
-            landingContent?.hero.slides[0]?.image.src ??
-            landingContent?.hero.image.src ??
-            "/images/gallery/campus-overview.webp",
+          href: preload.href,
           as: "image",
           fetchPriority: "high",
         },

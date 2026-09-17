@@ -7,7 +7,8 @@ import {
   TruckIcon,
 } from "@heroicons/react/24/outline"
 
-import { landing } from "@/content/landing"
+import { landingImageSizes } from "@/lib/media"
+import { CampusImg } from "@/components/ui/campus-img"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
 
@@ -72,9 +73,10 @@ export function Infrastructure() {
             <MotionItem key={zone.title}>
               <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <img
+                  <CampusImg
                     src={img.src}
                     alt={img.alt}
+                    sizes={landingImageSizes.card}
                     className="size-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />

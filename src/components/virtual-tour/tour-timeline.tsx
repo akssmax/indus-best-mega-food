@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type RefObject } from "react"
 
 import type { VirtualTourZone } from "@/content/virtual-tour"
 import { CampusHotspots } from "@/components/ui/campus-hotspots"
+import { CampusImg } from "@/components/ui/campus-img"
 import { BorderBeam } from "@/components/ui/border-beam"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
@@ -183,11 +184,10 @@ function TimelineZone({
             />
           ) : (
             <div className="relative aspect-[16/10] min-h-[12rem] overflow-hidden bg-muted sm:min-h-[16rem]">
-              <img
+              <CampusImg
                 src={zone.image.src}
                 alt={zone.image.alt}
                 loading={index === 0 ? "eager" : "lazy"}
-                decoding="async"
                 className="absolute inset-0 size-full object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-forest/40 via-transparent to-transparent" />
