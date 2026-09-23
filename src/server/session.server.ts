@@ -1,40 +1,33 @@
-import { useSession } from "@tanstack/react-start/server"
+import "@tanstack/react-start/server-only"
+
+import { getNeonAuth } from "./neon-auth.server"
 
 export type AdminSession = {
   username: string
   loggedInAt: string
 }
 
-type SessionData = {
-  admin?: AdminSession
-}
-
-function sessionPassword(): string {
-  const secret = process.env.AUTH_SECRET
-  if (!secret || secret.length < 32) {
-    throw new Error("AUTH_SECRET must be set to at least 32 characters.")
+function toAdminSession(user: {
+  email?: string | null
+  name?: string | null
+}): AdminSession {
+  return {
+    username: user.email ?? user.name ?? "admin",
+    loggedInAt: new Date().toISOString(),
   }
-  return secret
 }
 
-export function getAdminSession() {
-  return useSession<SessionData>({
-    name: "ibmfp_session",
-    password: sessionPassword(),
-    cookie: {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7,
-    },
-  })
+export async function getAdminSession(): Promise<AdminSession | null> {
+  const { data } = await getNeonAuth().getSession()
+  const user = data?.user
+  if (!user) return null
+  return toAdminSession(user)
 }
 
 export async function requireAdmin(): Promise<AdminSession> {
   const session = await getAdminSession()
-  if (!session.data.admin) {
+  if (!session) {
     throw new Error("Authentication required.")
   }
-  return session.data.admin
+  return session
 }

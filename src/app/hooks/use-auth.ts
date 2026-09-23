@@ -27,8 +27,8 @@ export function useAuth() {
   }, [])
 
   const signIn = useCallback(
-    async (username: string, password: string) => {
-      const ok = await authSignIn(username, password)
+    async (email: string, password: string) => {
+      const ok = await authSignIn(email, password)
       if (ok) {
         setSession(await getSession())
         await router.invalidate()

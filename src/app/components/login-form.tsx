@@ -54,7 +54,7 @@ function LoginBrandMark({
 export function LoginForm() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
-  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [pending, setPending] = useState(false)
@@ -64,12 +64,12 @@ export function LoginForm() {
     setPending(true)
 
     try {
-      const ok = await signIn(username.trim(), password)
+      const ok = await signIn(email.trim(), password)
       if (ok) {
         toast.success("Signed in.")
         await navigate({ to: "/app/enquiries" })
       } else {
-        toast.error("Invalid username or password.")
+        toast.error("Invalid email or password.")
       }
     } catch {
       toast.error("Sign in failed. Please try again.")
@@ -140,14 +140,15 @@ export function LoginForm() {
 
             <div className="grid gap-4">
               <div className="grid gap-1.5">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="username"
-                  name="username"
-                  autoComplete="username"
-                  placeholder="Enter your username"
-                  value={username}
-                  onChange={(event) => setUsername(event.target.value)}
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
                   required
                   className="h-11 bg-background"
                 />

@@ -1,17 +1,18 @@
-import { getAdminSessionFn, loginAdmin, logoutAdmin } from "@/server/auth"
+import { authClient } from "@/auth"
+import { getAdminSessionFn } from "@/server/auth"
 
 export type { AdminSession as DashboardSession } from "@/server/auth"
 
 export async function signIn(
-  username: string,
+  email: string,
   password: string,
 ): Promise<boolean> {
-  const result = await loginAdmin({ data: { username, password } })
-  return result.ok
+  const { error } = await authClient.signIn.email({ email, password })
+  return !error
 }
 
 export async function signOut(): Promise<void> {
-  await logoutAdmin()
+  await authClient.signOut()
 }
 
 export async function getSession() {

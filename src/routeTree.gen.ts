@@ -32,6 +32,7 @@ import { Route as AppAuthenticatedRouteRouteImport } from './routes/app/_authent
 import { Route as AppLoginRouteImport } from './routes/app/login'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AppAuthenticatedEnquiriesRouteImport } from './routes/app/_authenticated/enquiries'
 import { Route as AppAuthenticatedSettingsRouteImport } from './routes/app/_authenticated/settings'
 import { Route as AppAuthenticatedPostsIndexRouteImport } from './routes/app/_authenticated/posts/index'
@@ -154,6 +155,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppAuthenticatedEnquiriesRoute =
   AppAuthenticatedEnquiriesRouteImport.update({
     id: '/enquiries',
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/app/': typeof AppIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/enquiries': typeof AppAuthenticatedEnquiriesRoute
   '/app/settings': typeof AppAuthenticatedSettingsRoute
   '/app/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/app/login': typeof AppLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/enquiries': typeof AppAuthenticatedEnquiriesRoute
   '/app/settings': typeof AppAuthenticatedSettingsRoute
   '/app/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/app/': typeof AppIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/_authenticated/enquiries': typeof AppAuthenticatedEnquiriesRoute
   '/app/_authenticated/settings': typeof AppAuthenticatedSettingsRoute
   '/app/_authenticated/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/app/'
     | '/blog/'
+    | '/api/auth/$'
     | '/app/enquiries'
     | '/app/settings'
     | '/app/posts/$postId'
@@ -346,6 +356,7 @@ export interface FileRouteTypes {
     | '/app/login'
     | '/blog/$slug'
     | '/blog'
+    | '/api/auth/$'
     | '/app/enquiries'
     | '/app/settings'
     | '/app/posts/$postId'
@@ -378,6 +389,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/app/'
     | '/blog/'
+    | '/api/auth/$'
     | '/app/_authenticated/enquiries'
     | '/app/_authenticated/settings'
     | '/app/_authenticated/posts/$postId'
@@ -408,6 +420,7 @@ export interface RootRouteChildren {
   WhyRoute: typeof WhyRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -573,6 +586,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/_authenticated/enquiries': {
       id: '/app/_authenticated/enquiries'
       path: '/enquiries'
@@ -688,6 +708,7 @@ const rootRouteChildren: RootRouteChildren = {
   WhyRoute: WhyRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
