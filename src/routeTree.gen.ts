@@ -35,6 +35,7 @@ import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AppAuthenticatedEnquiriesRouteImport } from './routes/app/_authenticated/enquiries'
 import { Route as AppAuthenticatedSettingsRouteImport } from './routes/app/_authenticated/settings'
+import { Route as AppAuthenticatedTeamRouteImport } from './routes/app/_authenticated/team'
 import { Route as AppAuthenticatedPostsIndexRouteImport } from './routes/app/_authenticated/posts/index'
 import { Route as AppAuthenticatedPostsPostIdRouteImport } from './routes/app/_authenticated/posts/$postId'
 import { Route as AppAuthenticatedPostsNewRouteImport } from './routes/app/_authenticated/posts/new'
@@ -172,6 +173,11 @@ const AppAuthenticatedSettingsRoute =
     path: '/settings',
     getParentRoute: () => AppAuthenticatedRouteRoute,
   } as any)
+const AppAuthenticatedTeamRoute = AppAuthenticatedTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AppAuthenticatedRouteRoute,
+} as any)
 const AppAuthenticatedPostsIndexRoute =
   AppAuthenticatedPostsIndexRouteImport.update({
     id: '/posts/',
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/enquiries': typeof AppAuthenticatedEnquiriesRoute
   '/app/settings': typeof AppAuthenticatedSettingsRoute
+  '/app/team': typeof AppAuthenticatedTeamRoute
   '/app/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
   '/app/posts/new': typeof AppAuthenticatedPostsNewRoute
   '/app/posts/': typeof AppAuthenticatedPostsIndexRoute
@@ -260,6 +267,7 @@ export interface FileRoutesByTo {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/enquiries': typeof AppAuthenticatedEnquiriesRoute
   '/app/settings': typeof AppAuthenticatedSettingsRoute
+  '/app/team': typeof AppAuthenticatedTeamRoute
   '/app/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
   '/app/posts/new': typeof AppAuthenticatedPostsNewRoute
   '/app/posts': typeof AppAuthenticatedPostsIndexRoute
@@ -294,6 +302,7 @@ export interface FileRoutesById {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/_authenticated/enquiries': typeof AppAuthenticatedEnquiriesRoute
   '/app/_authenticated/settings': typeof AppAuthenticatedSettingsRoute
+  '/app/_authenticated/team': typeof AppAuthenticatedTeamRoute
   '/app/_authenticated/posts/$postId': typeof AppAuthenticatedPostsPostIdRoute
   '/app/_authenticated/posts/new': typeof AppAuthenticatedPostsNewRoute
   '/app/_authenticated/posts/': typeof AppAuthenticatedPostsIndexRoute
@@ -328,6 +337,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/app/enquiries'
     | '/app/settings'
+    | '/app/team'
     | '/app/posts/$postId'
     | '/app/posts/new'
     | '/app/posts/'
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/app/enquiries'
     | '/app/settings'
+    | '/app/team'
     | '/app/posts/$postId'
     | '/app/posts/new'
     | '/app/posts'
@@ -392,6 +403,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/app/_authenticated/enquiries'
     | '/app/_authenticated/settings'
+    | '/app/_authenticated/team'
     | '/app/_authenticated/posts/$postId'
     | '/app/_authenticated/posts/new'
     | '/app/_authenticated/posts/'
@@ -607,6 +619,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuthenticatedSettingsRouteImport
       parentRoute: typeof AppAuthenticatedRouteRoute
     }
+    '/app/_authenticated/team': {
+      id: '/app/_authenticated/team'
+      path: '/team'
+      fullPath: '/app/team'
+      preLoaderRoute: typeof AppAuthenticatedTeamRouteImport
+      parentRoute: typeof AppAuthenticatedRouteRoute
+    }
     '/app/_authenticated/posts/': {
       id: '/app/_authenticated/posts/'
       path: '/posts'
@@ -648,6 +667,7 @@ declare module '@tanstack/react-router' {
 interface AppAuthenticatedRouteRouteChildren {
   AppAuthenticatedEnquiriesRoute: typeof AppAuthenticatedEnquiriesRoute
   AppAuthenticatedSettingsRoute: typeof AppAuthenticatedSettingsRoute
+  AppAuthenticatedTeamRoute: typeof AppAuthenticatedTeamRoute
   AppAuthenticatedPostsPostIdRoute: typeof AppAuthenticatedPostsPostIdRoute
   AppAuthenticatedPostsNewRoute: typeof AppAuthenticatedPostsNewRoute
   AppAuthenticatedPostsIndexRoute: typeof AppAuthenticatedPostsIndexRoute
@@ -658,6 +678,7 @@ interface AppAuthenticatedRouteRouteChildren {
 const AppAuthenticatedRouteRouteChildren: AppAuthenticatedRouteRouteChildren = {
   AppAuthenticatedEnquiriesRoute: AppAuthenticatedEnquiriesRoute,
   AppAuthenticatedSettingsRoute: AppAuthenticatedSettingsRoute,
+  AppAuthenticatedTeamRoute: AppAuthenticatedTeamRoute,
   AppAuthenticatedPostsPostIdRoute: AppAuthenticatedPostsPostIdRoute,
   AppAuthenticatedPostsNewRoute: AppAuthenticatedPostsNewRoute,
   AppAuthenticatedPostsIndexRoute: AppAuthenticatedPostsIndexRoute,
