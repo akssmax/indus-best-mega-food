@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import {
   ArrowUpRight,
   PlaneIcon,
@@ -38,7 +37,6 @@ export function Location({
   const landing = useLandingContent()
   const { location: data } = landing
   const embedSrc = googleMapsEmbed(data.campusQuery, 14)
-  const [mapEnabled, setMapEnabled] = useState(false)
 
   const content = (
     <Section
@@ -102,31 +100,16 @@ export function Location({
 
           <Reveal className="lg:sticky lg:top-24" delay={0.08}>
             <div className="overflow-hidden rounded-2xl bg-card ring-1 ring-foreground/10">
-              {mapEnabled ? (
-                <iframe
-                  src={embedSrc}
-                  width="100%"
-                  height="520"
-                  className="h-[min(70vh,36rem)] w-full border-0 lg:h-[36rem]"
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Indus Best Mega Food Park, Village Bemta–Sarora"
-                />
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setMapEnabled(true)}
-                  className="flex h-[min(70vh,36rem)] w-full flex-col items-center justify-center gap-2 bg-muted px-6 text-center lg:h-[36rem]"
-                >
-                  <span className="font-heading text-lg font-semibold">
-                    View campus on Google Maps
-                  </span>
-                  <span className="max-w-sm text-sm text-muted-foreground">
-                    Load the map for Village Bemta–Sarora, near Raipur.
-                  </span>
-                </button>
-              )}
+              <iframe
+                src={embedSrc}
+                width="100%"
+                height="520"
+                className="h-[min(70vh,36rem)] w-full border-0 lg:h-[36rem]"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Indus Best Mega Food Park, Village Bemta–Sarora"
+              />
               <div className="flex items-center justify-between gap-3 border-t border-border/60 px-4 py-3">
                 <div className="min-w-0">
                   <p className="text-xs font-medium tracking-[0.16em] text-muted-foreground uppercase">
