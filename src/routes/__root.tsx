@@ -22,6 +22,22 @@ import { organizationJsonLd, THEME_COLOR } from "@/lib/seo"
 import { themeBootScript } from "@/lib/theme"
 import appCss from "../styles.css?url"
 
+const preloadRecoveryScript = `
+(function () {
+  try {
+    window.addEventListener("vite:preloadError", function (event) {
+      try { event.preventDefault(); } catch (e) {}
+      try {
+        if (!sessionStorage.getItem("ibmfp-chunk-reload")) {
+          sessionStorage.setItem("ibmfp-chunk-reload", "1");
+          window.location.reload();
+        }
+      } catch (e) {}
+    });
+  } catch (e) {}
+})();
+`
+
 export const Route = createRootRoute({
   loader: async () => {
     const siteContent = await getSiteContent()
@@ -59,6 +75,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+        <script dangerouslySetInnerHTML={{ __html: preloadRecoveryScript }} />
       </head>
       <body className="min-h-svh antialiased">
         <ColorModeSync />
