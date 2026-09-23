@@ -10,10 +10,23 @@ type Database = NeonHttpDatabase<typeof schema>
 
 let instance: Database | undefined
 
+export class DatabaseUnavailableError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = "DatabaseUnavailableError"
+  }
+}
+
+export function isDatabaseUnavailable(error: unknown): boolean {
+  return error instanceof DatabaseUnavailableError
+}
+
 function getDatabaseUrl(): string {
   const url = process.env["DATABASE_URL"]
   if (!url) {
-    throw new Error("DATABASE_URL is not set. Add it to .env (see .env.example).")
+    throw new DatabaseUnavailableError(
+      "DATABASE_URL is not set. Add it to .env (see .env.example).",
+    )
   }
   return url
 }

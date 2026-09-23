@@ -20,7 +20,7 @@ import {
 } from "@/content/site-settings.schema"
 import { mergeContent } from "@/lib/content-merge"
 import { requireAdmin } from "@/server/session.server"
-import { db } from "@/server/db"
+import { db, isDatabaseUnavailable } from "@/server/db"
 import { pageSections, siteSettings } from "@/server/schema"
 
 export type ResolvedSite = typeof site
@@ -28,6 +28,7 @@ export type ResolvedSite = typeof site
 const HOME_PAGE_SLUG = "home"
 
 function isMissingCmsTable(error: unknown) {
+  if (isDatabaseUnavailable(error)) return true
   if (!(error instanceof Error)) return false
   const message = error.message.toLowerCase()
   return (
