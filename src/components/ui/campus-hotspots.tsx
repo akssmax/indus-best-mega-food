@@ -40,12 +40,15 @@ export function CampusHotspots({
   alt,
   pins,
   className,
+  pinsClassName,
   pinsAlwaysVisible = false,
 }: {
   src: string
   alt: string
   pins: readonly CampusPin[]
   className?: string
+  /** Extra classes applied to each hotspot pin (e.g. hide on small screens). */
+  pinsClassName?: string
   /** Show hotspot pins without requiring hover (e.g. virtual tour). */
   pinsAlwaysVisible?: boolean
 }) {
@@ -78,7 +81,8 @@ export function CampusHotspots({
             className={cn(
               "absolute z-10 min-h-11 min-w-11 -translate-x-1/2 -translate-y-1/2 cursor-pointer touch-manipulation text-left outline-none transition-opacity duration-200 focus-visible:ring-3 focus-visible:ring-ring/50",
               !pinsAlwaysVisible &&
-                "lg:opacity-0 lg:pointer-events-none lg:group-hover/campus:opacity-100 lg:group-hover/campus:pointer-events-auto lg:group-hover/card:opacity-100 lg:group-hover/card:pointer-events-auto lg:focus-visible:opacity-100 lg:focus-visible:pointer-events-auto"
+                "lg:opacity-0 lg:pointer-events-none lg:group-hover/campus:opacity-100 lg:group-hover/campus:pointer-events-auto lg:group-hover/card:opacity-100 lg:group-hover/card:pointer-events-auto lg:focus-visible:opacity-100 lg:focus-visible:pointer-events-auto",
+              pinsClassName
             )}
             style={{ left: pin.x, top: pin.y }}
           >

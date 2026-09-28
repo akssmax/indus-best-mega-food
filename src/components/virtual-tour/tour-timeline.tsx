@@ -180,6 +180,7 @@ function TimelineZone({
               alt={zone.image.alt}
               pins={zone.pins!}
               pinsAlwaysVisible
+              pinsClassName="hidden sm:block"
               className="aspect-[16/10] min-h-[12rem] w-full rounded-2xl sm:min-h-[16rem]"
             />
           ) : (
