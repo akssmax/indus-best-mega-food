@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /app
-Disallow: /app/
 Disallow: /design-system
 Disallow: /hero-1
+Disallow: /branding
 
 Sitemap: https://www.indusbestmegafoodpark.com/sitemap.xml

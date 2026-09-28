@@ -24,6 +24,7 @@ import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PrivateLabelRouteImport } from './routes/private-label'
 import { Route as ProductsRouteImport } from './routes/products'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as VirtualTourRouteImport } from './routes/virtual-tour'
 import { Route as WhyRouteImport } from './routes/why'
 import { Route as AppIndexRouteImport } from './routes/app/index'
@@ -114,6 +115,11 @@ const PrivateLabelRoute = PrivateLabelRouteImport.update({
 const ProductsRoute = ProductsRouteImport.update({
   id: '/products',
   path: '/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VirtualTourRoute = VirtualTourRouteImport.update({
@@ -219,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/virtual-tour': typeof VirtualTourRoute
   '/why': typeof WhyRoute
   '/app/login': typeof AppLoginRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/virtual-tour': typeof VirtualTourRoute
   '/why': typeof WhyRoute
   '/app': typeof AppIndexRoute
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/virtual-tour': typeof VirtualTourRoute
   '/why': typeof WhyRoute
   '/app/_authenticated': typeof AppAuthenticatedRouteRouteWithChildren
@@ -318,6 +327,7 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/private-label'
     | '/products'
+    | '/sitemap.xml'
     | '/virtual-tour'
     | '/why'
     | '/app/login'
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/private-label'
     | '/products'
+    | '/sitemap.xml'
     | '/virtual-tour'
     | '/why'
     | '/app'
@@ -381,6 +392,7 @@ export interface FileRouteTypes {
     | '/opportunities'
     | '/private-label'
     | '/products'
+    | '/sitemap.xml'
     | '/virtual-tour'
     | '/why'
     | '/app/_authenticated'
@@ -415,6 +427,7 @@ export interface RootRouteChildren {
   OpportunitiesRoute: typeof OpportunitiesRoute
   PrivateLabelRoute: typeof PrivateLabelRoute
   ProductsRoute: typeof ProductsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VirtualTourRoute: typeof VirtualTourRoute
   WhyRoute: typeof WhyRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -527,6 +540,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/products'
       preLoaderRoute: typeof ProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/virtual-tour': {
@@ -704,6 +724,7 @@ const rootRouteChildren: RootRouteChildren = {
   OpportunitiesRoute: OpportunitiesRoute,
   PrivateLabelRoute: PrivateLabelRoute,
   ProductsRoute: ProductsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   VirtualTourRoute: VirtualTourRoute,
   WhyRoute: WhyRoute,
   BlogSlugRoute: BlogSlugRoute,

@@ -6,7 +6,7 @@ import { Eyebrow, Section } from "@/components/landing/section"
 import { Badge } from "@/components/ui/badge"
 import { site } from "@/content/site"
 import { contentGutterClass } from "@/lib/layout"
-import { absoluteUrl, seoHead } from "@/lib/seo"
+import { OG_IMAGE_PATH, absoluteUrl, seoHead } from "@/lib/seo"
 import { cn } from "@/lib/utils"
 import { getPostBySlug } from "@/server/posts"
 
@@ -53,7 +53,7 @@ export const Route = createFileRoute("/blog/$slug")({
             url: absoluteUrl(`/blog/${loaderData.slug}`),
             datePublished: loaderData.publishedAt ?? undefined,
             dateModified: loaderData.updatedAt,
-            image: ogImage ?? absoluteUrl("/images/og.png"),
+            image: ogImage ?? absoluteUrl(OG_IMAGE_PATH),
             author: loaderData.author
               ? { "@type": "Person", name: loaderData.author.name }
               : { "@type": "Organization", name: site.name },

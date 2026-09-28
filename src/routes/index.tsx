@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
     return {
       meta: [
         ...seo.meta,
-        ...(landingContent ? faqJsonLd(landingContent.faq.items) : []),
+        ...(landingContent ? [faqJsonLd(landingContent.faq.items)] : []),
       ],
       links: [
         ...seo.links,

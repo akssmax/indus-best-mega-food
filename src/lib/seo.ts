@@ -1,6 +1,7 @@
 import { site } from "@/content/site"
 
-export const OG_IMAGE_PATH = "/images/og.png"
+export const OG_IMAGE_PATH = "/images/og.jpg"
+export const OG_IMAGE_TYPE = "image/jpeg"
 export const OG_IMAGE_WIDTH = 1200
 export const OG_IMAGE_HEIGHT = 630
 export const THEME_COLOR = "#1c3328"
@@ -13,6 +14,7 @@ export const marketingPaths = [
   "/contact",
   "/why",
   "/campus",
+  "/gallery",
   "/virtual-tour",
   "/opportunities",
   "/private-label",
@@ -43,7 +45,12 @@ export function seoHead({ title, description, path, noindex }: SeoHeadOptions) {
     meta: [
       { title },
       { name: "description", content: description },
-      ...(noindex ? [{ name: "robots", content: "noindex, nofollow" }] : []),
+      {
+        name: "robots",
+        content: noindex
+          ? "noindex, nofollow"
+          : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: site.name },
       { property: "og:title", content: title },
@@ -51,6 +58,8 @@ export function seoHead({ title, description, path, noindex }: SeoHeadOptions) {
       { property: "og:url", content: url },
       { property: "og:locale", content: "en_IN" },
       { property: "og:image", content: image },
+      { property: "og:image:secure_url", content: image },
+      { property: "og:image:type", content: OG_IMAGE_TYPE },
       { property: "og:image:width", content: String(OG_IMAGE_WIDTH) },
       { property: "og:image:height", content: String(OG_IMAGE_HEIGHT) },
       { property: "og:image:alt", content: imageAlt },
@@ -58,6 +67,7 @@ export function seoHead({ title, description, path, noindex }: SeoHeadOptions) {
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: image },
+      { name: "twitter:image:alt", content: imageAlt },
     ],
     links: noindex ? [] : [{ rel: "canonical", href: url }],
   }
