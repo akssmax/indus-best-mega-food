@@ -21,7 +21,6 @@ import { Route as FacilitiesRouteImport } from './routes/facilities'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as Hero1RouteImport } from './routes/hero-1'
 import { Route as InvestorsRouteImport } from './routes/investors'
-import { Route as Landing2RouteImport } from './routes/landing-2'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PrivateLabelRouteImport } from './routes/private-label'
 import { Route as ProductsRouteImport } from './routes/products'
@@ -100,11 +99,6 @@ const Hero1Route = Hero1RouteImport.update({
 const InvestorsRoute = InvestorsRouteImport.update({
   id: '/investors',
   path: '/investors',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Landing2Route = Landing2RouteImport.update({
-  id: '/landing-2',
-  path: '/landing-2',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
@@ -222,7 +216,6 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
-  '/landing-2': typeof Landing2Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
@@ -254,7 +247,6 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
-  '/landing-2': typeof Landing2Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
@@ -288,7 +280,6 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/hero-1': typeof Hero1Route
   '/investors': typeof InvestorsRoute
-  '/landing-2': typeof Landing2Route
   '/opportunities': typeof OpportunitiesRoute
   '/private-label': typeof PrivateLabelRoute
   '/products': typeof ProductsRoute
@@ -324,7 +315,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/hero-1'
     | '/investors'
-    | '/landing-2'
     | '/opportunities'
     | '/private-label'
     | '/products'
@@ -356,7 +346,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/hero-1'
     | '/investors'
-    | '/landing-2'
     | '/opportunities'
     | '/private-label'
     | '/products'
@@ -389,7 +378,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/hero-1'
     | '/investors'
-    | '/landing-2'
     | '/opportunities'
     | '/private-label'
     | '/products'
@@ -424,7 +412,6 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   Hero1Route: typeof Hero1Route
   InvestorsRoute: typeof InvestorsRoute
-  Landing2Route: typeof Landing2Route
   OpportunitiesRoute: typeof OpportunitiesRoute
   PrivateLabelRoute: typeof PrivateLabelRoute
   ProductsRoute: typeof ProductsRoute
@@ -519,13 +506,6 @@ declare module '@tanstack/react-router' {
       path: '/investors'
       fullPath: '/investors'
       preLoaderRoute: typeof InvestorsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/landing-2': {
-      id: '/landing-2'
-      path: '/landing-2'
-      fullPath: '/landing-2'
-      preLoaderRoute: typeof Landing2RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/opportunities': {
@@ -721,7 +701,6 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   Hero1Route: Hero1Route,
   InvestorsRoute: InvestorsRoute,
-  Landing2Route: Landing2Route,
   OpportunitiesRoute: OpportunitiesRoute,
   PrivateLabelRoute: PrivateLabelRoute,
   ProductsRoute: ProductsRoute,

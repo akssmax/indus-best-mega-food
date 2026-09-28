@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { getHomePageContent, getSiteContent } from "@/server/content"
 import { LandingContentProvider } from "@/lib/landing-content-context"
 import { renderHomeSections } from "@/components/landing/home-section-renderer"
+import { FullBleedHero, fullBleedHeroLeadImage } from "@/components/landing/full-bleed-hero"
 import { galleryPreloadAttrs } from "@/lib/media"
 import { faqJsonLd, seoHead } from "@/lib/seo"
 
@@ -17,11 +18,7 @@ export const Route = createFileRoute("/")({
   head: ({ loaderData }) => {
     const siteContent = loaderData?.siteContent
     const landingContent = loaderData?.homeContent?.landing
-    const heroSrc =
-      landingContent?.hero.slides[0]?.image.src ??
-      landingContent?.hero.image.src ??
-      "/images/gallery/campus-overview.webp"
-    const preload = galleryPreloadAttrs(heroSrc)
+    const preload = galleryPreloadAttrs(fullBleedHeroLeadImage)
     const seo = seoHead({
       title: siteContent?.home.title ?? "Indus Best Mega Food Park",
       description:
@@ -53,7 +50,11 @@ function HomePage() {
 
   return (
     <LandingContentProvider value={homeContent.landing}>
-      <main>{renderHomeSections(homeContent.sections)}</main>
+      <main>
+        {renderHomeSections(homeContent.sections, {
+          hero: () => <FullBleedHero />,
+        })}
+      </main>
     </LandingContentProvider>
   )
 }

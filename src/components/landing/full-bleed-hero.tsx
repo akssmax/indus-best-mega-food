@@ -14,8 +14,8 @@ import { cn } from "@/lib/utils"
 const SLIDE_MS = 6000
 const SLIDE_COUNT = 3
 
-/** Aerial campus stills for the landing-2 full-bleed hero. */
-const FULL_BLEED_IMAGES = [
+/** Aerial campus stills for the homepage full-bleed hero. */
+export const FULL_BLEED_IMAGES = [
   {
     src: "/images/gallery/campus-overview.webp",
     alt: "Wide aerial view of the Indus Best campus",
@@ -29,6 +29,9 @@ const FULL_BLEED_IMAGES = [
     alt: "Central food processing campus from above",
   },
 ] as const
+
+/** First-paint hero image, used to preload the homepage LCP asset. */
+export const fullBleedHeroLeadImage = FULL_BLEED_IMAGES[0].src
 
 type HeroSlide = (typeof landingDefaults.hero.slides)[number]
 
