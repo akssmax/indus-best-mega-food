@@ -1,5 +1,3 @@
-const assetBase =
-  "https://www.indusbestmegafoodpark.com/wp-content/uploads/2018/03"
 const masterPlanImage = {
   src: "/images/master-plan.jpg",
   alt: "Indus Best Mega Food Park master plan, Raipur",
@@ -25,11 +23,11 @@ export const investorsPage = {
     body: "Overview of the park, facilities, and investment proposition.",
     pages: [
       {
-        src: `${assetBase}/ibmfp-brochure-final-page-001.jpg`,
+        src: "/images/brochure-page-001.jpg",
         alt: "Indus Best Mega Food Park brochure — page 1",
       },
       {
-        src: `${assetBase}/ibmfp-brochure-final-page-002.jpg`,
+        src: "/images/brochure-page-002.jpg",
         alt: "Indus Best Mega Food Park brochure — page 2",
       },
     ],
