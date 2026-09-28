@@ -1,3 +1,4 @@
+import type { ReactNode } from "react"
 import { ArrowRightIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -11,12 +12,14 @@ export function PageHero({
   body,
   cta,
   secondaryCta,
+  media,
 }: {
   eyebrow: string
   title: string
   body: string
   cta?: { label: string; href: string }
   secondaryCta?: { label: string; href: string }
+  media?: ReactNode
 }) {
   return (
     <section
@@ -70,6 +73,7 @@ export function PageHero({
             </MotionItem>
           ) : null}
         </Stagger>
+        {media ? <div className="mt-12">{media}</div> : null}
       </div>
     </section>
   )

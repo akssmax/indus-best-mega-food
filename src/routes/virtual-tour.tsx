@@ -6,6 +6,7 @@ import { FinalCta } from "@/components/landing/final-cta"
 import { Location } from "@/components/landing/location"
 import { Section } from "@/components/landing/section"
 import { VirtualTourSection } from "@/components/virtual-tour/virtual-tour"
+import { CampusTourVideo } from "@/components/virtual-tour/campus-tour-video"
 import { seoHead } from "@/lib/seo"
 
 const page = site.innerPages.virtualTour
@@ -28,6 +29,7 @@ function VirtualTourPage() {
         title={page.title}
         body={page.body}
         cta={page.cta}
+        media={<CampusTourVideo />}
       />
       <VirtualTourSection />
       <Section className="bg-muted/30">

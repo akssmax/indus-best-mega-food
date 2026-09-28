@@ -1,4 +1,9 @@
-const assetBase = "https://www.indusbestmegafoodpark.com/wp-content/uploads/2018/03"
+const assetBase =
+  "https://www.indusbestmegafoodpark.com/wp-content/uploads/2018/03"
+const masterPlanImage = {
+  src: "/images/master-plan.jpg",
+  alt: "Indus Best Mega Food Park master plan, Raipur",
+}
 
 export const investorsPage = {
   platform: {
@@ -6,19 +11,13 @@ export const investorsPage = {
     eyebrow: "The platform",
     title: "Backward and forward linkages across the value chain.",
     body: "Indus Best Mega Food Park provides a platform that connects farm-gate intake, shared processing, cold chain, and dispatch — with quality assurance, food safety, and post-harvest best practices built into the campus.",
-    image: {
-      src: `${assetBase}/investor-corner-Indus-Best-Mega-Food-Park-Raipur-.jpg`,
-      alt: "Indus Best Mega Food Park master plan overview, Raipur",
-    },
+    image: masterPlanImage,
   },
   masterPlan: {
     id: "master-plan",
     title: "Master plan",
     body: "Campus layout for plots, sheds, processing blocks, cold storage, utilities, and access roads at Village Bemta–Sarora.",
-    image: {
-      src: `${assetBase}/investor-corner-Indus-Best-Mega-Food-Park-Raipur-.jpg`,
-      alt: "Indus Best Mega Food Park master plan",
-    },
+    image: masterPlanImage,
   },
   brochure: {
     id: "brochure",

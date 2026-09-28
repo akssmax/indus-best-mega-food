@@ -1,8 +1,7 @@
 import type { CampusPin } from "@/components/ui/campus-hotspots"
 import { campusDetail } from "@/content/campus"
 
-const masterPlanSrc =
-  "https://www.indusbestmegafoodpark.com/wp-content/uploads/2018/03/investor-corner-Indus-Best-Mega-Food-Park-Raipur-.jpg"
+const masterPlanSrc = "/images/master-plan.jpg"
 
 export type VirtualTourSpec = {
   label: string
