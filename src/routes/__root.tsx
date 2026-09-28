@@ -6,6 +6,7 @@ import {
   createRootRoute,
   useRouterState,
 } from "@tanstack/react-router"
+import { Analytics } from "@vercel/analytics/react"
 
 import { site } from "@/content/site"
 import { getSiteContent } from "@/server/content"
@@ -85,6 +86,7 @@ function RootDocument({ children }: { children: ReactNode }) {
           <PageChrome>{children}</PageChrome>
         </ShellBoundary>
         <Toaster />
+        <Analytics />
         <Scripts />
       </body>
     </html>

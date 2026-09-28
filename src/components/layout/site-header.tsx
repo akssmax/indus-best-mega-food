@@ -4,7 +4,6 @@ import { MenuIcon, XIcon } from "lucide-react"
 
 import { SiteBrandMark } from "@/components/brand/site-brand-mark"
 import { useSiteContent } from "@/lib/site-content-context"
-import { ThemePopover } from "@/components/theme/theme-selector"
 import { Button } from "@/components/ui/button"
 import { contentContainerClass, contentGutterClass } from "@/lib/layout"
 import {
@@ -219,7 +218,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
-          <ThemePopover triggerClassName={overHero ? forestIconButton : undefined} />
           <Button
             variant="cta"
             size="sm"
