@@ -104,7 +104,7 @@ export const campusDetail = {
       },
     ],
     image: {
-      src: "/images/gallery/etp-plant.webp",
+      src: "/images/gallery/etp-plant.webp?v=photo-edit-1",
       alt: "ETP plant and chimney on the campus utilities block",
     },
   },
@@ -141,7 +141,7 @@ export const campusDetail = {
         title: "Gate",
         body: "Indus entry gate and security cabin at Bemta–Sarora.",
         image: {
-          src: "/images/gallery/entry-gate.webp",
+          src: "/images/gallery/entry-gate.webp?v=photo-edit-1",
           alt: "Indus Best entry gate and security cabin at Bemta–Sarora",
         },
       },
@@ -149,7 +149,7 @@ export const campusDetail = {
         title: "Utilities",
         body: "ETP plant with chimney on the campus utilities block.",
         image: {
-          src: "/images/gallery/etp-plant.webp",
+          src: "/images/gallery/etp-plant.webp?v=photo-edit-1",
           alt: "ETP plant and chimney on the campus utilities block",
         },
       },
@@ -157,7 +157,7 @@ export const campusDetail = {
         title: "On the line",
         body: "Stainless processing hall in production, with steam on the floor.",
         image: {
-          src: "/images/gallery/process-hall.webp",
+          src: "/images/gallery/process-hall.webp?v=photo-edit-1",
           alt: "Live processing hall with stainless equipment and steam",
         },
       },
@@ -165,7 +165,7 @@ export const campusDetail = {
         title: "Dry store",
         body: "Pallet racking in the dry warehouse beside production.",
         image: {
-          src: "/images/gallery/warehouse-racking.webp",
+          src: "/images/gallery/warehouse-racking.webp?v=photo-edit-1",
           alt: "Pallet racking aisle in the dry warehouse",
         },
       },

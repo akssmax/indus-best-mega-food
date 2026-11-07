@@ -85,7 +85,7 @@ export const privateLabel = {
         products: ["Desi ghee", "Fresh paneer", "UHT milk", "Probiotic curd"],
         body: "Dairy processing and packing on campus — the same infrastructure behind Nourya ghee and curd.",
         image: {
-          src: "/images/gallery/process-hall.webp",
+          src: "/images/gallery/process-hall.webp?v=photo-edit-1",
           alt: "Live processing hall with stainless equipment and steam",
         },
       },
@@ -94,7 +94,7 @@ export const privateLabel = {
         products: ["Liquid jaggery", "Natural jaggery cubes", "Chemical-free blocks"],
         body: "Traditional jaggery processing with retail-ready packs or bulk formats for your label.",
         image: {
-          src: "/images/gallery/evaporator-hall.webp",
+          src: "/images/gallery/evaporator-hall.webp?v=photo-edit-1",
           alt: "Stainless steel evaporator and pasteuriser hall",
         },
       },
@@ -116,7 +116,7 @@ export const privateLabel = {
         products: ["Sorted fresh produce", "Graded intake", "Retail-ready packs"],
         body: "10 MT/H pack house with collection from three Primary Processing Centres in the growing belt.",
         image: {
-          src: "/images/gallery/vegetable-intake.webp",
+          src: "/images/gallery/vegetable-intake.webp?v=photo-edit-1",
           alt: "Staff sorting chillies at the vegetable intake line",
         },
       },

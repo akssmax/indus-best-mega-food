@@ -55,7 +55,7 @@ export const virtualTour = {
       title: "67 acres. One integrated campus.",
       body: "Developed land, plug-and-play sheds, processing lines, multi-temperature storage, labs, and utilities — on the Raipur–Bilaspur corridor at Village Bemta–Sarora.",
       image: {
-        src: "/images/gallery/campus-overview.webp",
+        src: "/images/gallery/campus-overview.webp?v=photo-edit-1",
         alt: "Aerial overview of Indus Best Mega Food Park",
       },
       specs: campusDetail.scale.stats.map((stat) => ({
@@ -94,7 +94,7 @@ export const virtualTour = {
       title: "Entry, weighbridge, and dispatch.",
       body: "The Indus gate and security cabin control site access. A 100 MT electronic modular weighbridge at entry gives batch-level traceability from the gate through storage and processing.",
       image: {
-        src: "/images/gallery/entry-gate.webp",
+        src: "/images/gallery/entry-gate.webp?v=photo-edit-1",
         alt: "Indus Best entry gate and security cabin at Bemta–Sarora",
       },
       specs: [
@@ -126,7 +126,7 @@ export const virtualTour = {
       title: "Central Processing Campus.",
       body: "The core processing blocks where shared plant, pack house, and co-pack lines operate — processors book capacity without building the estate.",
       image: {
-        src: "/images/gallery/processing-campus.webp",
+        src: "/images/gallery/processing-campus.webp?v=photo-edit-1",
         alt: "Aerial view of the central processing campus at Bemta–Sarora",
       },
       specs: [
@@ -159,7 +159,7 @@ export const virtualTour = {
       title: "Steam, water, and power on site.",
       body: "Steam generation for the processing lines sits on the utilities block — the boiler house and its flue-gas stack in view, alongside the campus's process water and dedicated 33 kV sub-station.",
       image: {
-        src: "/images/gallery/etp-plant.webp",
+        src: "/images/gallery/etp-plant.webp?v=photo-edit-1",
         alt: "Boiler house and flue-gas stack on the campus utilities block",
       },
       specs: [
@@ -192,7 +192,7 @@ export const virtualTour = {
       title: "Aseptic and concentrate lines.",
       body: "Fruit and vegetable processing rated in MT per hour — tomato concentrate at 12 MTPH, IQF at 2 MT/H, plus lines for mango, blueberry, papaya, guava, amla, and vegetable juices. Produce is washed and sorted on the intake line before it reaches concentrate and pack.",
       image: {
-        src: "/images/gallery/process-hall.webp",
+        src: "/images/gallery/process-hall.webp?v=photo-edit-1",
         alt: "Live processing hall with stainless equipment and steam",
       },
       specs: [
@@ -250,7 +250,7 @@ export const virtualTour = {
       title: "12,000 MT beside production.",
       body: "Ambient pallet racking holds packed goods next to the line. A reefer dock on the warehouse face loads outbound without a second campus.",
       image: {
-        src: "/images/gallery/warehouse-racking.webp",
+        src: "/images/gallery/warehouse-racking.webp?v=photo-edit-1",
         alt: "Pallet racking aisle in the dry warehouse",
       },
       specs: [
@@ -282,7 +282,7 @@ export const virtualTour = {
       title: "Administration and quality labs.",
       body: "An on-site 12,917 sq ft laboratory supports batch release at the campus — microbiological, product development, and pesticide residue labs under one roof, along a dedicated QA wing corridor.",
       image: {
-        src: "/images/gallery/quality-lab.webp",
+        src: "/images/gallery/quality-lab.webp?v=photo-edit-1",
         alt: "Central Quality Assurance laboratory on campus",
       },
       specs: campusDetail.assurance.labs.slice(0, 4).map((lab) => ({

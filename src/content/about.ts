@@ -159,7 +159,7 @@ export const aboutPage = {
       { label: "Weighbridge", value: "100 MT" },
     ],
     image: {
-      src: "/images/gallery/quality-lab.webp",
+      src: "/images/gallery/quality-lab.webp?v=photo-edit-1",
       alt: "Quality control laboratory at Indus Best Mega Food Park",
     },
   },

@@ -201,7 +201,7 @@ const flowStages = [
       `Intake at ${primaryProcessingCentres.length} Primary Processing Centres`,
     ],
     image: {
-      src: "/images/gallery/etp-plant.webp",
+      src: "/images/gallery/etp-plant.webp?v=photo-edit-1",
       alt: "ETP plant and chimney on the campus utilities block",
       position: "center 35%",
     },
@@ -227,7 +227,7 @@ const flowStages = [
       "16 MSME sheds with utilities in place",
     ],
     image: {
-      src: "/images/gallery/processing-campus.webp",
+      src: "/images/gallery/processing-campus.webp?v=photo-edit-1",
       alt: "Central processing campus at Bemta–Sarora",
       position: "center 55%",
     },
@@ -250,7 +250,7 @@ const flowStages = [
       "5,000 MT cold · IQF 2 MT/H · Pack house 10 MT/H",
     ],
     image: {
-      src: "/images/gallery/process-hall.webp",
+      src: "/images/gallery/process-hall.webp?v=photo-edit-1",
       alt: "Live processing hall with stainless equipment and steam",
       position: "center center",
     },
@@ -273,7 +273,7 @@ const flowStages = [
       "NH-53 access · rail at Tilda",
     ],
     image: {
-      src: "/images/gallery/warehouse-racking.webp",
+      src: "/images/gallery/warehouse-racking.webp?v=photo-edit-1",
       alt: "Pallet racking aisle in the dry warehouse",
       position: "center 65%",
     },

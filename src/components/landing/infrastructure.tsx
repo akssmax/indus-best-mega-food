@@ -23,27 +23,27 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 const zoneImages: Record<string, { src: string; alt: string }> = {
   map: {
-    src: "/images/gallery/campus-overview.webp",
+    src: "/images/gallery/campus-overview.webp?v=photo-edit-1",
     alt: "Aerial overview of the 67-acre Indus Best campus",
   },
   factory: {
-    src: "/images/gallery/process-hall.webp",
+    src: "/images/gallery/process-hall.webp?v=photo-edit-1",
     alt: "Live processing hall with stainless equipment and steam",
   },
   snowflake: {
-    src: "/images/gallery/green-roof-warehouse.webp",
+    src: "/images/gallery/green-roof-warehouse.webp?v=photo-edit-1",
     alt: "Green-roof warehouse viewed from the air",
   },
   warehouse: {
-    src: "/images/gallery/warehouse-racking.webp",
+    src: "/images/gallery/warehouse-racking.webp?v=photo-edit-1",
     alt: "Pallet racking aisle in the dry warehouse",
   },
   zap: {
-    src: "/images/gallery/etp-plant.webp",
+    src: "/images/gallery/etp-plant.webp?v=photo-edit-1",
     alt: "ETP plant and chimney on the campus utilities block",
   },
   truck: {
-    src: "/images/gallery/warehouse-dock.webp",
+    src: "/images/gallery/warehouse-dock.webp?v=photo-edit-1",
     alt: "Reefer truck at the green warehouse dispatch dock",
   },
 }
@@ -64,11 +64,10 @@ export function Infrastructure() {
       <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data.zones.map((zone) => {
           const Icon = iconMap[zone.icon] ?? MapIcon
-          const img =
-            zoneImages[zone.icon] ?? {
-              src: "/images/gallery/warehouse-aerial.webp",
-              alt: "Aerial view of warehouse sheds at Indus Best Mega Food Park",
-            }
+          const img = zoneImages[zone.icon] ?? {
+            src: "/images/gallery/warehouse-aerial.webp?v=photo-edit-1",
+            alt: "Aerial view of warehouse sheds at Indus Best Mega Food Park",
+          }
           return (
             <MotionItem key={zone.title}>
               <div className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card transition-all duration-500 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">

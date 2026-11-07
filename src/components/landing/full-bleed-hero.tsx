@@ -17,15 +17,15 @@ const SLIDE_COUNT = 3
 /** Aerial campus stills for the homepage full-bleed hero. */
 export const FULL_BLEED_IMAGES = [
   {
-    src: "/images/gallery/campus-overview.webp",
+    src: "/images/gallery/campus-overview.webp?v=photo-edit-1",
     alt: "Wide aerial view of the Indus Best campus",
   },
   {
-    src: "/images/gallery/warehouse-aerial.webp",
+    src: "/images/gallery/warehouse-aerial.webp?v=photo-edit-1",
     alt: "Aerial view of the warehouse complex",
   },
   {
-    src: "/images/gallery/processing-campus.webp",
+    src: "/images/gallery/processing-campus.webp?v=photo-edit-1",
     alt: "Central food processing campus from above",
   },
 ] as const

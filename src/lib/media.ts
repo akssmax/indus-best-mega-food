@@ -13,16 +13,21 @@ const GALLERY_VARIANT = /-(800|1600)$/
 
 /** 1600px default so mobile never downloads the 2560 master unless srcset picks it. */
 export function gallerySrcAttrs(src: string): { src: string; srcSet?: string } {
-  if (!src.startsWith(GALLERY_PREFIX) || !src.endsWith(".webp")) {
+  const path = src.split(/[?#]/, 1)[0]
+  if (!path.startsWith(GALLERY_PREFIX) || !path.endsWith(".webp")) {
     return { src }
   }
 
-  const stem = src.slice(0, -".webp".length)
+  const stem = path.slice(0, -".webp".length)
   if (GALLERY_VARIANT.test(stem)) return { src }
 
+  const suffix = src.slice(path.length)
+  const small = `${stem}-800.webp${suffix}`
+  const medium = `${stem}-1600.webp${suffix}`
+
   return {
-    src: `${stem}-1600.webp`,
-    srcSet: `${stem}-800.webp 800w, ${stem}-1600.webp 1600w, ${src} 2560w`,
+    src: medium,
+    srcSet: `${small} 800w, ${medium} 1600w, ${src} 2560w`,
   }
 }
 
