@@ -164,7 +164,7 @@ export function FullBleedHero() {
       </div>
 
       {slideCount > 1 ? (
-        <div className="absolute inset-x-0 bottom-5 z-20 flex items-center justify-center gap-1.5 sm:bottom-7">
+        <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-center sm:bottom-2">
           {slides.map((item, index) => (
             <button
               key={item.image.src}
@@ -172,13 +172,18 @@ export function FullBleedHero() {
               onClick={() => setActiveIndex(index)}
               aria-label={`Show slide ${index + 1} of ${slideCount}`}
               aria-current={index === activeIndex ? "true" : undefined}
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                index === activeIndex
-                  ? "w-5 bg-cta"
-                  : "w-1.5 bg-forest-foreground/45 hover:bg-forest-foreground/70"
-              )}
-            />
+              className="group grid size-11 touch-manipulation place-items-center rounded-full focus-visible:ring-2 focus-visible:ring-forest-foreground/70"
+            >
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "pointer-events-none h-1.5 rounded-full transition-all duration-300",
+                  index === activeIndex
+                    ? "w-5 bg-cta"
+                    : "w-1.5 bg-forest-foreground/45 group-hover:bg-forest-foreground/70"
+                )}
+              />
+            </button>
           ))}
         </div>
       ) : null}
