@@ -725,10 +725,11 @@ export const landing = {
     eyebrow: "The works",
     title: "Next to the crop. Connected to the market.",
     body: "The plant is at Village Bemta–Sarora, near Raipur, Chhattisgarh 493101 — Tilda block. One campus. Crop in the catchment, NH-53 at the gate, rail at Tilda, and the airport 60 km out.",
-    campusQuery: "Bemta Sarora, Tilda, Raipur, Chhattisgarh 493101",
+    campusQuery: "21.5894136,81.7125111",
+    campusMapsUrl: "https://maps.app.goo.gl/g9K26XxrtiNdY3aY7",
     campusLabel: "Village Bemta–Sarora, near Raipur · 493101",
     mapEmbed:
-      "https://maps.google.com/maps?q=Bemta+Sarora%2C+Tilda%2C+Raipur%2C+Chhattisgarh+493101&z=13&hl=en&output=embed",
+      "https://maps.google.com/maps?q=21.5894136%2C81.7125111&z=14&hl=en&output=embed",
     facts: [
       { value: "25 km", label: "Raipur" },
       { value: "15 km", label: "Tilda railway station" },
@@ -838,7 +839,7 @@ export const landing = {
         title: "Central campus",
         detail: "Lines, cold rooms, labs, and plots at Village Bemta–Sarora.",
         tone: "aqua" as const,
-        query: "Bemta Sarora, Tilda, Raipur, Chhattisgarh 493101",
+        query: "21.5894136,81.7125111",
         zoom: 14,
       },
     ],

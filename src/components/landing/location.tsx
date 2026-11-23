@@ -13,7 +13,7 @@ import { landing as landingDefaults } from "@/content/landing"
 import { useLandingContent } from "@/lib/landing-content-context"
 import { Eyebrow, Section } from "@/components/landing/section"
 import { MotionItem, Reveal, Stagger } from "@/components/landing/motion"
-import { googleMapsEmbed, googleMapsSearch } from "@/lib/maps"
+import { googleMapsEmbed } from "@/lib/maps"
 import { SectionBand, type BandSurface } from "@/lib/section-band"
 import { cn } from "@/lib/utils"
 
@@ -120,7 +120,7 @@ export function Location({
                   </p>
                 </div>
                 <a
-                  href={googleMapsSearch(data.campusQuery)}
+                  href={data.campusMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex min-h-11 touch-target shrink-0 items-center gap-1 rounded-md px-2 text-sm font-medium text-primary underline-offset-4 hover:underline active:text-primary/80"

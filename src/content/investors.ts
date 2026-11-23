@@ -74,7 +74,7 @@ export const investorsPage = {
     highlights: [
       "15 acres currently available for free-hold sale",
       "Stamp duty exemption under Chhattisgarh Industrial Policy",
-      "16 sheds × 160 sqm (9 × 18 m) at ₹1,500 / sqm / annum on lease",
+      "16 sheds × 160 sqm (9 × 18 m) at ₹2,500 / sqm / annum on lease",
     ],
   },
   rateSections: [
@@ -90,7 +90,7 @@ export const investorsPage = {
         },
         {
           label: "SDF shed (9 × 18 m)",
-          value: "₹1,500 / sqm / annum",
+          value: "₹2,500 / sqm / annum",
           hint: "16 sheds of 160 sqm on lease; plug-and-play.",
         },
         {
@@ -115,7 +115,7 @@ export const investorsPage = {
         },
         {
           label: "Management & maintenance",
-          value: "₹2.50 / sqm / month",
+          value: "₹5 / sqm / month",
           hint: "Applies after plot sale; incremental 10% per annum.",
         },
       ],
@@ -132,7 +132,7 @@ export const investorsPage = {
         },
         {
           label: "IQF",
-          value: "₹18 / kg",
+          value: "₹15 / MT",
           hint: "Min 30 MT per batch.",
         },
         {

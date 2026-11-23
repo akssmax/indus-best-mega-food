@@ -90,7 +90,7 @@ const scaleBlockMeta = {
     icon: WarehouseIcon,
     palette: facilityCategoryStyles.packaging,
     itemIcons: {
-      "₹1,500 per sqm per annum on lease": IndianRupeeIcon,
+      "₹2,500 per sqm per annum on lease": IndianRupeeIcon,
       "Power and water connected — plug-and-play occupation": PlugZapIcon,
       "Shared lab, weighbridge, storage, and ETP on site": Share2Icon,
     } satisfies Record<(typeof campusDetail.scale.sheds.items)[number], LucideIcon>,

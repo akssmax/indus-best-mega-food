@@ -24,7 +24,7 @@ export const campusDetail = {
       title: "Standard design factory sheds",
       body: "16 sheds of 160 sqm each (9 × 18 m) — 27,555 sq ft built-up on a 4,047 sqm parcel.",
       items: [
-        "₹1,500 per sqm per annum on lease",
+        "₹2,500 per sqm per annum on lease",
         "Power and water connected — plug-and-play occupation",
         "Shared lab, weighbridge, storage, and ETP on site",
       ],
