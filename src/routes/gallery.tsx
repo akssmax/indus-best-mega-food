@@ -215,6 +215,25 @@ const galleryImages = [
     title: "Tank facility",
     type: "Infrastructure",
   },
+  {
+    src: "/images/gallery/korean-visit-plant.webp",
+    alt: "Korean delegation with the Indus Best team in front of the stainless steel processing lines at the plant",
+    title: "Korean delegation at the plant",
+    type: "Visits",
+  },
+  {
+    src: "/images/gallery/korean-visit-field.webp",
+    alt: "Korean visitor and Indus Best host at a staked tomato farm in the park's crop catchment",
+    title: "Field visit to the tomato catchment",
+    type: "Visits",
+  },
+  {
+    src: "/images/gallery/korean-visit-tomato-rows.webp",
+    alt: "Korean delegation walking between staked tomato rows beside a reservoir near the campus",
+    title: "Walking the tomato rows",
+    type: "Visits",
+    position: "center 40%",
+  },
 ] as const
 
 export const Route = createFileRoute("/gallery")({
@@ -266,6 +285,11 @@ function GalleryPage() {
                 alt={image.alt}
                 sizes={landingImageSizes.card}
                 loading={index < 2 ? "eager" : "lazy"}
+                style={
+                  "position" in image
+                    ? { objectPosition: image.position }
+                    : undefined
+                }
                 className="aspect-[16/10] size-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-5 pt-14 pb-5 text-white">
